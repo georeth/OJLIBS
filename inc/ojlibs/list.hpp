@@ -10,8 +10,9 @@ namespace data_structure {
 struct list_head {
 	struct list_head *prev, *next;
 };
+extern bool list_empty(struct list_head *head);
 extern void list_init(struct list_head *head);
-// add node behind pos
+// add node after pos
 extern void list_add(struct list_head *node, struct list_head *pos);
 extern void list_del(struct list_head *node);
 /// # HELPER

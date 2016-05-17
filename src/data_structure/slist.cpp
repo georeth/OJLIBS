@@ -1,4 +1,4 @@
-#include "slist.hpp"
+#include "ojlibs/slist.hpp"
 
 namespace ojlibs {
 namespace data_structure {
