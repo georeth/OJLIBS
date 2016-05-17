@@ -2,10 +2,13 @@
 C++ Utility library for online judging. Comforming to C++11 Standard.
 
 # Components
+
 ## FAST IO
 - mmap or read into big buffer (avoid <cstdio> or <iostream>)
 - read_int(), read_string(), etc.
+
 ## Intrusive Data structures
+
 ### Design Considerations
 Use intrusive containers to avoid memory allocation overhead.
 No runtime checking to get best performance.
@@ -21,10 +24,13 @@ rbtree: red-black tree
 ## Special Data structures
 Union Find Set
 Interval Tree
+
 ## Number Theory
 GCD / LCM
 Prime Number Algorithms
+
 ## Multiprecision
 Big Number
+
 ## Computation Geometry
 ## Graph Theory
