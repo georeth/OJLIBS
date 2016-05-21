@@ -2,6 +2,7 @@
 #define OJLIBS_INC_LIST_H_
 
 #include <iterator>
+#include "ojlibs/util.hpp"
 
 namespace ojlibs {
 namespace data_structure {
@@ -9,15 +10,38 @@ namespace data_structure {
 /// # CORE
 struct list_head {
 	struct list_head *prev, *next;
+	list_head() { prev = next = this; }
+
+	list_head(const list_head &that) = delete;
+	list_head &operator=(const list_head &that) = delete;
 };
-extern bool list_empty(struct list_head *head);
-extern void list_init(struct list_head *head);
-// add node after pos
-extern void list_add(struct list_head *node, struct list_head *pos);
-extern void list_del(struct list_head *node);
-/// # HELPER
-/// # CONTAINER
-template <typename T, size_t Offset,
+static inline bool list_empty(struct list_head *list) {
+	return list->next == list;
+}
+static inline void list_init(struct list_head *list) {
+	list->next = list->prev = list;
+}
+static inline void list_link(struct list_head *prev, struct list_head *next) {
+	prev->next = next;
+	next->prev = prev;
+}
+static inline void list_unlink(struct list_head *node) {
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
+	list_init(node);
+}
+static inline void list_insert(struct list_head *prev, struct list_head *node, struct list_head *next) {
+	list_link(prev, node);
+	list_link(node, next);
+}
+static inline void list_splice(struct list_head *dest_prev, struct list_head *src, struct list_head *dest_next) {
+	list_link(dest_prev, src->next);
+	list_link(src->prev, dest_next);
+	list_init(src);
+}
+
+/// # Iterator
+template <typename T, struct list_head T::*field,
 	  typename BaseIter = std::iterator<std::bidirectional_iterator_tag, T> >
 struct list_iterator : public BaseIter
 {
@@ -28,6 +52,7 @@ struct list_iterator : public BaseIter
 	list_head *cur;
 	list_iterator() { cur = nullptr; }
 	list_iterator(list_head *head) { cur = head; }
+	list_iterator(T *value) { cur = &(value->*field); }
 	list_iterator& operator++() {
 		cur = cur->next;
 		return *this;
@@ -44,11 +69,11 @@ struct list_iterator : public BaseIter
 		list_iterator that(*this);
 		return --that;
 	}
-	typename traits_type::reference operator*() const {
-		return *((T *)((char *)cur - Offset));
-	}
 	typename traits_type::pointer operator->() const {
-		return ((T *)((char *)cur - Offset));
+		return member_to_parent(cur, field);
+	}
+	typename traits_type::reference operator*() const {
+		return *operator->();
 	}
 	bool operator==(const list_iterator& that) {
 		return cur == that.cur;
@@ -57,39 +82,39 @@ struct list_iterator : public BaseIter
 		return !(*this == that);
 	}
 };
-template <typename T, size_t Offset>
+template <typename T, struct list_head T::*field>
 struct list {
-	typedef list_iterator<T, Offset> iterator_type;
-	list_head head;
+	struct list_head head;
+	typedef list_iterator<T, field> iterator_type;
 
 	list() { list_init(&head); }
-	iterator_type begin() { return iterator_type(head.next); }
+	iterator_type front_iter() { return iterator_type(head.next); }
+	iterator_type back_iter() { return iterator_type(head.prev); }
 	iterator_type end() { return iterator_type(&head); }
 
-	iterator_type insert_head(T *node) {
-		list_head *cur = (list_head *)((char *)node + Offset);
-		list_add(cur, &head);
-		return iterator_type(cur);
+	iterator_type insert_front(T *node) {
+		list_insert(&head, &node->*field, head.next);
+		return iterator_type(node);
 	}
-	iterator_type insert_tail(T *node) {
-		list_head *cur = (list_head *)((char *)node + Offset);
-		list_add(cur, head.prev);
-		return iterator_type(cur);
+	iterator_type insert_back(T *node) {
+		list_insert(head.prev, &(node->*field), &head);
+		return iterator_type(node);
 	}
 	iterator_type insert_before(T *node, const iterator_type &iter) {
-		list_head *cur = (list_head *)((char *)node + Offset);
-		list_add(cur, iter.cur->prev);
-		return iterator_type(cur);
+		struct list_head *cur = iter.cur;
+		list_insert(cur->prev, &(node->*field), cur);
+		return iterator_type(node);
 	}
 	iterator_type insert_after(T *node, const iterator_type &iter) {
-		list_head *cur = (list_head *)((char *)node + Offset);
-		list_add(cur, iter.cur);
-		return iterator_type(cur);
+		struct list_head *cur = iter.cur;
+		list_insert(cur, &(node->*field), cur->next);
+		return iterator_type(node);
 	}
 	// return next iterator
 	iterator_type erase(const iterator_type &iter) {
+		struct list_head *cur = iter.cur;
 		iterator_type next = iter++;
-		list_del(iter.cur);
+		list_unlink(cur);
 		return next;
 	}
 };
