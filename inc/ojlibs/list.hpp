@@ -47,7 +47,9 @@ struct list_iterator : public BaseIter
 {
 	// note that typedefs of base class is not visible during
 	// unqualified name lookup
-	typedef std::iterator_traits<BaseIter> traits_type;
+	typedef typename std::iterator_traits<BaseIter> traits_type;
+	typedef typename traits_type::pointer pointer;
+	typedef typename traits_type::reference reference;
 
 	list_head *cur;
 	list_iterator() { cur = nullptr; }
@@ -69,10 +71,10 @@ struct list_iterator : public BaseIter
 		list_iterator that(*this);
 		return --that;
 	}
-	typename traits_type::pointer operator->() const {
+	pointer operator->() const {
 		return member_to_parent(cur, field);
 	}
-	typename traits_type::reference operator*() const {
+	reference operator*() const {
 		return *operator->();
 	}
 	bool operator==(const list_iterator& that) {
