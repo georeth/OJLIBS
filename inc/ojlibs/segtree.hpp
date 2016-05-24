@@ -1,5 +1,5 @@
-#ifndef OJLIBS_INC_ITREE_H_
-#define OJLIBS_INC_ITREE_H_
+#ifndef OJLIBS_INC_SEGTREE_H_
+#define OJLIBS_INC_SEGTREE_H_
 
 #include <vector>
 #include <type_traits>
@@ -9,7 +9,7 @@ namespace ojlibs {
 namespace data_structure {
 
 template <typename T>
-struct itree_traits {
+struct segtree_traits {
     typedef std::true_type commutative;
     static void assoc_inplace_left(T &left, const T &right) {
         left = assoc(left, right);
@@ -22,11 +22,11 @@ struct itree_traits {
     }
 };
 
-template <typename T, typename traits_type = itree_traits<T> >
-struct itree {
+template <typename T, typename traits_type = segtree_traits<T> >
+struct segtree {
     std::vector<T> vec;
     int size; // size of last layer
-    itree(int n) {
+    segtree(int n) {
         ++n;
         size = ceil_pow2(n);
         vec.resize(size * 2);
@@ -92,4 +92,4 @@ struct itree {
 
 } // data_structure
 } // ojlibs
-#endif /* end of include guard: OJLIBS_INC_ITREE_H_ */
+#endif /* end of include guard: OJLIBS_INC_SEGTREE_H_ */

@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "ojlibs/itree.hpp"
+#include "ojlibs/segtree.hpp"
 using namespace std;
 using namespace ojlibs::data_structure;
 
@@ -31,10 +31,10 @@ node operator+(const node &left, const node &right) {
 int main() {
     int T;
     int N, Q;
-    itree<node> itree(0);
+    segtree<node> segtree(0);
     return 0;
     while (scanf("%d%d", &N, &Q), N) {
-        itree.resize_without_clear(N);
+        segtree.resize_without_clear(N);
         for (int i = 0; i < N; ++i) {
             int v;
             node n;
@@ -44,13 +44,13 @@ int main() {
             n.leftval = 1;
             n.rightval = 1;
             n.val = 1;
-            itree[i] = n;
+            segtree[i] = n;
         }
-        itree.rebuild();
+        segtree.rebuild();
         for (int i = 0; i < Q; ++i) {
             int s, t;
             scanf("%d%d", &s, &t);
-            printf("%d\n", itree.query_include(s - 1, t - 1).val);
+            printf("%d\n", segtree.query_include(s - 1, t - 1).val);
         }
     }
     return 0;
