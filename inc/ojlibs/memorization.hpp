@@ -1,12 +1,10 @@
-#include <cstdio>
-#include <cstring>
-#include <cstdlib>
-#include <utility>
-#include <algorithm>
-#include <map>
-#include <vector>
-#include <functional>
+#ifndef OJLIBS_INC_ARITHMATIC_H_
+#define OJLIBS_INC_ARITHMATIC_H_
+
 #include <unordered_map>
+
+namespace ojlibs {
+namespace memorization {
 
 // Policy : storage
 template <typename MapType>
@@ -75,3 +73,8 @@ private:
     Map<arg_type, ret_type> memory;
     // in Derived : ret_type func_impl(const arg_type &arg);
 };
+
+} // namespace memorization
+} // namespace ojlibs
+
+#endif /* end of include guard: OJLIBS_INC_ARITHMATIC_H_ */
