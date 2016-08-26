@@ -1,27 +1,19 @@
-add_executable(hello_test hello_test.cpp)
+link_libraries(gtest_main gtest gmp pthread)
 
-add_executable(list_test list_test.cpp)
-target_link_libraries(list_test gtest_main gtest)
+set(test_cases # list all tests here
+	list_test
+	rbtree_test
+	memorization_test
+	segtree_test
+	arith_test
+	linear_test
+)
 
-add_executable(rbtree_test rbtree_test.cpp)
-target_link_libraries(rbtree_test gtest_main gtest)
+function(ojlibs_add_test filename)
+	add_executable(${filename} ${filename}.cpp)
+	add_test(${filename} ${filename})
+endfunction(ojlibs_add_test)
 
-add_executable(segtree_test segtree_test.cpp)
-target_link_libraries(segtree_test gtest_main gtest pthread)
-
-add_executable(memorization_test memorization_test.cpp)
-target_link_libraries(memorization_test gtest_main gtest)
-
-add_executable(arith_test arith_test.cpp)
-target_link_libraries(arith_test gtest_main gtest gmp)
-
-add_executable(linear_test linear_test.cpp)
-target_link_libraries(linear_test gtest_main gtest)
-
-add_test(HelloTest hello_test)
-add_test(ListTest list_test)
-add_test(RbtreeTest rbtree_test)
-add_test(MemorizationTest memorization_test)
-add_test(SegTest segtree_test)
-add_test(ArithTest arith_test)
-add_test(LinearTest linear_test)
+foreach(test ${test_cases})
+	ojlibs_add_test(${test})
+endforeach(test)
