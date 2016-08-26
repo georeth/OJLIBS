@@ -1,2 +1,4 @@
+.gitignore
 build
-
+Makefile
+.clang_complete
