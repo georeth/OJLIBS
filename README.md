@@ -3,9 +3,19 @@ C++ Utility library for online judging. Comforming to C++11 Standard.
 
 Permit to use under MIT License.
 
-Additionally, anybody can submit code that contains any part of this library on online judging platform, if the usage can be restricted in online judging only.
+Additionally, anybody can submit code that contains any part of this library on online judging platforms, if the usage can be restricted in online judging only.
 
 (e.g. If someone can get submitted code on an OJ, and then use it outside the OJ legally according to the OJ's term of service, the usage of this library is forbidden.)
+
+# Design Considerations
+
+Readability First, then Performance
+
+Header Only
+
+Modern C++. Use standard library whenever possible
+
+Trust compiler instead of manually tuning
 
 # Components
 
@@ -17,11 +27,13 @@ slist: singly-linked list
 rbtree: red-black tree
 
 ## Special Data structures
-Union Find Set
+Disjoint Set
 
 Segment Tree
 
 ## Arithmatic
+Division with fixed rounding direction
+
 GCD
 
 LCM
@@ -50,6 +62,11 @@ Geometry Transform
 ## Graph Theory
 (TODO)
 
+## Memorization
+Generic memorization function without virtual function overhead
+
+Useful for top-down dynamic programming.
+
 ## FAST IO
 (TODO)
 
@@ -57,3 +74,6 @@ Geometry Transform
 
 - read_int(), read_string(), etc.
 
+
+# TODO NEXT
+- a tool that can combine source code with included header files of this library to produce a single source file to submit.

@@ -5,6 +5,7 @@ set(test_cases # list all tests here
 	rbtree_test
 	memorization_test
 	segtree_test
+	disjoint_set_test
 	arith_test
 	linear_test
 )
