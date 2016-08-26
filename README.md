@@ -11,26 +11,35 @@ Additionally, anybody can submit code that contains any part of this library on 
 
 ## Intrusive Data structures
 list : doubly-linked list
+
 slist: singly-linked list
+
 rbtree: red-black tree
 
 ## Special Data structures
 Union Find Set
+
 Segment Tree
 
 ## Arithmatic
 GCD
+
 LCM
+
 Extended Euclid Algorithm
+
 Modular Arithmatic
+
 Chinese Remainder Theorem
 
 ## Multiprecision
 (TODO)
+
 Big Number
 
 ## Linear Algebra
 Matrix
+
 (P)LU decomposition
 
 ## Computation Geometry
@@ -39,9 +48,12 @@ Vector
 Geometry Transform
 
 ## Graph Theory
+(TODO)
 
 ## FAST IO
 (TODO)
+
 - mmap or read into big buffer (avoid <cstdio> or <iostream>)
+
 - read_int(), read_string(), etc.
 
