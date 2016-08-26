@@ -1,7 +1,10 @@
 #ifndef OJLIBS_INC_ALL_H_
 #define OJLIBS_INC_ALL_H_
 
-#include "data_structure.h"
+#include <ojlibs/data_structure.h>
+#include <ojlibs/arithmatic.h>
+#include <ojlibs/linear.h>
+#include <ojlibs/memorization.h>
 /*
 #include "graph.h"
 #include "memorize.h"

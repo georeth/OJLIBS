@@ -4,9 +4,6 @@
 #include "list.hpp"
 #include "slist.hpp"
 #include "rbtree.hpp"
-/* 
- *
- * no hash table because it's trivial 
- */
+#include "segtree.hpp"
 
 #endif /* OJLIBS_INC_DATA_STRUCTURE_H_ */
