@@ -1,0 +1,11 @@
+{
+  "name": "cf_test_crawler",
+  "version": "1.0.0",
+  "description": "code forces test cases crawler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "georeth chow",
+  "license": "MIT"
+}
