@@ -74,6 +74,9 @@ Useful for top-down dynamic programming.
 
 - read_int(), read_string(), etc.
 
+# TOOLS
+- Code forces sample test cases crawler
 
-# TODO NEXT
+(TODO)
+
 - a tool that can combine source code with included header files of this library to produce a single source file to submit.

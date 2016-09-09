@@ -32,6 +32,10 @@ function parse_body(body) {
             let intext = input.eq(j).text();
             let outtext = output.eq(j).text();
             let infix = (tests.length == 1) ? "" : "-${i}";
+            if (intext[intext.length - 1] != '\n')
+                intext += '\n';
+            if (outtext[outtext.length - 1] != '\n')
+                outtext += '\n';
             fs.writeFileSync(`test/in${infix}-${j}.txt`, intext);
             fs.writeFileSync(`test/out${infix}-${j}.txt`, outtext);
         }
