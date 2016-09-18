@@ -87,15 +87,15 @@ TEST(BASIC, operator) {
     m1 *= 3;
     m1 += m2;
     m1 *= m2;
-
 }
+
 TEST(MULT, random) {
     std::uniform_real_distribution<double> dis(-100, 100);
     std::mt19937 gen;
 
-    const int TEST_SIZE = 200;
+    const int TEST_SIZE = 20;
     for (int nr_test = 0; nr_test < TEST_SIZE; ++nr_test) {
-	matrix<int> m1(10, 20), m2(20, 10), m3(10, 20);
+	matrix<int> m1(10, 200), m2(200, 100), m3(100, 20);
 	for (int i = 0; i < 10; ++i) {
 	    for (int j = 0; j < 20; ++j) {
 		m1[i][j] = dis(gen);

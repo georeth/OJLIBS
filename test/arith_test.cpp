@@ -98,6 +98,39 @@ TEST(CRT2, Random) {
 	}
 }
 
+TEST(CRTN, BasicRandom) {
+	const int TEST_SIZE = 10000;
+	vector<int> ms = {3, 5, 7};
+	std::uniform_int_distribution<> dis(0, 100);
+	for (int i = 0; i < TEST_SIZE; ++i) {
+		vector<int> as = {dis(gen), dis(gen), dis(gen)};
+		int r = crtn(as, ms);
+		ASSERT_EQ(0, (r - as[0]) % ms[0]);
+		ASSERT_EQ(0, (r - as[1]) % ms[1]);
+		ASSERT_EQ(0, (r - as[2]) % ms[2]);
+	}
+}
+
+/*
+TEST(FACT_DECOMP, Single) {
+	// last two digit of 2011!
+	int r = factorial_rrs(2011, 100);
+	int e2 = factorial_exp(2011, 2);
+	int e5 = factorial_exp(2011, 5);
+
+	printf("e2 = %d e5 = %d r = %d\n", e2, e5, r);
+	if (e2 >= e5) {
+		printf("%d\n", mul_mod(r, pow_mod(2, e2 - e5, 100), 100));
+	} else {
+		printf("%d\n", mul_mod(r, pow_mod(5, e5 - e2, 100), 100));
+	}
+	printf("fac(101) = %d\n", factorial_rrs(101, 100));
+
+	make_rrs_fact(17);
+
+}
+*/
+
 TEST(DivPosR, Random) {
 	const int TEST_SIZE = 10000;
 	std::uniform_int_distribution<> dis(-2000000000, 2000000000);
@@ -115,4 +148,33 @@ TEST(DivPosR, Random) {
 		ASSERT_EQ(a, b * q + r);
 		ASSERT_LE(0, r);
 	}
+}
+
+TEST(LOG, Basic) {
+	int e;
+	bool f;
+
+	tie(e, f) = log(0, 3);
+	ASSERT_EQ(e, -1);
+	ASSERT_EQ(f, true);
+
+	tie(e, f) = log(1, 3);
+	ASSERT_EQ(e, 0);
+	ASSERT_EQ(f, false);
+
+	tie(e, f) = log(2, 3);
+	ASSERT_EQ(e, 0);
+	ASSERT_EQ(f, true);
+
+	tie(e, f) = log(3, 3);
+	ASSERT_EQ(e, 1);
+	ASSERT_EQ(f, false);
+
+	tie(e, f) = log(4, 3);
+	ASSERT_EQ(e, 1);
+	ASSERT_EQ(f, true);
+	
+	tie(e, f) = log(82, 3);
+	ASSERT_EQ(e, 4);
+	ASSERT_EQ(f, true);
 }

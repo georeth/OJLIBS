@@ -1,6 +1,8 @@
+include(CTest)
 link_libraries(gtest_main gtest gmp pthread)
 
 set(test_cases # list all tests here
+	hello_test
 	list_test
 	rbtree_test
 	memorization_test
@@ -8,6 +10,7 @@ set(test_cases # list all tests here
 	disjoint_set_test
 	arith_test
 	linear_test
+	shorthand_test
 )
 
 function(ojlibs_add_test filename)
