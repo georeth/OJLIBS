@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+#   input     ->  challenger  <->  solution
+# (test/q-*)      (./tester)       (./prog)
+
 Q=test/Q-chan
 A=test/A-chan
 

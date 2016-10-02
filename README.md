@@ -9,13 +9,13 @@ Additionally, anybody can submit code that contains any part of this library on 
 
 # Design Considerations
 
-Readability First, then Performance
+Readability first, Performance second, Source Code Size third.
 
-Header Only
+Header Only.
 
-Modern C++. Use standard library whenever possible
+Modern C++. Use standard library whenever possible. Depend on template heavily.
 
-Trust compiler instead of manually tuning
+Trust compiler instead of hand-tuning.
 
 # Components
 
@@ -52,25 +52,43 @@ Big Number
 ## Linear Algebra
 Matrix
 
+Arithmatic operation (naive implementation)
+
 (P)LU decomposition
+
+Determinant
 
 ## Computation Geometry
 (TODO)
+
 Vector
+
 Geometry Transform
 
 ## Graph Theory
+A Generic Graph Implementation
+
 (TODO)
+
+DFS / BFS
+
+Shortest Path (Dijkstra, Bellman-Ford, Floyd-Warshall)
+
+Strongly Connected Component
+
+Topological Sort (on DAG)
+
+Offline Tarjan LCA(on rooted/rootless tree)
 
 ## Memorization
 Generic memorization function without virtual function overhead
 
-Useful for top-down dynamic programming.
+(Useful for top-down dynamic programming.)
 
 ## FAST IO
 (TODO)
 
-- mmap or read into big buffer (avoid <cstdio> or <iostream>)
+- mmap or read into big buffer (avoid \<cstdio\> or \<iostream\>)
 
 - read\_int(), read\_string(), etc.
 
@@ -78,3 +96,5 @@ Useful for top-down dynamic programming.
 - Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)
 
 - A tool that can combine source code with included header files of this library to produce a single source file to submit. (tools/ojlibs\_cpp)
+
+- Solution Template : main.cpp, check.sh, interactive.sh and Makefile (src/)
