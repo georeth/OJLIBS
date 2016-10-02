@@ -2,15 +2,10 @@
 #define OJLIBS_INC_RB_TREE_H_
 
 #include <utility>
-#include "ojlibs/util.hpp"
+#include <ojlibs/intrusive_util.hpp>
 
-/*
- * FIXME: some functions should not be static inline.
- * 	  move them to a source file.
- */
-
-namespace ojlibs {
-namespace data_structure {
+namespace ojlibs { // TO_BE_REMOVED
+namespace data_structure { // TO_BE_REMOVED
 
 enum {
 	RB_RED = 0,
@@ -435,7 +430,7 @@ struct rb_tree {
 	}
 };
 
-} // data_structure
-} // ojlibs
+} // data_structure TO_BE_REMOVED
+} // ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_RB_TREE_H_ */

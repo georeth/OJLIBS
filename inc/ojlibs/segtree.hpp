@@ -3,10 +3,10 @@
 
 #include <vector>
 #include <type_traits>
-#include "ojlibs/util.hpp"
+#include <ojlibs/bit_trick.hpp>
 
-namespace ojlibs {
-namespace data_structure {
+namespace ojlibs { // TO_BE_REMOVED
+namespace data_structure { // TO_BE_REMOVED
 
 template <typename T>
 struct segtree_traits {
@@ -37,29 +37,31 @@ struct segtree {
         for (p += offset; p; p >>= 1)
             traits_type::assoc_inplace(vec[p], n);
     }
-    void update(int p, const T &n){
+    void update(int p, const T &n) {
         p += offset;
         vec[p] = n;
         while (p >>= 1)
             vec[p] = traits_type::assoc(vec[p + p], vec[p + p + 1]);
     }
-    void rebuild(){
+    void rebuild() {
         for (int i = (offset + size - 1) / 2; i > 0; --i){
             vec[i] = traits_type::assoc(vec[i + i], vec[i + i + 1]);
         }
     }
-    T query_range(int s, int t){
+    T query_range(int s, int t) {
         return query_include(s, t - 1);
     }
     T query_include(int s, int t) {
         if (s > t)
             return T();
-        T left_acc = vec[s + offset];
+        s += offset;
+        t += offset;
+        T left_acc = vec[s];
         if (s == t)
             return left_acc;
-        T right_acc = vec[t + offset];
-        ++s; --t;
-        for (s+=offset-1, t+=offset+1; s^t^1; s>>=1, t>>=1){
+        T right_acc = vec[t];
+        // query exclude ]s, t[ next
+        for (; s^t^1; s>>=1, t>>=1) {
             if (~s & 1)
                 traits_type::assoc_inplace_left(left_acc, vec[s^1]);
             if (t & 1)
@@ -72,6 +74,6 @@ struct segtree {
     }
 };
 
-} // data_structure
-} // ojlibs
+} // data_structure TO_BE_REMOVED
+} // ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_SEGTREE_H_ */

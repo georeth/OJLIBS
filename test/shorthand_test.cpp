@@ -3,15 +3,17 @@
 #include <ojlibs/shorthand.hpp>
 using namespace std;
 
-TEST(BASIC, range) {
-    for (int i : nrange(10))
-        cout << i << endl;
-    for (int i : range(1, -10))
-        cout << i << endl;
-    for (int i : range(3))
-        cout << i << endl;
-    for (int i : inrange(-2, 2))
-        cout << i << endl;
+TEST(BASIC, range_test) {
+    vector<int> vec;
+    for (int i = 0; i < 100; ++i)
+        vec.push_back(i);
+
+    range_t r = range(100);
+    vector<int> vrange(r.begin(), r.end());
+
+    ASSERT_EQ(vec.size(), vrange.size());
+    ASSERT_TRUE(equal(vec.begin(), vec.end(), vrange.begin()));
+    ASSERT_TRUE(equal(vec.rbegin(), vec.rend(), rev(r).begin()));
 }
 
 TEST(BASIC, chmax) {
@@ -23,7 +25,5 @@ TEST(BASIC, chmax) {
     chmin(b, -1);
     ASSERT_EQ(b, -1);
 
-    int c = 3;
-    chmin_s(c, -1);
-    ASSERT_EQ(c, 3);
+    pr_debug("meow %s %s\n", "moo", "woof");
 }

@@ -4,7 +4,7 @@
 #include <utility>
 #include <gtest/gtest.h>
 
-#include "ojlibs/rb_tree.hpp"
+#include <ojlibs/rb_tree.hpp>
 using namespace std;
 using namespace ojlibs;
 using namespace ojlibs::data_structure;

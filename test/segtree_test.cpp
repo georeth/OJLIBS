@@ -1,57 +1,52 @@
+#include <gtest/gtest.h>
+#include <random>
 #include <algorithm>
-#include "ojlibs/segtree.hpp"
+#include <ojlibs/segtree.hpp>
 using namespace std;
 using namespace ojlibs::data_structure;
 
-struct node {
-    int left;
-    int leftval;
-    int right;
-    int rightval;
-    int val;
-};
-node operator+(const node &left, const node &right) {
-    node ret;
-    ret.val = max(left.val, right.val);
-    ret.left = left.left;
-    ret.right = right.right;
-    ret.leftval = left.leftval;
-    ret.rightval = right.rightval;
-    if (left.right == right.left) {
-        ret.val = max(ret.val, left.rightval + right.leftval);
-        if (left.left == right.left)
-            ret.leftval += right.leftval;
-        if (right.right == left.right)
-            ret.rightval += left.rightval;
-    } else {
-    }
-    return ret;
-}
 
-int main() {
-    int T;
-    int N, Q;
-    segtree<node> segtree(0);
-    return 0;
-    while (scanf("%d%d", &N, &Q), N) {
-        segtree.resize_without_clear(N);
-        for (int i = 0; i < N; ++i) {
-            int v;
-            node n;
-            scanf("%d", &v);
-            n.left = v;
-            n.right = v;
-            n.leftval = 1;
-            n.rightval = 1;
-            n.val = 1;
-            segtree[i] = n;
+template <typename T>
+struct max_traits {
+    typedef std::true_type commutative;
+    static void assoc_inplace_left(T &left, const T &right) {
+        left = assoc(left, right);
+    }
+    static void assoc_inplace_right(const T &left, T &right) {
+        right = assoc(left, right);
+    }
+    static T assoc(const T &x, const T &y) {
+        return max(x, y);
+    }
+};
+
+TEST(BASIC, random) {
+    const int TEST_GROUP = 20;
+    const int TEST_SIZE = 1000;
+    const int TEST_NUM = 100;
+    std::mt19937 gen;
+
+    using uni = std::uniform_int_distribution<>;
+    uni dist(0, 1000);
+
+    for (int tg = 0; tg < TEST_GROUP; ++tg) {
+        segtree<int, max_traits<int>> seg(TEST_SIZE);
+        vector<int> vec(TEST_SIZE);
+
+        for (int i = 0; i < TEST_SIZE; ++i) {
+            seg[i] = dist(gen);
+            vec[i] = seg[i];
+
+            ASSERT_EQ(vec[i], seg[i]);
         }
-        segtree.rebuild();
-        for (int i = 0; i < Q; ++i) {
-            int s, t;
-            scanf("%d%d", &s, &t);
-            printf("%d\n", segtree.query_include(s - 1, t - 1).val);
+        seg.rebuild();
+        for (int i = 0; i < TEST_NUM; ++i) {
+            int b = uni(0, TEST_SIZE - 1)(gen);
+            int e = uni(b, TEST_SIZE - 1)(gen);
+            if (b < e) {
+                ASSERT_EQ(seg.query_range(b, e),
+                        *max_element(vec.begin() + b, vec.begin() + e));
+            }
         }
     }
-    return 0;
 }

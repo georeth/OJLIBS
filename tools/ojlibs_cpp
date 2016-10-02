@@ -7,43 +7,53 @@ no warnings 'experimental::smartmatch';
 
 # replace `$inc_dir' with your include directory containing ojlibs
 my $inc_dir = glob("~") . "/usr/include";
+# replace `$author_name' with your name and email
+my $author_name = 'Georeth Chow <georeth2010@gmail.com>';
 my $inc_pattern = qr(ojlibs/.*);
 my $guard_pattern = qr(OJLIBS_.*_H_);
-my @guards;
+my @included_files; # use files instead of guards, reduce #include number
 
 say STDERR color("yellow"), "inc_dir = $inc_dir", color("reset");
 
 sub parse_file {
-    our @guard;
+    our @included_files;
     my $fh = shift @_;
     while (my $line = <$fh>) {
-	# empty line
-	if ($line =~ /^\s*$/) {
-	    next;
-	}
-	# bracket include
-	elsif ($line =~ /^\s*#\s*include\s*<([^>]*)>/) {
-	    my $file = $1;
-	    if ($file =~ $inc_pattern) {
-		my $inc_fh;
-		die "cannot open $file" unless open $inc_fh, "$inc_dir/$file";
-		say STDERR color("yellow"), "Including $file", color("reset");
-		parse_file($inc_fh);
-		close $inc_fh;
-		next;
-	    }
-	}
-	# guard
-	elsif ($line =~ /^\s*#\s*ifndef\s*($guard_pattern)/) {
-	    return if $1 ~~ @guards;
-	    push @guard, $1;
-	    next;
-	}
-	elsif ($line =~ /^\s*#\s*(define|endif).*$guard_pattern/) {
-	    next;
-	}
+        # empty line (remove)
+        if ($line =~ /^\s*$/ or $line =~/TO_BE_REMOVED/) {
+            next;
+        }
+        # author line
+        elsif ($line =~ s{(//.*)OJLIBS_CODER_NAME(.*)}{$1$author_name$2}) {
+            # fall through
+        }
+        # bracket include
+        elsif ($line =~ /^\s*#\s*include\s*<([^>]*)>/) {
+            my $file = $1;
+            next if ($file ~~ @included_files); # already included
+            push @included_files, $file;
+            if ($file =~ $inc_pattern) {        # in ojlibs -> replace
+                my $inc_fh;
+                die "cannot open $file" unless open $inc_fh, "$inc_dir/$file";
+                say STDERR color("yellow"), "Including $file", color("reset");
+                parse_file($inc_fh);
+                close $inc_fh;
+                next;
+            }
+        }
+        elsif ($line =~ /^\s*#\s*include\s*"([^"]*)"/) {
+            die "quote include is not allowed";
+        }
+        # guard (remove)
+        elsif ($line =~ /^\s*#\s*(ifndef|define|endif).*$guard_pattern/) {
+            # say STDERR color("yellow"), "found guard : $1", color("reset");
+            # say STDERR color("yellow"), "current guards : @guards", color("reset");
+            # return if $1 ~~ @guards;
+            # push @guards, $1;
+            next;
+        }
 
-	print $line;
+        print $line;
     }
 }
 parse_file("ARGV");
@@ -51,9 +61,11 @@ parse_file("ARGV");
 # ojlibs_cpp : a preprocesser tool to combine inclusions
 #
 # Usage:
-# 	ojlibs_cpp solution.cpp
+#         ojlibs_cpp solution.cpp
 #
 #     ojlibs will recursively replace all `ojlibs' header inclusion.
 #     so the output can directly submit to online judging platform.
 #
 # Have fun
+
+# vim:et:ts=4:sts=4:sw=4

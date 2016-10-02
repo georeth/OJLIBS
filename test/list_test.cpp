@@ -5,32 +5,31 @@ namespace od = ojlibs::data_structure;
 using namespace std;
 
 struct int_node {
-	struct od::list_head list;
-	int val;
-	int_node(int val): val(val){}
+    struct od::list_head list;
+    int val;
+    int_node(int val): val(val){}
 };
 
-typedef od::list<int_node, &int_node::list> od_list;
-
 TEST(Basic, Sequential) {
-	od_list my_list;
+    od::list_head list;
+    for (int i = 0; i < 100; ++i)
+        list.insert_prev((new int_node(i))->list);
 
-	for (int i = 0; i < 100; i++) {
-		int_node *node = new int_node(i);
-		my_list.insert_back(node);
-	}
+    auto it = od::list_range<int_node, &int_node::list>(list).first;
+    for (int i = 0; i < 100; ++i, ++it)
+        ASSERT_EQ(i, it->val);
 
-	{
-		auto iter = my_list.front_iter();
-		for (int i = 0; i < 100; i++) {
-			EXPECT_EQ(i, iter->val);
-			++iter;
-		}
-	}
-	{
-		auto iter = my_list.front_iter();
-		for (int i = 0; i < 100; i++) {
-			my_list.erase(iter++);
-		}
-	}
+    it = od::list_range<int_node, &int_node::list>(list).first;
+    for (int i = 0; i < 100; ++i)
+        (it++)->list.unlink();
+    ASSERT_TRUE(it->list.empty());
+}
+
+TEST(Basic, list_range) {
+    od::list_head list;
+    for (int i = 0; i < 10; ++i)
+        list.insert_prev((new int_node(i))->list);
+    for (int_node &n : od::list_range<int_node, &int_node::list>(list)) {
+        cout << n.val << endl;
+    }
 }

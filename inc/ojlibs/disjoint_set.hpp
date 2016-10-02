@@ -14,16 +14,17 @@ struct disjoint_set {
     disjoint_set(int size){
         reset(size);
     }
-    int find(int v){
-        int pv = parent[v];
-        return (pv == v) ? v : (parent[v] = find(pv));
+    int find(int c){
+        int pc = parent[c];
+        return (pc == c) ? c : (parent[c] = find(pc));
     }
-    bool union_if(int u, int v){
-        int pu = find(u);
-        int pv = find(v);
-        if (pu == pv)
+    // ancestor(p) is parent of ancestor(c)
+    bool union_if(int p, int c){
+        int pp = find(p);
+        int pc = find(c);
+        if (pp == pc)
             return false;
-        parent[pu] = pv;
+        parent[pc] = pp;
         return true;
     }
 };
