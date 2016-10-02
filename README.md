@@ -72,11 +72,9 @@ Useful for top-down dynamic programming.
 
 - mmap or read into big buffer (avoid <cstdio> or <iostream>)
 
-- read_int(), read_string(), etc.
+- read\_int(), read\_string(), etc.
 
 # TOOLS
-- Code forces sample test cases crawler
+- Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)
 
-(TODO)
-
-- a tool that can combine source code with included header files of this library to produce a single source file to submit.
+- A tool that can combine source code with included header files of this library to produce a single source file to submit. (tools/ojlibs\_cpp)

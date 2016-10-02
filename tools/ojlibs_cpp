@@ -1,0 +1,59 @@
+#!/usr/bin/env perl
+use v5.18;
+use strict;
+use warnings;
+use Term::ANSIColor;
+no warnings 'experimental::smartmatch';
+
+# replace `$inc_dir' with your include directory containing ojlibs
+my $inc_dir = glob("~") . "/usr/include";
+my $inc_pattern = qr(ojlibs/.*);
+my $guard_pattern = qr(OJLIBS_.*_H_);
+my @guards;
+
+say STDERR color("yellow"), "inc_dir = $inc_dir", color("reset");
+
+sub parse_file {
+    our @guard;
+    my $fh = shift @_;
+    while (my $line = <$fh>) {
+	# empty line
+	if ($line =~ /^\s*$/) {
+	    next;
+	}
+	# bracket include
+	elsif ($line =~ /^\s*#\s*include\s*<([^>]*)>/) {
+	    my $file = $1;
+	    if ($file =~ $inc_pattern) {
+		my $inc_fh;
+		die "cannot open $file" unless open $inc_fh, "$inc_dir/$file";
+		say STDERR color("yellow"), "Including $file", color("reset");
+		parse_file($inc_fh);
+		close $inc_fh;
+		next;
+	    }
+	}
+	# guard
+	elsif ($line =~ /^\s*#\s*ifndef\s*($guard_pattern)/) {
+	    return if $1 ~~ @guards;
+	    push @guard, $1;
+	    next;
+	}
+	elsif ($line =~ /^\s*#\s*(define|endif).*$guard_pattern/) {
+	    next;
+	}
+
+	print $line;
+    }
+}
+parse_file("ARGV");
+
+# ojlibs_cpp : a preprocesser tool to combine inclusions
+#
+# Usage:
+# 	ojlibs_cpp solution.cpp
+#
+#     ojlibs will recursively replace all `ojlibs' header inclusion.
+#     so the output can directly submit to online judging platform.
+#
+# Have fun
