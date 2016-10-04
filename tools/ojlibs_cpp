@@ -19,16 +19,10 @@ sub parse_file {
     our @included_files;
     my $fh = shift @_;
     while (my $line = <$fh>) {
-        # empty line (remove)
-        if ($line =~ /^\s*$/ or $line =~/TO_BE_REMOVED/) {
-            next;
-        }
         # author line
-        elsif ($line =~ s{(//.*)OJLIBS_CODER_NAME(.*)}{$1$author_name$2}) {
-            # fall through
-        }
+        $line =~ s/OJLIBS_CODER_NAME/$author_name/;
         # bracket include
-        elsif ($line =~ /^\s*#\s*include\s*<([^>]*)>/) {
+        if ($line =~ /^\s*#\s*include\s*<([^>]*)>/) {
             my $file = $1;
             next if ($file ~~ @included_files); # already included
             push @included_files, $file;
@@ -41,17 +35,24 @@ sub parse_file {
                 next;
             }
         }
-        elsif ($line =~ /^\s*#\s*include\s*"([^"]*)"/) {
+        if ($line =~ /^\s*#\s*include\s*"([^"]*)"/) {
             die "quote include is not allowed";
         }
         # guard (remove)
-        elsif ($line =~ /^\s*#\s*(ifndef|define|endif).*$guard_pattern/) {
+        if ($line =~ /^\s*#\s*(ifndef|define|endif).*$guard_pattern/) {
             # say STDERR color("yellow"), "found guard : $1", color("reset");
             # say STDERR color("yellow"), "current guards : @guards", color("reset");
             # return if $1 ~~ @guards;
             # push @guards, $1;
             next;
         }
+
+        # TO_BE_REMOVED
+        next if $line =~ /TO_BE_REMOVED/;
+        # remove c++ style comment
+        # $line =~ s{^\s*//.*$}{};
+        # empty line
+        next if $line =~ /^\s*$/;
 
         print $line;
     }

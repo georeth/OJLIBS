@@ -4,6 +4,7 @@
 #include <vector>
 #include <ojlibs/empty_type.hpp>
 #include <ojlibs/slist.hpp>
+#include <ojlibs/int_range.hpp> // all_vertex
 
 namespace ojlibs { // TO_BE_REMOVED
 namespace data_structure { // TO_BE_REMOVED
@@ -21,10 +22,11 @@ struct graph {
     typedef typename traits_type::template iter_type<edge_t, &edge_t::list> iter_type;
     typedef typename iter_type::range_type range_type;
 
-    int top;
+    int top = 0;
     std::vector<head_type> heads;
     std::vector<edge_t> edges;
 
+    range_t all_vertex() { return int_range(heads.size()); }
     void add_edge(int s, int t, const EInfo &info = EInfo()) {
         edge_t *e = &edges[top++];
         e->to = t;

@@ -2,6 +2,7 @@
 #define OJLIBS_INC_ITER_RANGE_H_
 
 #include <utility>
+#include <iterator>
 
 namespace ojlibs { // TO_BE_REMOVED
 

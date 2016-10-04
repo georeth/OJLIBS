@@ -5,5 +5,10 @@
 
 TEST(BASIC, basic) {
     graph<> g(10, 100);
-    graph<empty_type, list_head> g2(10, 100);
+    g.add_edge(1, 2);
+    g.add_edge(1, 3);
+    g.add_edge(1, 4);
+    g.add_edge(2, 3);
+    g.add_edge(3, 5);
+    g.add_edge(5, 2);
 }

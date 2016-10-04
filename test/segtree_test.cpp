@@ -7,14 +7,7 @@ using namespace ojlibs::data_structure;
 
 
 template <typename T>
-struct max_traits {
-    typedef std::true_type commutative;
-    static void assoc_inplace_left(T &left, const T &right) {
-        left = assoc(left, right);
-    }
-    static void assoc_inplace_right(const T &left, T &right) {
-        right = assoc(left, right);
-    }
+struct max_traits : segtree_traits_crtp<T, max_traits<T>> {
     static T assoc(const T &x, const T &y) {
         return max(x, y);
     }
@@ -48,5 +41,6 @@ TEST(BASIC, random) {
                         *max_element(vec.begin() + b, vec.begin() + e));
             }
         }
+        // seg.increase_element(10, 100);
     }
 }
