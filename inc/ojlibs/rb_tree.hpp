@@ -5,7 +5,6 @@
 #include <ojlibs/intrusive_util.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
-namespace data_structure { // TO_BE_REMOVED
 
 enum {
 	RB_RED = 0,
@@ -430,7 +429,6 @@ struct rb_tree {
 	}
 };
 
-} // data_structure TO_BE_REMOVED
 } // ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_RB_TREE_H_ */

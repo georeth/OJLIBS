@@ -1,17 +1,17 @@
 #ifndef OJLIBS_INC_ARITHMATIC_H_
 #define OJLIBS_INC_ARITHMATIC_H_
 
+#include <cstdint>
 #include <vector>
 #include <limits>
 #include <type_traits>
 #include <utility>
 
-// Suggested Reading : (GTM 138 by Henri Cohen)A course in computational algebraic number theory
+// Suggested Reading : (GTM 138 by Henri Cohen) A course in computational algebraic number theory
 //
 // TODO : use gcc arith extension like __builtin_add_overflow
 
-namespace ojlibs {
-namespace arithmatic {
+namespace ojlibs { // TO_BE_REMOVED
 
 // try binary gcd on large number
 template <typename Int>
@@ -190,6 +190,5 @@ std::pair<Int, bool> log(Int n, Int b) {
     return {ans, frac};
 }
 
-} // namespace arithmatic
-} // namespace ojlibs
+} // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_ARITHMATIC_H_ */

@@ -4,7 +4,6 @@
 #include <vector>
 
 namespace ojlibs { // TO_BE_REMOVED
-namespace data_structure { // TO_BE_REMOVED
 
 struct disjoint_set {
     std::vector<int> parent;
@@ -28,7 +27,6 @@ struct disjoint_set {
     }
 };
 
-} // data_structure TO_BE_REMOVED
 } // ojlibs TO_BE_REMOVED
 
 

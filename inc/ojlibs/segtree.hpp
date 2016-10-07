@@ -6,8 +6,6 @@
 #include <ojlibs/bit_trick.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
-namespace data_structure { // TO_BE_REMOVED
-
 
 template <typename T, typename Derived>
 struct segtree_traits_crtp {
@@ -42,7 +40,7 @@ struct segtree {
     segtree(int n) {
         size = n;
         offset = ceil_pow2(n);
-        vec.resize(size + offset + 1); // real size += 1
+        vec.resize(size + offset + 1); // real size += 1 (last leaf has dummy sibling)
     }
     void rebuild() {
         for (int i = (offset + size - 1) / 2; i > 0; --i){
@@ -123,13 +121,25 @@ struct segtree {
         }
         return;
     }
+    // apply internal nodes to leaves, so operator[] gets query_element
+    void flatten() {
+        static_assert(!flavour_one, "flavour_two expected"); // TO_BE_REMOVED
+        static_assert(traits_type::commutative::value, // TO_BE_REMOVED
+                "flatten requires commutative"); // TO_BE_REMOVED
+        for (int i = 1; i < offset; ++i) {
+            if (i + i < offset + size) {
+                traits_type::assoc_inplace(vec[i + i], vec[i]);
+                traits_type::assoc_inplace(vec[i + i + 1], vec[i]); // dummy sibling doesn't matter
+            } else break;
+            vec[i] = T();
+        }
+    }
     // Flavour I  : set initial value for element
-    // Flavour II : update single element (range length = 1)
+    // Flavour II : update single element (range length = 1), or query after flatten
     T &operator[](int i) {
         return vec[offset + i];
     }
 };
 
-} // data_structure TO_BE_REMOVED
 } // ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_SEGTREE_H_ */

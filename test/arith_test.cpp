@@ -3,7 +3,7 @@
 #include <random>
 #include <boost/multiprecision/gmp.hpp>
 using namespace std;
-using namespace ojlibs::arithmatic;
+using namespace ojlibs;
 namespace bm = boost::multiprecision;
 
 std::mt19937 gen;

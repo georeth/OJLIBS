@@ -3,15 +3,19 @@ link_libraries(gtest_main gtest gmp pthread)
 
 set(test_cases # list all tests here
 	hello_test
+	# data_structure
 	list_test
 	slist_test
 	rbtree_test
-	memorization_test
 	segtree_test
 	segtree2d_test
 	disjoint_set_test
 	sparse_table_test
 	graph_test
+	# algorithm
+	string_test
+	# other
+	memorization_test
 	arith_test
 	linear_test
 	shorthand_test

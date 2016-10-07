@@ -6,7 +6,6 @@
 #include <ojlibs/bit_trick.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
-namespace data_structure { // TO_BE_REMOVED
 
 template <typename T>
 struct segtree2d_traits {
@@ -151,6 +150,5 @@ struct segtree2d {
     }
 };
 
-} // data_structure TO_BE_REMOVED
 } // ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_SEGTREE2D_H_ */

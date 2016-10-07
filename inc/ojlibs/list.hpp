@@ -6,7 +6,6 @@
 #include <ojlibs/intrusive_util.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
-namespace data_structure { // TO_BE_REMOVED
 
 struct list_head {
     struct list_head *prev, *next; // always consistency
@@ -92,7 +91,6 @@ struct intrusive_traits<list_head> {
     using iter_type = list_iter<T, field>;
 };
 
-} // data_structure TO_BE_REMOVED
 } // ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_LIST_H_ */

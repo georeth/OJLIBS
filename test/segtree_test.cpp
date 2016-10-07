@@ -3,8 +3,7 @@
 #include <algorithm>
 #include <ojlibs/segtree.hpp>
 using namespace std;
-using namespace ojlibs::data_structure;
-
+using namespace ojlibs;
 
 template <typename T>
 struct max_traits : segtree_traits_crtp<T, max_traits<T>> {

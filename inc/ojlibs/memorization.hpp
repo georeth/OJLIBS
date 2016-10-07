@@ -3,8 +3,8 @@
 
 #include <unordered_map>
 
-namespace ojlibs {
-namespace memorization {
+namespace ojlibs { // TO_BE_REMOVED
+namespace memorization { // TO_BE_REMOVED
 
 // Policy : storage
 template <typename MapType>
@@ -74,7 +74,7 @@ private:
     // in Derived : ret_type func_impl(const arg_type &arg);
 };
 
-} // namespace memorization
-} // namespace ojlibs
+} // namespace memorization TO_BE_REMOVED
+} // namespace ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_ARITHMATIC_H_ */

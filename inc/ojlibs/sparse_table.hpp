@@ -6,7 +6,6 @@
 #include <ojlibs/bit_trick.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
-namespace data_structure { // TO_BE_REMOVED
 
 template <typename T>
 struct max_traits {
@@ -60,7 +59,6 @@ struct sparse_table {
 };
 
 
-} // namespace data_structure TO_BE_REMOVED
 } // namespace ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_SPARSE_TABLE_H_ */

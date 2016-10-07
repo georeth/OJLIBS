@@ -8,8 +8,12 @@
 #ifndef OJLIBS_INC_SHORTHAND_H_
 #define OJLIBS_INC_SHORTHAND_H_
 #include <cstdio>
+#include <cmath>
 #include <cstring>      // memset
 #include <cstdlib>      // malloc
+#include <cstdint>      // int64_t
+#include <cinttypes>    // PRId64 SCNd64
+#include <numeric>      // accumulate, partial_sum, inner_product, iota, adjacent_difference
 #include <vector>
 #include <map>
 #include <set>
@@ -19,9 +23,7 @@
 #include <ojlibs/int_range.hpp>
 
 using namespace std;    // use as solution header. name polution is fine.
-namespace ojlibs { namespace data_structure {}} // TO_BE_REMOVED
 using namespace ojlibs;   // TO_BE_REMOVED
-using namespace ojlibs::data_structure;   // TO_BE_REMOVED
 
 #ifdef LOCAL_JUDGE
 #  define pr_debug(...) fprintf(stderr, __VA_ARGS__)
@@ -33,5 +35,11 @@ template <typename T>
 T &chmax(T &m, const T &v) { if (v > m) m = v; return m; }
 template <typename T>
 T &chmin(T &m, const T &v) { if (v < m) m = v; return m; }
+
+void fio() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+}
 
 #endif /* end of include guard: OJLIBS_INC_SHORTHAND_H_ */

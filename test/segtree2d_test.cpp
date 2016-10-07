@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <ojlibs/segtree2d.hpp>
 using namespace std;
-using namespace ojlibs::data_structure;
+using namespace ojlibs;
 
 
 template <typename T>

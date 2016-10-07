@@ -7,7 +7,6 @@
 #include <ojlibs/rb_tree.hpp>
 using namespace std;
 using namespace ojlibs;
-using namespace ojlibs::data_structure;
 
 struct my_node {
 	struct rb_head head;

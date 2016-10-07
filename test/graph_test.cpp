@@ -11,4 +11,10 @@ TEST(BASIC, basic) {
     g.add_edge(2, 3);
     g.add_edge(3, 5);
     g.add_edge(5, 2);
+
+    for (auto i : range(g.vertex_size())) {
+        for (auto &e : g.edge_list(i)) {
+            cout << e.from << " -> " << e.to << endl;
+        }
+    }
 }

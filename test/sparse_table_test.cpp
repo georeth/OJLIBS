@@ -3,8 +3,6 @@
 #include <gtest/gtest.h>
 #include <ojlibs/sparse_table.hpp>
 #include <ojlibs/shorthand.hpp>
-using namespace std;
-using namespace ojlibs::data_structure;
 
 TEST(BASIC, basic) {
     const int TEST_GROUP = 10;

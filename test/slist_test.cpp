@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <ojlibs/slist.hpp>
 #include <list>
-namespace od = ojlibs::data_structure;
+namespace od = ojlibs;
 using namespace std;
 
 struct int_node {
