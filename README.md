@@ -78,7 +78,9 @@ Strongly Connected Component
 
 Topological Sort (on DAG)
 
-Offline Tarjan LCA(on rooted/rootless tree)
+Offline Tarjan LCA (on rooted/rootless tree)
+
+Network Flow (Dinic)
 
 ## Memorization
 Generic memorization function without virtual function overhead

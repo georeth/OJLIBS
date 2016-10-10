@@ -14,6 +14,7 @@ set(test_cases # list all tests here
 	graph_test
 	# algorithm
 	string_test
+	network_flow_test
 	# other
 	memorization_test
 	arith_test
