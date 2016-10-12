@@ -30,7 +30,7 @@ bool dinic_bfs(graph<EInfo> &g, int s, int t, std::vector<int> &level) {
 }
 
 template<typename W, typename EInfo, typename WVisitor>
-W dinic_dfs(graph<EInfo> &g, int u, int t, int64_t flow, vector<int> &level) {
+W dinic_dfs(graph<EInfo> &g, int u, int t, int64_t flow, std::vector<int> &level) {
     if (u == t) return flow;
     W pushed = 0;
     typename graph<EInfo>::range_type range = g.edge_list(u);
@@ -39,7 +39,7 @@ W dinic_dfs(graph<EInfo> &g, int u, int t, int64_t flow, vector<int> &level) {
         int v = it->to;
         W w = WVisitor::get(it->info);
         if (level[v] == level[u] + 1 && w) {
-            W f = dinic_dfs<W, EInfo, WVisitor>(g, v, t, min(flow, w), level);
+            W f = dinic_dfs<W, EInfo, WVisitor>(g, v, t, std::min(flow, w), level);
             WVisitor::get(it->info) -= f;
             WVisitor::get(g.edges[it.index() ^ 1].info) += f;
             flow -= f;
@@ -49,16 +49,17 @@ W dinic_dfs(graph<EInfo> &g, int u, int t, int64_t flow, vector<int> &level) {
     }
     return pushed;
 }
-// DFS multiple 2.64s 
+
+// requirement of graph : edge[2k] = {u, v} then  edge[2k+1] = {v, u}
 template<typename W, typename EInfo, typename WVisitor = identity_visitor<EInfo>>
 W dinic(graph<EInfo> &g, int s, int t) {
     W flow = 0;
-    vector<int> level(g.vertex_size()); // level[s] = 1
+    std::vector<int> level(g.vertex_size()); // level[s] = 1
     while (dinic_bfs<EInfo, WVisitor>(g, s, t, level)) {
-        // update blocked flow in a single dfs!! 
+        // update blocked flow in a single dfs!!
         // 0.37s vs TLE(> 2.76s) in SPOJ FASTFLOW
         // I've seen so many blogs on DINIC doing dfs in a loop
-        flow += dinic_dfs<W, EInfo, WVisitor>(g, s, t, numeric_limits<W>::max(), level); 
+        flow += dinic_dfs<W, EInfo, WVisitor>(g, s, t, std::numeric_limits<W>::max(), level);
         fill(level.begin(), level.end(), 0);
     }
     return flow;

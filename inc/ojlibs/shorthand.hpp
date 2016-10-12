@@ -1,5 +1,5 @@
 /*
- * if you interested in the reference code here,
+ * if you are interested in the reference code here,
  * see https://github.com/georeth/OJLIBS for more information
  *
  * Solution Author : OJLIBS_CODER_NAME
@@ -32,9 +32,9 @@ using namespace ojlibs;   // TO_BE_REMOVED
 #endif
 
 template <typename T>
-T &chmax(T &m, const T &v) { if (v > m) m = v; return m; }
+bool chmax(T &m, const T &v) { if (v > m) return m = v, true; return false; }
 template <typename T>
-T &chmin(T &m, const T &v) { if (v < m) m = v; return m; }
+bool chmin(T &m, const T &v) { if (v < m) return m = v, true; return false; }
 
 void fio() {
     ios_base::sync_with_stdio(false);
