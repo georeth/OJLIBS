@@ -8,7 +8,9 @@ set(test_cases # list all tests here
 	slist_test
 	rbtree_test
 	segtree_test
+	lazy_segtree_test
 	segtree2d_test
+	bitree_test
 	disjoint_set_test
 	sparse_table_test
 	graph_test
@@ -20,6 +22,7 @@ set(test_cases # list all tests here
 	arith_test
 	linear_test
 	shorthand_test
+	prime_list_test
 )
 
 function(ojlibs_add_test filename)

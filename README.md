@@ -82,6 +82,8 @@ Offline Tarjan LCA (on rooted/rootless tree)
 
 Network Flow (Dinic)
 
+Maximum Bipartitie Matching (Hungarian / Kuhn-Munkres)
+
 ## Memorization
 Generic memorization function without virtual function overhead
 

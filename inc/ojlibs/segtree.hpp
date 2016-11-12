@@ -2,77 +2,58 @@
 #define OJLIBS_INC_SEGTREE_H_
 
 #include <vector>
-#include <type_traits>
 #include <ojlibs/bit_trick.hpp>
-
+#include <ojlibs/binary_operator.hpp>
 namespace ojlibs { // TO_BE_REMOVED
-
-template <typename T, typename Derived>
-struct segtree_traits_crtp {
-    static void assoc_inplace_left(T &left, const T &right) {
-        left = assoc(left, right);
-    }
-    static void assoc_inplace_right(T &right, const T &left) {
-        right = assoc(left, right);
-    }
-    static void assoc_inplace(T &value, const T &inc) {
-        value = assoc(value, inc);
-    }
-    static T assoc(const T &x, const T &y) {
-        return Derived::assoc(x, y);
-    }
-    // In Derived
-    //      assoc(x, y)
-    //      commutative (true_type / false_type)
-};
-
-template <typename T>
-struct plus_traits : segtree_traits_crtp<T, plus_traits<T>> {
-    typedef std::true_type commutative;
-    static T assoc(const T &x, const T &y) { return x + y; }
-};
-
-template <typename T, typename traits_type = plus_traits<T>, bool flavour_one = true>
-struct segtree {
-    std::vector<T> vec;
-    int size; // size of last layer
-    int offset;
-    segtree(int n) {
-        size = n;
-        offset = ceil_pow2(n);
-        vec.resize(size + offset + 1); // real size += 1 (last leaf has dummy sibling)
-    }
-    void rebuild() {
-        for (int i = (offset + size - 1) / 2; i > 0; --i){
-            vec[i] = traits_type::assoc(vec[i + i], vec[i + i + 1]);
-        }
+// there are two flavours of normal segment tree:               TO_BE_REMOVED
+//      update element, query range                             TO_BE_REMOVED
+//   OR update range, query element                             TO_BE_REMOVED
+// see lazy_segtree.hpp for a more powerful segment tree        TO_BE_REMOVED
+// that supports all operations in time O(log N)                TO_BE_REMOVED
+#define COMMON_CODE \
+    Op op; \
+    std::vector<T> vec; \
+    int size; /* size of last layer */ \
+    int offset; \
+    segtree(int n) { \
+        size = n; \
+        offset = ceil_pow2(n); \
+        vec.resize(size + offset + 1, op.identity()); /* ensure every leaf has sibling */ \
+    } \
+    T &operator[](int i) { \
+        return vec[offset + i]; \
     }
 
-    // Flavour I : update element, query range
+template <typename T, typename Op = binary_plus<T>, bool flavour_one = true>
+struct segtree;
+
+template <typename T, typename Op>
+struct segtree<T, Op, true>
+{
+    // Flavour I : update element, query range (also query element by operator[])
     //          value(element) = vec[element+offset]
-    //          vec[p] = assoc(vec[2p], vec[2p+1]) always holds
-
+    //          vec[p] = op(vec[2p], vec[2p+1]) always holds
+    COMMON_CODE
+    void rebuild() {
+        for (int i = (offset + size - 1) / 2; i > 0; --i)
+            vec[i] = op(vec[i + i], vec[i + i + 1]);
+    }
     void increase_element(int p, const T &n) {
-        static_assert(flavour_one, "flavour_one expected"); // TO_BE_REMOVED
-        static_assert(traits_type::commutative::value, // TO_BE_REMOVED
-                "increase_element requires commutative, use update_element instead"); // TO_BE_REMOVED
         for (p += offset; p; p >>= 1)
-            traits_type::assoc_inplace(vec[p], n);
+            vec[p] = op(vec[p], n);
     }
     void update_element(int p, const T &n) {
-        static_assert(flavour_one, "flavour_one expected"); // TO_BE_REMOVED
         p += offset;
         vec[p] = n;
         while (p >>= 1)
-            vec[p] = traits_type::assoc(vec[p + p], vec[p + p + 1]);
+            vec[p] = op(vec[p + p], vec[p + p + 1]);
     }
     T query_range(int s, int t) {
-        static_assert(flavour_one, "flavour_one expected"); // TO_BE_REMOVED
         return query_include(s, t - 1);
     }
     T query_include(int s, int t) {
-        static_assert(flavour_one, "flavour_one expected"); // TO_BE_REMOVED
-        if (s > t) return T();
+        // order is important if op is not commutative
+        if (s > t) return op.identity();
         s += offset;
         t += offset;
         T left_acc = vec[s];
@@ -80,66 +61,53 @@ struct segtree {
         T right_acc = vec[t];
         // query exclude ]s, t[ next
         for (; s^t^1; s>>=1, t>>=1) {
-            if (~s & 1) traits_type::assoc_inplace_left(left_acc, vec[s^1]);
-            if (t & 1) traits_type::assoc_inplace_right(right_acc, vec[t^1]);
+            if (~s & 1) left_acc = op(left_acc, vec[s^1]);
+            if (t & 1) right_acc = op(vec[t^1], right_acc);
         }
-        return traits_type::assoc(left_acc, right_acc);
+        return op(left_acc, right_acc);
     }
-
-    // Flavour II : query element, update range
-    //          value(element) = sum{j}{vec[(element+offset)/2^j]}
-
+};
+template <typename T, typename Op>
+struct segtree<T, Op, false>
+{
+    // Flavour II : query element, increase range (also increase element by operator[])
+    //          Op must be commutative
+    //          value(element) = sum{j}{vec[(element+offset)/2^j]} (aggregate all values above it)
+    COMMON_CODE
     T query_element(int p){
-        static_assert(!flavour_one, "flavour_two expected"); // TO_BE_REMOVED
-        static_assert(traits_type::commutative::value, // TO_BE_REMOVED
-                "increase_element requires commutative, use update_element instead"); // TO_BE_REMOVED
-        T ret = T();
+        T ret = op.identity();
         for (p += offset; p; p >>= 1)
-            traits_type::assoc_inplace(ret, vec[p]);
+            ret = op(ret, vec[p]);
         return ret;
     }
     void increase_range(int s, int t, const T &inc) {
-        static_assert(!flavour_one, "flavour_two expected"); // TO_BE_REMOVED
-        static_assert(traits_type::commutative::value, // TO_BE_REMOVED
-                "increase_element requires commutative, use update_element instead"); // TO_BE_REMOVED
         return increase_include(s, t - 1, inc);
     }
     void increase_include(int s, int t, const T &inc) {
-        static_assert(!flavour_one, "flavour_two expected"); // TO_BE_REMOVED
-        static_assert(traits_type::commutative::value, // TO_BE_REMOVED
-                "increase_element requires commutative, use update_element instead"); // TO_BE_REMOVED
         if (s > t) return;
         s += offset;
         t += offset;
-        traits_type::assoc_inplace(vec[s], inc);
+        vec[s] = op(vec[s], inc);
         if (s == t) return;
-        traits_type::assoc_inplace(vec[t], inc);
+        vec[t] = op(vec[t], inc);
         // query exclude ]s, t[ next
         for (; s^t^1; s>>=1, t>>=1) {
-            if (~s & 1) traits_type::assoc_inplace(vec[s^1], inc);
-            if (t & 1) traits_type::assoc_inplace(vec[t^1], inc);
+            if (~s & 1) vec[s^1] = op(vec[s^1], inc);
+            if (t & 1) vec[t^1] = op(vec[t^1], inc);
         }
         return;
     }
     // apply internal nodes to leaves, so operator[] gets query_element
     void flatten() {
-        static_assert(!flavour_one, "flavour_two expected"); // TO_BE_REMOVED
-        static_assert(traits_type::commutative::value, // TO_BE_REMOVED
-                "flatten requires commutative"); // TO_BE_REMOVED
         for (int i = 1; i < offset; ++i) {
             if (i + i < offset + size) {
-                traits_type::assoc_inplace(vec[i + i], vec[i]);
-                traits_type::assoc_inplace(vec[i + i + 1], vec[i]); // dummy sibling doesn't matter
+                vec[i + i] = op(vec[i + i], vec[i]);
+                vec[i + i + 1] = op(vec[i + i + 1], vec[i]); // dummy sibling doesn't matter
             } else break;
-            vec[i] = T();
+            vec[i] = op.identity();
         }
     }
-    // Flavour I  : set initial value for element
-    // Flavour II : update single element (range length = 1), or query after flatten
-    T &operator[](int i) {
-        return vec[offset + i];
-    }
 };
-
+#undef COMMON_CODE
 } // ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_SEGTREE_H_ */

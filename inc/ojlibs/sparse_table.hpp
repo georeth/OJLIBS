@@ -4,57 +4,35 @@
 #include <vector>
 #include <algorithm>
 #include <ojlibs/bit_trick.hpp>
+#include <ojlibs/binary_operator.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
-template <typename T>
-struct max_traits {
-    T assoc(const T &left, const T &right) {
-        return std::max(left, right);
-    }
-    void assoc_inplace(T &left, const T &right) {
-        left = assoc(left, right);
-    }
-};
 
-template<typename T, typename IdempotentTraits = max_traits<T> >
+template<typename T, typename Op = binary_max<T>>
 struct sparse_table {
-    template <typename E>
-    using tabular = std::vector<std::vector<E>>;
-    IdempotentTraits traits;
+    // Op should be idempotent
+    Op op;
+    int size;
+    std::vector<std::vector<T>> arr;
 
-    int r, c;
-    tabular<tabular<T>> arr;
-    sparse_table(int r, int c) : r(r), c(c) {
-        tabular<T> table(r, std::vector<T>(c));
-        arr.resize(floor_log2(r) + 1, std::vector<tabular<T>>(floor_log2(c) + 1, table));
+    sparse_table(int size) : size(size), arr(floor_log2(size) + 1, std::vector<T>(size, op.identity())) { }
+    std::vector<T> &data() {
+        return arr[0];
     }
-    std::vector<std::vector<T>> &data() {
-        return arr[0][0];
+    T &operator[](int i) {
+        return arr[0][i];
     }
     void rebuild() {
-        for (int pi = 0; pi < arr.size(); ++pi)
-        for (int pj = 0; pj < arr[0].size(); ++pj)
-            for (int i = 0; i + (1 << pi) <= r; ++i)
-            for (int j = 0; j + (1 << pj) <= c; ++j) {
-                if (pi == 0 && pj == 0) continue;
-                else if (pi == 0) arr[pi][pj][i][j] = traits.assoc(arr[pi][pj - 1][i][j],
-                        arr[pi][pj - 1][i][j + (1 << (pj - 1))]);
-                else arr[pi][pj][i][j] = traits.assoc(arr[pi - 1][pj][i][j],
-                        arr[pi - 1][pj][i + (1 << (pi - 1))][j]);
-            }
+        for (int pi = 1; pi < arr.size(); ++pi)
+            for (int i = 0; i + (1 << pi) <= size; ++i)
+                arr[pi][i] = op(arr[pi - 1][i], arr[pi - 1][i + (1 << (pi - 1))]);
     }
-    T query_range(int x1, int y1, int x2, int y2) {
-        if (x1 >= x2 || y1 >= y2) return T();
+    T query_range(int x1, int x2) {
+        if (x1 >= x2) return op.identity();
         int px = floor_log2(x2 - x1);
-        int py = floor_log2(y2 - y1);
 
-        const tabular<T> &tab = arr[px][py];
-        T ans = tab[x1][y1];
-        traits.assoc_inplace(ans, tab[x1][y2 - (1 << py)]);
-        traits.assoc_inplace(ans, tab[x2 - (1 << px)][y1]);
-        traits.assoc_inplace(ans, tab[x2 - (1 << px)][y2 - (1 << py)]);
-        return ans;
+        return op(arr[px][x1], arr[px][x2 - (1 << px)]);
     }
 };
 

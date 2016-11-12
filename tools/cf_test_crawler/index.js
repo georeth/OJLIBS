@@ -13,7 +13,7 @@ function parse_body(body) {
     // console.log($('.sample-tests').html());
     // console.log($('.sample-tests').text());
 
-    fs.mkdir('test');
+    fs.mkdirSync('test');
     let tests = $('.sample-test');
     for (let i = 0; i < tests.length; ++i) {
         let test = tests[i];
@@ -44,7 +44,7 @@ function parse_body(body) {
 }
 
 function crawl_problem(url) {
-    let arg = {url: url, followRedirect: false}
+    let arg = {url: url, followRedirect: false};
     request(arg, function(err, res, body) {
         if (err) {
             console.log("http request failed");

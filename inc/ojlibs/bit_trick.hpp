@@ -37,13 +37,6 @@ static inline int msb32(unsigned int x) {
     return x & ~(x >> 1);
 }
 
-struct key_identity {
-    template<typename T>
-	const T &operator() (const T &x) {
-	    return x;
-	}
-};
-
 } // ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_BIT_TRICK_H_ */

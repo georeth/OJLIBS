@@ -15,10 +15,11 @@
 #include <cinttypes>    // PRId64 SCNd64
 #include <numeric>      // accumulate, partial_sum, inner_product, iota, adjacent_difference
 #include <vector>
+#include <deque>
 #include <map>
 #include <set>
 #include <tuple>        // pair, tuple
-#include <iostream>
+// #include <iostream>  // no iostream, many drawbacks (mix cstdio with fio, bad performance 2x)
 #include <algorithm>
 #include <ojlibs/int_range.hpp>
 
@@ -36,10 +37,12 @@ bool chmax(T &m, const T &v) { if (v > m) return m = v, true; return false; }
 template <typename T>
 bool chmin(T &m, const T &v) { if (v < m) return m = v, true; return false; }
 
+/*
 void fio() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
 }
+*/
 
 #endif /* end of include guard: OJLIBS_INC_SHORTHAND_H_ */
