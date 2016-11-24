@@ -18,10 +18,10 @@ ojlibs::graph<double> random_weighted_graph(int size_v, int size_e) {
 
     // connected undirected graph
     while (roots.size() > 1) {
-        int x = uni(0, roots.size() - 1)(gen);
+        int x = uni(0, (int)roots.size() - 1)(gen);
         swap(roots[0], roots[x]);
         x = 0;
-        int y = uni(1, roots.size() - 1)(gen);
+        int y = uni(1, (int)roots.size() - 1)(gen);
         swap(roots[1], roots[y]);
         y = 1;
 

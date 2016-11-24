@@ -98,7 +98,7 @@ free_y_found:
         }
     }
     hungarian(const std::vector<std::vector<W>> &cost) 
-        : cost(cost), n(cost.size()), lx(n), ly(n),
+        : cost(cost), n((int)cost.size()), lx(n), ly(n),
           xy(n, -1), yx(n, -1)
     {
         initial_labelling();

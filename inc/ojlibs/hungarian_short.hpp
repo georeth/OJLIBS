@@ -24,7 +24,7 @@ struct hungarian_short {
         return false;
     }
     hungarian_short(const std::vector<std::vector<W>> &cost)
-        : n(cost.size()), cost(cost), visit_x(n), visit_y(n), lx(n), ly(n), yx(n, -1)
+        : n((int)cost.size()), cost(cost), visit_x(n), visit_y(n), lx(n), ly(n), yx(n, -1)
     {
         for (int x = 0; x < n; ++x) {
             lx[x] = cost[x][0];

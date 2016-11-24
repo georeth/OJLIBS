@@ -90,7 +90,7 @@ TEST(BASIC, operator) {
 }
 
 TEST(MULT, random) {
-    std::uniform_real_distribution<double> dis(-100, 100);
+    std::uniform_int_distribution<> dis(-100, 100);
     std::mt19937 gen;
 
     const int TEST_SIZE = 20;

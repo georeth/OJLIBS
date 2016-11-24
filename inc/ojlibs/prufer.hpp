@@ -44,7 +44,7 @@ static std::vector<std::pair<int, int>> prufer_to_tree(const std::vector<int> &p
     // V : set of vertices [offset, offset + n[
     // D[u] : number of occurence (degree + 1) (0 is monovalent)
     // M : set of monovalent vertex
-    int offset = prufer.back() - prufer.size();
+    int offset = prufer.back() - (int)prufer.size();
     std::vector<int> D(prufer.size() + 1);
     std::set<int> M;
     std::vector<std::pair<int, int>> tree;

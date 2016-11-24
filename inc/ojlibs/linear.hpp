@@ -48,7 +48,7 @@ public:
         return scalar(r, traits.one());
     }
     static matrix diagonal(const std::vector<T> &diag) {
-        int r = diag.size();
+        int r = (int)diag.size();
         matrix ret(r, r);
         for (int i = 0; i < r; ++i)
             ret.data[i][i] = diag[i];
@@ -56,10 +56,10 @@ public:
     }
     void swap(matrix &that) { std::swap(data, that.data); }
     // accessor
-    int r() const { return data.size(); }
+    int r() const { return (int)data.size(); }
     int c() const {
         if (data.size())
-            return data[0].size();
+            return (int)data[0].size();
         return 0;
     }
     const std::vector<T> &operator[](int m) const { return data[m]; }
@@ -172,7 +172,7 @@ void swap(matrix<T, Ring> &p1, matrix<T, Ring> &p2) {
 // utility
 template <typename T, template <typename> class Ring = ring_traits>
 matrix<T, Ring> permutation_matrix(const std::vector<int> &p) {
-    int n = p.size();
+    int n = (int)p.size();
     Ring<T> traits;
     matrix<T, Ring> P(n, n);
     for (int i = 0; i < n; ++i)

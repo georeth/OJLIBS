@@ -28,9 +28,9 @@ struct linear_op {
 
 TEST(BASIC, random) {
     const int TEST_GROUP = 20;
-    const int TEST_SIZE = 4;
-    const int TEST_NUM = 4;
-    typedef int flt_t;
+    const int TEST_SIZE = 40;
+    const int TEST_NUM = 100;
+    typedef double flt_t;
     for (int tg = 0; tg < TEST_GROUP; ++tg) {
         lazy_segtree<flt_t, binary_plus<flt_t>, linear_op> seg(TEST_SIZE);
         vector<flt_t> vec(TEST_SIZE);

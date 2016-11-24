@@ -22,13 +22,13 @@ void test_gcd(int a, int b) {
 	ASSERT_EQ(0, b % g);
 	ASSERT_EQ(1, gcd(a / g, b / g));
 
-	int sum = (int64_t)a * x + (int64_t)b * y;
+	int64_t sum = (int64_t)a * x + (int64_t)b * y;
 	ASSERT_EQ(g, sum);
 
 	int64_t m = lcm<int64_t, int>(a, b);
 	ASSERT_EQ(0, m % a);
 	ASSERT_EQ(0, m % b);
-	ASSERT_EQ(1, gcd<int>(m / a, m / b));
+	ASSERT_EQ(1, gcd((int)(m / a), (int)(m / b)));
 }
 
 TEST(GCD, Random) {
@@ -104,7 +104,7 @@ TEST(CRTN, BasicRandom) {
 	std::uniform_int_distribution<> dis(0, 100);
 	for (int i = 0; i < TEST_SIZE; ++i) {
 		vector<int> as = {dis(gen), dis(gen), dis(gen)};
-		int r = crtn(as, ms);
+		int64_t r = crtn(as, ms);
 		ASSERT_EQ(0, (r - as[0]) % ms[0]);
 		ASSERT_EQ(0, (r - as[1]) % ms[1]);
 		ASSERT_EQ(0, (r - as[2]) % ms[2]);

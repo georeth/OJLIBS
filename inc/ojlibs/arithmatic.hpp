@@ -59,7 +59,7 @@ template <typename Int, typename TInt = int64_t>
 Int mul_mod(Int a, Int b, Int m) {
     TInt p = a;
     p = (p * b) % m;
-    return p;
+    return (Int)p;
 }
 
 template <typename Int, typename PInt, typename TInt = int64_t>
@@ -142,14 +142,14 @@ Int counting(Int L, Int R, Int x0, Int dx) {
     return div_pos_r(R - x0, dx, tmp) - div_pos_r(L - 1 - x0, dx, tmp);
 }
 
-template <typename Int>
-Int crtn(const std::vector<Int> &as, const std::vector<Int> &ms) {
+template <typename Int, typename TInt = int64_t>
+TInt crtn(const std::vector<Int> &as, const std::vector<Int> &ms) {
     // Pre condition :
     //                 pairwise coprime
-    Int r = 1;
-    Int m = 1;
+    TInt r = 1;
+    TInt m = 1;
     for (int i = 0; i < as.size(); ++i) {
-        r = crt2(r, m, as[i], ms[i]);
+        r = crt2<TInt, TInt>(r, m, as[i], ms[i]);
         m *= ms[i];
     }
     return r;

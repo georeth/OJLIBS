@@ -23,7 +23,7 @@ struct graph {
     std::vector<int> heads;
     std::vector<edge_type> edges;
 
-    int vertex_size() const { return heads.size(); }
+    int vertex_size() const { return (int)heads.size(); }
     int edge_size() const { return top; }
     void add_edge(int s, int t, const EInfo &info = EInfo()) {
         int edge_idx = top++;
