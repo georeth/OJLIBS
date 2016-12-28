@@ -17,6 +17,8 @@ set(test_cases # list all tests here
 	# algorithm
 	string_test
 	network_flow_test
+	# todo : push_relabel_test
+	# todo : kmp_test
 	prufer_test
 	mst_test
 	# other

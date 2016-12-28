@@ -28,8 +28,10 @@ using namespace ojlibs;   // TO_BE_REMOVED
 
 #ifdef LOCAL_JUDGE
 #  define pr_debug(...) fprintf(stderr, __VA_ARGS__)
+#  define pr_line() fprintf(stderr, "%s: %d\n", __FILE__, __LINE__)
 #else
 #  define pr_debug(...)
+#  define pr_line()
 #endif
 
 template <typename T>

@@ -28,11 +28,17 @@ struct int_iter {
     typedef std::random_access_iterator_tag iterator_category;
 };
 
-typedef iter_range<int_iter<>> range_t;
-range_t range(int b, int e) { return {int_iter<>(b), int_iter<>(e > b ? e : b)}; }
-range_t range(int n) { return range(0, n); }
-range_t nrange(int n) { return range(1, n+1); }
-range_t inrange(int b, int e) { return range(b, e + 1); }
+template <typename Int>
+using int_range = iter_range<int_iter<Int>>;
+
+template <typename Int>
+int_range<Int> range(Int b, Int e) { return {int_iter<Int>(b), int_iter<Int>(e > b ? e : b)}; }
+template <typename Int>
+int_range<Int> range(Int n) { return range(Int(), n); }
+template <typename Int>
+int_range<Int> nrange(Int n) { return range(Int(1), Int(n+1)); }
+template <typename Int>
+int_range<Int> inrange(Int b, Int e) { return range(b, Int(e + 1)); }
 
 } // ojlibs TO_BE_REMOVED
 

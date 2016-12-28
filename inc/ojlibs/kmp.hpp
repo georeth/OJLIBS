@@ -40,8 +40,11 @@ It kmp_match(It b, It e, PIt pattern, const std::vector<int> &prefix_func) {
     return b;
 }
 
-template <typename It, typename PIt, typename OIt>
-It kmp_traverse(It b, It e, PIt pattern, OIt output, const std::vector<int> &prefix_func) {
+template <typename It, typename PIt>
+vector<int> kmp_traverse(It b, It e, PIt pattern, const std::vector<int> &prefix_func) {
+    typename std::iterator_traits<It>::difference_type length = e - b;
+    vector<int> ret(length);
+    auto output = ret.begin();
     // difference from build : start from the first character
     int match = 0;
     while (b != e) {
@@ -53,7 +56,7 @@ It kmp_traverse(It b, It e, PIt pattern, OIt output, const std::vector<int> &pre
         *(output++) = match;
         ++b;
     }
-    return b;
+    return ret;
 }
 
 } // namespace ojlibs TO_BE_REMOVED

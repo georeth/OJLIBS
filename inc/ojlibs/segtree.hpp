@@ -10,6 +10,10 @@ namespace ojlibs { // TO_BE_REMOVED
 //   OR update range, query element                             TO_BE_REMOVED
 // see lazy_segtree.hpp for a more powerful segment tree        TO_BE_REMOVED
 // that supports all operations in time O(log N)                TO_BE_REMOVED
+//                                                              TO_BE_REMOVED
+// the operation must be commutative. if the result             TO_BE_REMOVED
+// depends on the order, use lazy_segtree instead.              TO_BE_REMOVED
+// (cannot implement for bottom-up segment tree)                TO_BE_REMOVED
 #define COMMON_CODE \
     Op op; \
     std::vector<T> vec; \
@@ -40,7 +44,7 @@ struct segtree<T, Op, true>
     }
     void increase_element(int p, const T &n) {
         for (p += offset; p; p >>= 1)
-            vec[p] = op(vec[p], n);
+            vec[p] = op(n, vec[p]);
     }
     void update_element(int p, const T &n) {
         p += offset;
@@ -77,7 +81,7 @@ struct segtree<T, Op, false>
     T query_element(int p){
         T ret = op.identity();
         for (p += offset; p; p >>= 1)
-            ret = op(ret, vec[p]);
+            ret = op(vec[p], ret);
         return ret;
     }
     void increase_range(int s, int t, const T &inc) {
@@ -87,13 +91,13 @@ struct segtree<T, Op, false>
         if (s > t) return;
         s += offset;
         t += offset;
-        vec[s] = op(vec[s], inc);
+        vec[s] = op(inc, vec[s]);
         if (s == t) return;
-        vec[t] = op(vec[t], inc);
+        vec[t] = op(inc, vec[t]);
         // query exclude ]s, t[ next
         for (; s^t^1; s>>=1, t>>=1) {
-            if (~s & 1) vec[s^1] = op(vec[s^1], inc);
-            if (t & 1) vec[t^1] = op(vec[t^1], inc);
+            if (~s & 1) vec[s^1] = op(inc, vec[s^1]);
+            if (t & 1) vec[t^1] = op(inc, vec[t^1]);
         }
         return;
     }
@@ -101,8 +105,8 @@ struct segtree<T, Op, false>
     void flatten() {
         for (int i = 1; i < offset; ++i) {
             if (i + i < offset + size) {
-                vec[i + i] = op(vec[i + i], vec[i]);
-                vec[i + i + 1] = op(vec[i + i + 1], vec[i]); // dummy sibling doesn't matter
+                vec[i + i] = op(vec[i], vec[i + i]);
+                vec[i + i + 1] = op(vec[i], vec[i + i + 1]); // dummy sibling doesn't matter
             } else break;
             vec[i] = op.identity();
         }

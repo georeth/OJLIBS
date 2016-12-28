@@ -14,6 +14,12 @@ struct binary_plus {
     T operator()(const T &t1, const T &t2) const { return t1 + t2; }
     T negate(const T &t) { return -t; }
 };
+template <typename T, T MOD>
+struct modular_plus {
+    T identity() const { return T(); }
+    T operator()(const T &t1, const T &t2) const { return (t1 + t2) % MOD; }
+    T negate(const T &t) { return (MOD - t) % MOD; }
+};
 template <typename T>
 struct binary_xor {
     T identity() const { return T(); }
