@@ -26,10 +26,14 @@ slist: singly-linked list
 
 rbtree: red-black tree
 
+treap, sbtree, splay, link-cut tree. (TODO)
+
 ## Special Data structures
 Disjoint Set
 
-Segment Tree
+Bit Index Tree (a.k.a Fenwick Tree)
+
+Segment Tree (flavour I/II, and lazy)
 
 ## Arithmatic
 Division with fixed rounding direction
@@ -44,10 +48,16 @@ Modular Arithmatic
 
 Chinese Remainder Theorem
 
-## Multiprecision
-(TODO)
+## Mathematics Structure (TODO)
+Permutaion, Combination, Subset.
 
-Big Number
+Generator.
+
+Mobius Inversion.
+
+Subset Inversion.
+
+Karatsuba, FFT, Multiprecision.
 
 ## Linear Algebra
 Matrix
@@ -58,17 +68,25 @@ Arithmatic operation (naive implementation)
 
 Determinant
 
-## Computation Geometry
-(TODO)
+## Computational Geometry
+Vector Arithmatic (Linear, Dot, Cross, Directed area, Distance)
 
-Vector
+Geometry Transform (TODO)
 
-Geometry Transform
+Closest pair of points
+
+## String Processing
+
+KMP
+
+Z-Function
+
+Suffix Array (SA-IS algorithm : linear time construction)
+
+AC-Automaton(TODO)
 
 ## Graph Theory
 A Generic Graph Implementation
-
-(TODO)
 
 DFS / BFS
 
@@ -83,6 +101,8 @@ Offline Tarjan LCA (on rooted/rootless tree)
 Network Flow (Dinic)
 
 Maximum Bipartitie Matching (Hungarian / Kuhn-Munkres)
+
+Eular Walk (TODO : support removing edge in graph)
 
 ## Memorization
 Generic memorization function without virtual function overhead
