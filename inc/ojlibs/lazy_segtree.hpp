@@ -8,6 +8,8 @@
 namespace ojlibs { // TO_BE_REMOVED
 // a top-down segment tree, combining of flavour I/II normal segment tree
 // that support O(log N) range update and range query by using lazy propagation
+//
+// size is power of two, O(1) direct element query
 
 // the functor F implements :
 //      F() : identity function

@@ -13,6 +13,7 @@
 #include <cstdlib>      // malloc
 #include <cstdint>      // int64_t
 #include <cinttypes>    // PRId64 SCNd64
+#include <cassert>      // assert
 #include <numeric>      // accumulate, partial_sum, inner_product, iota, adjacent_difference
 #include <vector>
 #include <deque>

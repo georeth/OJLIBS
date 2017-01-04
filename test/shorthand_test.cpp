@@ -8,7 +8,7 @@ TEST(BASIC, range_test) {
     for (int i = 0; i < 100; ++i)
         vec.push_back(i);
 
-    range_t r = range(100);
+    int_range<> r = range(100);
     vector<int> vrange(r.begin(), r.end());
 
     ASSERT_EQ(vec.size(), vrange.size());
