@@ -31,6 +31,9 @@ set(test_cases # list all tests here
 	prime_list_test
 	# geometry
 	geometry_test
+	# inversion
+	mobius_inversion_test
+	subset_inversion_test
 )
 
 function(ojlibs_add_test filename)
