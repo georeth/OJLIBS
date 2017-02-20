@@ -13,6 +13,7 @@
 #include <cstdlib>      // malloc
 #include <cstdint>      // int64_t
 #include <cinttypes>    // PRId64 SCNd64
+#include <cassert>      // assert
 #include <numeric>      // accumulate, partial_sum, inner_product, iota, adjacent_difference
 #include <vector>
 #include <deque>
@@ -28,8 +29,10 @@ using namespace ojlibs;   // TO_BE_REMOVED
 
 #ifdef LOCAL_JUDGE
 #  define pr_debug(...) fprintf(stderr, __VA_ARGS__)
+#  define pr_line() fprintf(stderr, "%s: %d\n", __FILE__, __LINE__)
 #else
 #  define pr_debug(...)
+#  define pr_line()
 #endif
 
 template <typename T>

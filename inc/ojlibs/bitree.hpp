@@ -15,13 +15,13 @@ struct bitree {
     bitree(int size) : vec(size) { }
     T query_include(int e) {
         T ans = op.identity();
+        if (e == -1) return ans;
         while (e != 0)
             ans = op(vec[e], ans), e -= e & -e;
         ans = op(vec[0], ans);
         return ans;
     }
     T query_range(int e) {
-        if (e == 0) return op.identity();
         return query_include(e - 1);
     }
     T query_element(int p) {

@@ -9,6 +9,7 @@ set(test_cases # list all tests here
 	rbtree_test
 	segtree_test
 	lazy_segtree_test
+	implicit_segtree_test
 	segtree2d_test
 	bitree_test
 	disjoint_set_test
@@ -16,7 +17,10 @@ set(test_cases # list all tests here
 	graph_test
 	# algorithm
 	string_test
+	suffix_array_test
 	network_flow_test
+	# todo : push_relabel_test
+	# todo : kmp_test
 	prufer_test
 	mst_test
 	# other
@@ -25,6 +29,11 @@ set(test_cases # list all tests here
 	linear_test
 	shorthand_test
 	prime_list_test
+	# geometry
+	geometry_test
+	# inversion
+	mobius_inversion_test
+	subset_inversion_test
 )
 
 function(ojlibs_add_test filename)

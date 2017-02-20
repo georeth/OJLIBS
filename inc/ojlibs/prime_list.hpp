@@ -45,6 +45,14 @@ prime_factor_t<Int> prime_factor(Int x) {
     return ret;
 }
 
+static bool is_prime_slow(int x) {
+    if (x <= 1) return false;
+    for (int p = 2; p * p <= x; ++p) {
+        while (x % p == 0) return false;
+    }
+    return true;
+}
+
 // x <= plist.size * plist.size
 // O(sqrt(P1(x)) / ln x)
 template <typename Int>

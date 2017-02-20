@@ -36,6 +36,9 @@ static inline int msb32(unsigned int x) {
     x = all_ones(x);
     return x & ~(x >> 1);
 }
+static inline int lsb32(unsigned int x) {
+    return x & -x;
+}
 
 } // ojlibs TO_BE_REMOVED
 
