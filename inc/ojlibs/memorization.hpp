@@ -34,15 +34,15 @@ public:
 
     virtual ~map_memo() { }
     ret_type operator() (const arg_type &arg) {
-        if (map_traits.map_exist(map, arg))
-            return map_traits.map_get(map, arg);
+        if (traits.map_exist(map, arg))
+            return traits.map_get(map, arg);
         ret_type ret = func(arg);
-        map_traits.map_set(map, arg, ret);
+        traits.map_set(map, arg, ret);
         return ret;
     }
 protected:
     virtual ret_type func(const arg_type &arg) = 0;
-    map_traits_type map_traits;
+    map_traits_type traits;
     map_type map;
 };
 
@@ -59,10 +59,10 @@ public:
 
     // shadow : static dispatch
     ret_type operator() (const arg_type &arg) {
-        if (this->map_traits.map_exist(this->map, arg))
-            return this->map_traits.map_get(this->map, arg);
+        if (this->traits.map_exist(this->map, arg))
+            return this->traits.map_get(this->map, arg);
         ret_type ret = static_cast<Derived *>(this)->func_impl(arg);
-        this->map_traits.map_set(this->map, arg, ret);
+        this->traits.map_set(this->map, arg, ret);
         return ret;
     }
 

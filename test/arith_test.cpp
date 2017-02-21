@@ -90,10 +90,6 @@ TEST(CRT2, Random) {
 		bm::mpz_int gs = s;
 		ASSERT_LT(abs(s), bm::mpz_int(m1) * m2);
 		ASSERT_EQ(0, (gs - a1) % m1);
-		if ((gs - a2) % m2 != 0) {
-			printf("%lld = %d + k %d\n", s, a1, m1);
-			printf("%lld = %d + k %d\n", s, a2, m2);
-		}
 		ASSERT_EQ(0, (gs - a2) % m2);
 	}
 }
