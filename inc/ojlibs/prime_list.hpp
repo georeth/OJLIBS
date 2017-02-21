@@ -5,6 +5,8 @@
 #include <vector>
 #include <utility>
 
+// TODO: quadradic residue
+
 namespace ojlibs { // TO_BE_REMOVED
 
 struct prime_list {

@@ -85,6 +85,19 @@ Int inv_mod(Int a, Int m) {
 }
 
 template <typename Int>
+static Int addx_mod(Int u, Int v, Int m) {
+    Int r = u + v;
+    if (r >= m) r -= m;
+    return r;
+}
+template <typename Int>
+static Int subx_mod(Int u, Int v, Int m) {
+    Int r = u - v;
+    if (r < 0) r += m;
+    return r;
+}
+
+template <typename Int>
 Int div_pos_r(Int a, Int b, Int &r) {
     // 3 / 2  = 1 .. 1 (ok)
     // 3 / -2 = -1 .. 1 (ok)
@@ -137,15 +150,15 @@ TInt crt2(Int a1, Int m1, Int a2, Int m2) {
 template <typename Int>
 Int counting(Int L, Int R, Int x0, Int dx) {
     // return number of d, s.t.
-    //                 L <= x0 + d * dx <= R
+    //          L <= x0 + d * dx <= R
     Int tmp;
     return div_pos_r(R - x0, dx, tmp) - div_pos_r(L - 1 - x0, dx, tmp);
 }
 
 template <typename Int, typename TInt = int64_t>
 TInt crtn(const std::vector<Int> &as, const std::vector<Int> &ms) {
-    // Pre condition :
-    //                 pairwise coprime
+    // Pre condition:
+    //          pairwise coprime
     TInt r = 1;
     TInt m = 1;
     for (int i = 0; i < as.size(); ++i) {
@@ -155,13 +168,7 @@ TInt crtn(const std::vector<Int> &as, const std::vector<Int> &ms) {
     return r;
 }
 
-/*
-template <typename Int>
-Int gauss_factorial(Int n, Int m);
-template <typename Int>
-Int factorial_mod(Int n, Int m);
-*/
-
+// TODO :gauss_factorial, factorial_mod.
 template <typename Int>
 Int factorial_exp(Int n, Int p) {
     Int r = 0;
@@ -189,6 +196,17 @@ std::pair<Int, bool> log(Int n, Int b) {
     if (n != 1) frac = true;
     return {ans, frac};
 }
+
+#ifdef OJLIBS_INC_SHORTHAND_H_ // TO_BE_REMOVED
+#define INV_MOD(x)      inv_mod((x), MOD)
+#define MUL_MOD(x, y)   mul_mod((x), (y), MOD)
+#define MULM_MOD(x, y)  (x) = mul_mod((x), (y), MOD)
+#define POW_MOD(x, y)   pow_mod((x), (y), MOD)
+#define ADDX_MOD(x, y)  addx_mod((x), (y), MOD)
+#define ADDM_MOD(x, y)  (x) = addx_mod((x), (y), MOD)
+#define SUBX_MOD(x, y)  subx_mod((x), (y), MOD)
+#define SUBM_MOD(x, y)  (x) = subx_mod((x), (y), MOD)
+#endif /* OJLIBS_INC_SHORTHAND_H_ */ // TO_BE_REMOVED
 
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_ARITHMATIC_H_ */

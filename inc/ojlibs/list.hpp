@@ -84,13 +84,6 @@ iter_range<list_iter<T, field>> list_range(list_head &list) {
     return list_iter<T, field>::make_range(list);
 };
 
-template <>
-struct intrusive_traits<list_head> {
-    using head_type = list_head;
-    template <typename T, head_type T::*field>
-    using iter_type = list_iter<T, field>;
-};
-
 } // ojlibs TO_BE_REMOVED
 
 #endif /* end of include guard: OJLIBS_INC_LIST_H_ */

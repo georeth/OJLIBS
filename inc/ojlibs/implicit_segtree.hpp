@@ -49,7 +49,7 @@ struct implicit_segtree<T, Op, true>
     //          vec[p] = op(vec[2p], vec[2p+1]) always holds
     COMMON_CODE
 
-    void increase_element(node_t &p, const T &n) {
+    void increase_element(int p, const T &n) {
         node_t *root = &pool.front();
         if (p < root->b || p >= root->e) throw 0;
         return increase_element_inner(root, p, n);

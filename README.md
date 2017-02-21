@@ -116,6 +116,11 @@ Generic memorization function without virtual function overhead
 
 - read\_int(), read\_string(), etc.
 
+## TODO
+2-SAT
+
+snippets (dfs, tree, lca, segtree)
+
 # TOOLS
 - Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)
 

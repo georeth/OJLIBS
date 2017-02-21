@@ -1,19 +1,27 @@
 #!/bin/bash
 
 set -e
-for f in test/out*.txt; do
-	fin=${f/out/in}
-	echo Checking $fin $f
+for f in test/in*.txt; do
+	fout=${f/in/out}
+	echo Checking $f $fout
 
 	actual=$(mktemp)
-	./prog < $fin > $actual
-	if ! diff $actual $f; then
+	./prog < $f > $actual
+	if ! [ -r $fout ]; then
 		echo "===  input   ==="
-		cat $fin
+		cat $f
+		echo "===  actual  ==="
+		cat $actual
+		echo "================"
+		echo "No $fout found"
+		echo "================"
+	elif ! diff $actual $fout; then
+		echo "===  input   ==="
+		cat $f
 		echo "===  actual  ==="
 		cat $actual
 		echo "=== expected ==="
-		cat $f
+		cat $fout
 		echo "================"
 	fi
 	rm $actual

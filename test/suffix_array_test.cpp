@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 std::mt19937 gen;
-std::string avail = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+std::string avail = "abcd";
 using uni = std::uniform_int_distribution<>;
 
 std::string random_string(int len) {
@@ -28,6 +28,13 @@ bool is_valid(const vector<int> &sa, const string &s) {
 	if (s.substr(sa[i - 1]) >= s.substr(sa[i])) return printf("my 3\n"), false;
     return true;
 }
+int longest_common_prefix(const string &s1, const string &s2) {
+    int k = 0;
+    while (k < s1.size() && k < s2.size() && s1[k] == s2[k])
+	++k;
+    return k;
+}
+
 TEST(BASIC, corner) {
     std::string str = "";
     std::vector<int> sa = ojlibs::suffix_array(str.begin(), str.end());
@@ -41,9 +48,11 @@ TEST(BASIC, random) {
 	std::string str = random_string(uni(100, 1000)(gen));
 	std::vector<int> sa = ojlibs::suffix_array(str.begin(), str.end());
 	EXPECT_TRUE(is_valid(sa, str));
-	if (!is_valid(sa, str)) {
-	    for (int k : sa)
-		cout << str.substr(k) << endl;
-	}
+
+	std::vector<int> lcp = ojlibs::lcp_from_sa(str.begin(), sa);
+
+	EXPECT_EQ(lcp[0], 0);
+	for (int i = 1; i < (int)sa.size(); ++i)
+	    EXPECT_EQ(lcp[i], longest_common_prefix(str.substr(sa[i]), str.substr(sa[i - 1])));
     }
 }

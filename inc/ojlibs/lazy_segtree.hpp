@@ -4,6 +4,10 @@
 #include <vector>
 #include <ojlibs/bit_trick.hpp>
 #include <ojlibs/binary_operator.hpp>
+// TODO : early return (pruning)
+
+// design : the order of lazy and agg is important.
+// agg before lazy is better, just recompute agg from children.
 
 namespace ojlibs { // TO_BE_REMOVED
 // a top-down segment tree, combining of flavour I/II normal segment tree

@@ -367,7 +367,7 @@ struct rb_iterator : BaseIter {
 };
 
 template <typename T, struct rb_head T::*field, typename Key = T,
-	  typename KeyFunc = key_identity, typename KeyCompar = std::less<Key> >
+	  typename KeyFunc = identity_accessor<T>, typename KeyCompar = std::less<Key> >
 struct rb_tree {
 	typedef rb_iterator<T, field> iterator_type;
 
@@ -398,6 +398,20 @@ struct rb_tree {
 				return iterator_type(head);
 		}
 		return {};
+	}
+	iterator_type lower_bound(const Key &key) {
+		rb_head *x = nullptr;
+		rb_head *head = root.head;
+		while (head) {
+			T *cur = member_to_parent(head, field);
+			if (key_compar(key_func(*cur), key)) {
+				cur = cur->right;
+			} else {
+				x = cur;
+				cur = cur->left;
+			}
+		}
+		return iterator_type(x);
 	}
 	iterator_type insert(T *node) {
 		struct rb_head **link = &(root.head), *parent = nullptr;

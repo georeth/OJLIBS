@@ -1,28 +1,34 @@
 #ifndef OJLIBS_INC_INTRUSIVE_UTIL_H_
 #define OJLIBS_INC_INTRUSIVE_UTIL_H_
+#include <functional>
 
 namespace ojlibs { // TO_BE_REMOVED
 
-template<typename P, typename M>
-uintptr_t member_ptr_offset(M P::*field) {
-    P *parent = nullptr;
-    M *member = &(parent->*field);
-    return reinterpret_cast<uintptr_t>(member);
-}
-
-template<typename P, typename M>
-P *member_to_parent(M *member, M P::*field) {
-    uintptr_t ptr = reinterpret_cast<uintptr_t>(member) - member_ptr_offset(field);
-    return reinterpret_cast<P *>(ptr);
-}
-
-struct key_identity {
-    template<typename T>
-    const T &operator() (const T &x) { return x; }
+template <typename P, typename M, M P::*field>
+struct intrusive_helper {
+    typedef P parent_type;
+    typedef M member_type;
+    static constexpr M P::*field_v = field;
+    static uintptr_t get_offset() {
+        P *parent = nullptr;
+        M *member = &(parent->*field);
+        return reinterpret_cast<uintptr_t>(member);
+    }
+    static M *to_member(P *p) { return &(p->*field); }
+    static P *to_parent(M *m) {
+        uintptr_t mm = reinterpret_cast<uintptr_t>(m);
+        return reinterpret_cast<P *>(mm - get_offset());
+    }
 };
-template <typename Head>
-struct intrusive_traits {
-    // head_type, iter_type
+
+template <typename T>
+struct identity_accessor {
+    const T &operator() (const T &x) const { return x; }
+};
+
+template <typename P, typename M, M P::*field>
+struct key_accessor {
+    const M &operator() (const P &p) const { return p.*field; }
 };
 
 } // ojlibs TO_BE_REMOVED

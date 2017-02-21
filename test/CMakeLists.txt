@@ -2,11 +2,12 @@ include(CTest)
 link_libraries(gtest_main gtest gmp pthread)
 
 set(test_cases # list all tests here
-	hello_test
+	# hello_test
 	# data_structure
-	list_test
-	slist_test
-	rbtree_test
+	# list_test
+	# slist_test
+	# rbtree_test
+	sized_splay_test
 	segtree_test
 	lazy_segtree_test
 	implicit_segtree_test
@@ -34,6 +35,7 @@ set(test_cases # list all tests here
 	# inversion
 	mobius_inversion_test
 	subset_inversion_test
+	# test_type_test
 )
 
 function(ojlibs_add_test filename)

@@ -40,12 +40,38 @@ std::vector<int> suffix_array(It b, It e) {
         // MSD radix sort
         sort(ans.begin(), ans.end());
     }
-
     std::vector<int> ret(length);
     for (int i = 0; i < length; ++i)
         ret[i] = ans[i].second;
     return ret;
 }
-    
+// Kasai's algorithm
+// construct LCP from SA in O(n)
+template <typename It>
+std::vector<int> lcp_from_sa(It s, const std::vector<int> &sa) {
+    int n = (int)sa.size();
+    // sa  : rank     -> position
+    // lcp : rank     -> lcp
+    // rank: position -> rank
+    std::vector<int> lcp(n);
+    std::vector<int> rank(n);
+    for (int i = 0; i < n; ++i)
+        rank[sa[i]] = i;
+
+    int k = 0;
+    for (int i = 0; i < n; ++i) {
+        if (rank[i] == 0) {
+            k = 0;
+            continue;
+        }
+        int j = sa[rank[i] - 1];
+        while (i + k < n && j + k < n && s[i + k] == s[j + k])
+            ++k;
+        lcp[rank[i]] = k;
+        if (k) --k;
+    }
+    return lcp;
+}
+
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_SUFFIX_ARRAY_H_ */

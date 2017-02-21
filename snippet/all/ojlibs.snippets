@@ -1,0 +1,201 @@
+priority 0
+
+snippet ojlibs_ns
+namespace ojlibs { // TO_BE_REMOVED
+    $1
+} // namespace ojlibs TO_BE_REMOVED
+endsnippet
+
+snippet fact
+// def
+static const int FMAX = ?;
+int fact[FMAX];
+int C(int n, int m) {
+    return MUL_MOD(fact[n], INV_MOD(MUL_MOD(fact[m], fact[n - m])));
+}
+int H(int n, int m) {
+    return C(n + m - 1, m);
+}
+// code
+fact[0] = 1;
+for (int i : range(1, FMAX))
+    fact[i] = MUL_MOD(fact[i - 1], i);
+
+endsnippet
+
+
+snippet segtree
+// definition
+static const int OFFSET = 2 << 17;
+struct node_t {
+    int b, e;
+    int64_t sum;
+};
+node_t seg[2 * OFFSET];
+    // rebuild
+    for (int i : range(OFFSET)) {
+        seg[i + OFFSET].b = i;
+        seg[i + OFFSET].e = i + 1;
+    }
+    for (int i : rev(range(OFFSET))) {
+        seg[i].b = seg[i + i].b;
+        seg[i].e = seg[i + i + 1].e;
+        seg[i].sum = seg[i + i].sum + seg[i + i + 1].sum;
+    }
+// query
+void query_single(int no, int k, int x) {
+    node_t &cur = seg[no];
+    if (cur.b == k && cur.e == k + 1) {
+        return cur.sum;
+    }
+    int m = (cur.b + cur.e) / 2;
+    if (k < m)
+        query_single(no + no, k, x);
+    else
+        query_single(no + no + 1, k, x);
+
+    // recompute
+    cur.sum = seg[no + no].sum + seg[no + no + 1].sum;
+}
+int64_t query_range(int no, int l, int r) {
+    node_t &cur = seg[no];
+    if (l <= cur.b && r >= cur.e)
+        return cur.sum;
+
+    int64_t ans = 0;
+    int m = (cur.b + cur.e) / 2;
+    if (l < m)
+        ans += query_range(no + no, l, r);
+    if (r > m)
+        ans += query_range(no + no + 1, l, r);
+    return ans;
+}
+endsnippet
+
+snippet dfs_t
+void dfs(int u, int prev) {
+    for (auto &e : g.edge_list(u)) if (e.to != prev) {
+        dfs(e.to, u);
+    }
+}
+endsnippet
+snippet dfs_u
+bool visit[?MAX];
+void dfs(int u) {
+    visit[u] = true;
+    for (auto &e : g.edge_list(u)) if (!visit[e.to]){
+        dfs(e.to);
+    }
+}
+endsnippet
+
+snippet dfs
+int visit[?MAX];
+void dfs(int u) {
+    if (visit[u] == 1)
+        ? on loop
+        throw 0;
+    if (visit[u] == 2)
+        ? visited
+        return;
+    // start time
+    visit[u] = 1;
+    for (auto &edge : g.edge_list(u)) {
+        dfs(e.to);
+    }
+    // finish time
+    visit[u] = 2;
+}
+endsnippet
+
+snippet tarjan_lca
+void tarjan_lca(G &g, Q &q, vector<int> &visit, int u) {
+    visit[u] = 1;
+    for (auto &e : g.edge_list(u)) {
+        if (visit[e.to]) continue;
+        ds.union_if(u, e.to);
+    }
+    visit[u] = 2;
+    for (auto &qe : q.edge_list(u)) {
+        if (visit[qe.to] == 2) {
+            int lca = ds.find(qe.to);
+            query_result[qe.id] = lca;
+        }
+    }
+}
+endsnippet
+
+snippet dijkstra
+void dijkstra(G &g, int u, vector<bool> &visit, vector<int64_t> &dist) {
+    typedef pair<int64_t, int> p_t;
+    priority_queue<p_t, vector<p_t>, std::greater<p_t>> pq;
+    pq.push({0, u});
+
+    while (!pq.empty()) {
+        p_t p = pq.top();
+        pq.pop();
+
+        if (visit[p.second]) continue;
+        visit[p.second] = true;
+        dist[p.second] = p.first;
+        for (auto &e : g.edge_list(p.second)) {
+            if (!visit[e.to]) pq.push({p.first + e.info.length, e.to});
+        }
+    }
+}
+endsnippet
+
+snippet lca
+int depth[100005];
+int parent[100005][20]; // parent[x][j] is 2^j parent of x
+
+// compute parent
+for (int j : range(1, 20)) {
+    for (int u : nrange(n)) {
+        parent[u][j] = parent[parent[u][j-1]][j-1];
+    }
+}
+
+int nth_parent(int u, int p) {
+    int j = 0;
+    while (p) {
+        if (p & 1) u = parent[u][j];
+        ++j;
+        p >>= 1;
+    }
+    return u;
+}
+int lca(int u, int v) {
+    if (depth[u] < depth[v])
+        swap(u, v);
+
+    u = nth_parent(u, depth[u] - depth[v]);
+    if (u == v) return u;
+
+    for (int p = 19; p >= 0; --p)
+        if (parent[u][p] != parent[v][p])
+            u = parent[u][p], v = parent[v][p];
+    return parent[u][0];
+}
+int tree_distance(int u, int v) {
+    int ans = 0;
+    if (depth[u] < depth[v])
+        swap(u, v);
+
+    ans += depth[u] - depth[v];
+    u = nth_parent(u, depth[u] - depth[v]);
+    if (u == v) return ans;
+
+    for (int p = 19; p >= 0; --p)
+        if (parent[u][p] != parent[v][p])
+            u = parent[u][p], v = parent[v][p], ans += (2 << p);
+    return ans + 2;
+}
+endsnippet
+
+snippet mod7
+static const int MOD = 1000000007;
+endsnippet
+snippet mod9
+static const int MOD = 1000000009;
+endsnippet
