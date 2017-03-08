@@ -31,7 +31,7 @@ namespace ojlibs { // TO_BE_REMOVED
 template <typename Int, typename Op = binary_plus<Int>>
 std::vector<Int> mobius_transform(const std::vector<Int> &f, Op op = Op()) {
     std::vector<Int> g = f;
-    int n = (int)f.size();
+    int n = (int)f.size() - 1;
     for (int i = n; i >= 1; --i)
         for (int j = i + i; j <= n; j += i)
             g[j] = op(g[j], g[i]);
@@ -58,7 +58,7 @@ std::vector<Int> mobius_inverse(const std::vector<Int> &g, Op op = Op()) {
     // we don't need a mobius[]
     // just reverse the operatios of mobius_transform
     std::vector<Int> f = g;
-    int n = (int)g.size();
+    int n = (int)g.size() - 1;
     for (int i = 1; i <= n; ++i)
         for (int j = i + i; j <= n; j += i)
             f[j] = op(f[j], op.negate(f[i]));

@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <utility>
+#include <algorithm>
+
 namespace ojlibs { // TO_BE_REMOVED
 
 // A simple O(N log N log N) algorithm using factor doubling and radix sort.
