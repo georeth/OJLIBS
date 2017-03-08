@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/arithmatic.hpp>
+#include <ojlibs/arith.hpp>
+#include <ojlibs/crt.hpp>
 #include <random>
 #include <boost/multiprecision/gmp.hpp>
 using namespace std;
@@ -146,6 +147,7 @@ TEST(DivPosR, Random) {
 	}
 }
 
+/*
 TEST(LOG, Basic) {
 	int e;
 	bool f;
@@ -174,3 +176,4 @@ TEST(LOG, Basic) {
 	ASSERT_EQ(e, 4);
 	ASSERT_EQ(f, true);
 }
+*/
