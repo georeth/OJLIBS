@@ -9,6 +9,7 @@ const cheerio = require("cheerio");
 
 const problem_url = "http://codeforces.com/problemset/problem/%s/%s";
 const contest_url = "http://codeforces.com/contest/%s/problem/%s";
+const gym_url = "http://codeforces.com/gym/%s/problem/%s"
 
 function parse_body(body) {
     let $ = cheerio.load(body);
@@ -70,6 +71,9 @@ function main() {
     } else if (argv.p) {
         assert(argv._.length == 1);
         url = util.format(problem_url, argv.p, argv._[0]);
+    } else if (argv.g) {
+        assert(argv._.length == 1);
+        url = util.format(gym_url, argv.g, argv._[0]);
     } else if (argv.u) {
         url = argv.u
     } else {
