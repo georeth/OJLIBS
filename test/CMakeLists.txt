@@ -27,6 +27,7 @@ set(test_cases # list all tests here
 	# other
 	memorization_test
 	arith_test
+	power_test
 	linear_test
 	shorthand_test
 	prime_list_test

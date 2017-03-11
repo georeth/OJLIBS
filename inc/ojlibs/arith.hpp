@@ -1,14 +1,11 @@
-#ifndef OJLIBS_INC_ARITHMATIC_H_
-#define OJLIBS_INC_ARITHMATIC_H_
+#ifndef OJLIBS_INC_ARITH_H_
+#define OJLIBS_INC_ARITH_H_
 
 #include <cstdint>
 #include <vector>
 #include <limits>
 #include <type_traits>
-#include <utility>
 
-// Suggested Reading : (GTM 138 by Henri Cohen) A course in computational algebraic number theory
-//
 // TODO : use gcc arith extension like __builtin_add_overflow
 
 namespace ojlibs { // TO_BE_REMOVED
@@ -117,85 +114,8 @@ Int div_pos_r(Int a, Int b, Int &r) {
     return q;
 }
 
-template <typename Int, typename TInt = int64_t>
-TInt crt2(Int a1, Int m1, Int a2, Int m2) {
-    // Pre condition: consistency
-    //                 for every (i, j)
-    //                 ai = aj (mod gcd(mi, mj))
-    // Post condition:
-    //         x = a1 (mod m1)
-    //         x = a2 (mod m2)
-    //  |x| < m1 * m2
-    //
-    //  x >= 0 may not hold!!
-    Int k1, k2;
-    Int g = extended_gcd(m1, m2, k1, k2);
-
-    Int r1, r2;
-    a1 = div_pos_r(a1, g, r1);
-    a2 = div_pos_r(a2, g, r2);
-    if (r1 != r2)
-        throw 0;
-    m1 /= g; m2 /= g; // no remainder
-
-    TInt m12 = static_cast<TInt>(m1) * m2;
-    // m1 * k1 + m2 * k2 = 1
-    // a2 * m1 * k1 + a1 * m2 * k2
-    //   = a1 + (a2 - a1) * m1 * k1 = a1 (mod m1)
-    //   = a2 + (a1 - a2) * m2 * k2 = a2 (mod m2)
-    return (static_cast<TInt>(a2) * k1 % m2 * m1 +
-            static_cast<TInt>(a1) * k2 % m1 * m2) % m12 * g + r1;
-}
-
-template <typename Int>
-Int counting(Int L, Int R, Int x0, Int dx) {
-    // return number of d, s.t.
-    //          L <= x0 + d * dx <= R
-    Int tmp;
-    return div_pos_r(R - x0, dx, tmp) - div_pos_r(L - 1 - x0, dx, tmp);
-}
-
-template <typename Int, typename TInt = int64_t>
-TInt crtn(const std::vector<Int> &as, const std::vector<Int> &ms) {
-    // Pre condition:
-    //          pairwise coprime
-    TInt r = 1;
-    TInt m = 1;
-    for (int i = 0; i < as.size(); ++i) {
-        r = crt2<TInt, TInt>(r, m, as[i], ms[i]);
-        m *= ms[i];
-    }
-    return r;
-}
-
-// TODO :gauss_factorial, factorial_mod.
-template <typename Int>
-Int factorial_exp(Int n, Int p) {
-    Int r = 0;
-    while (n) {
-        n = n / p;
-        r += n;
-    }
-    return r;
-}
-
-template <typename Int>
-std::pair<Int, bool> log(Int n, Int b) {
-    // log = 3.3
-    // return (3, true)
-    if (n <= 0)
-        return {-1, true};
-
-    Int ans = 0;
-    bool frac = false;
-    while (n >= b) {
-        frac = frac || (n % b != 0);
-        ans += 1;
-        n /= b;
-    }
-    if (n != 1) frac = true;
-    return {ans, frac};
-}
+// TODO: gauss_factorial, factorial_mod.
+//       log, factorial_exp
 
 #ifdef OJLIBS_INC_SHORTHAND_H_ // TO_BE_REMOVED
 #define INV_MOD(x)      inv_mod((x), MOD)
@@ -209,4 +129,4 @@ std::pair<Int, bool> log(Int n, Int b) {
 #endif /* OJLIBS_INC_SHORTHAND_H_ */ // TO_BE_REMOVED
 
 } // namespace ojlibs TO_BE_REMOVED
-#endif /* end of include guard: OJLIBS_INC_ARITHMATIC_H_ */
+#endif /* end of include guard: OJLIBS_INC_ARITH_H_ */

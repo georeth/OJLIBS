@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/arithmatic.hpp>
+#include <ojlibs/arith.hpp>
+#include <ojlibs/crt.hpp>
 #include <random>
 #include <boost/multiprecision/gmp.hpp>
 using namespace std;
@@ -72,6 +73,30 @@ TEST(InvMod, Random) {
 		ASSERT_EQ(1, ga * gv % gm);
 	}
 }
+
+TEST(InvMod, Euculid) {
+	const int TEST_SIZE = 1000000;
+	const int MOD = 1000000007;
+	std::uniform_int_distribution<> dis(1, MOD - 1);
+	for (int i = 0; i < TEST_SIZE; ++i) {
+		int a = dis(gen);
+		int v = inv_mod(a, MOD);
+
+		ASSERT_EQ(mul_mod(a, v, MOD), 1);
+	}
+}
+TEST(InvMod, Fermet) {
+	const int TEST_SIZE = 1000000;
+	const int MOD = 1000000007;
+	std::uniform_int_distribution<> dis(1, MOD - 1);
+	for (int i = 0; i < TEST_SIZE; ++i) {
+		int a = dis(gen);
+		int v = pow_mod(a, MOD - 2, MOD);
+
+		ASSERT_EQ(mul_mod(a, v, MOD), 1);
+	}
+}
+
 TEST(CRT2, Random) {
 	const int TEST_SIZE = 10000;
 	std::uniform_int_distribution<> dis(-2000000000, 2000000000);
@@ -146,6 +171,7 @@ TEST(DivPosR, Random) {
 	}
 }
 
+/*
 TEST(LOG, Basic) {
 	int e;
 	bool f;
@@ -174,3 +200,4 @@ TEST(LOG, Basic) {
 	ASSERT_EQ(e, 4);
 	ASSERT_EQ(f, true);
 }
+*/
