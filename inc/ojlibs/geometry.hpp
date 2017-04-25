@@ -113,12 +113,12 @@ vec3<T> cross(const vec3<T> &v1, const vec3<T> &v2) {
     ret.z() = v1.x() * v2.y() - v2.x() * v1.y();
     return ret;
 }
-template <typename R, int Dim, typename T>
+template <typename R, typename T>
 R directed_area(const vec2<T> &v1, const vec2<T> &v2, R dummy) {
     // <O, v1, v2>
     return static_cast<R>(v1.x()) * v2.y() - static_cast<R>(v2.x()) * v1.y();
 }
-template <typename R, int Dim, typename T>
+template <typename R, typename T>
 R directed_area(const vec2<T> &v1, const vec2<T> &v2, const vec2<T> &v3, R dummy) {
     // <v1, v2, v3>
     vec2<T> n2 = v2 - v1;

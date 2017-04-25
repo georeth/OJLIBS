@@ -2,12 +2,15 @@
 #define OJLIBS_INC_BINARY_OPERATOR_H_
 #include <algorithm>
 #include <limits>
+#include <ojlibs/arith.hpp>
 namespace ojlibs { // TO_BE_REMOVED
 // a binary operator of semigroup with identity         TO_BE_REMOVED
 // satisfies (a) closure (b) associative (c) identity   TO_BE_REMOVED
 // implements:                                          TO_BE_REMOVED
 //      T identity();                                   TO_BE_REMOVED
 //      T operator()(T t1, T t2);                       TO_BE_REMOVED
+// optionlal:                                           TO_BE_REMOVED
+//      T negate(T t);                                  TO_BE_REMOVED
 template <typename T>
 struct binary_plus {
     T identity() const { return T(); }
@@ -19,6 +22,12 @@ struct modular_plus {
     T identity() const { return T(); }
     T operator()(const T &t1, const T &t2) const { return (t1 + t2) % MOD; }
     T negate(const T &t) { return (MOD - t) % MOD; }
+};
+template <typename T, T MOD, typename TT = int64_t>
+struct modular_times {
+    T identity() const { return 1; }
+    T operator()(const T &t1, const T &t2) const { return mul_mod(t1, t2, MOD); }
+    T negate(const T &t) { return inv_mod(t, MOD); }
 };
 template <typename T>
 struct binary_xor {

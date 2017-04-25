@@ -20,7 +20,20 @@ int H(int n, int m) {
 fact[0] = 1;
 for (int i : range(1, FMAX))
     fact[i] = MUL_MOD(fact[i - 1], i);
+endsnippet
 
+snippet C
+// def
+static const int CMAX = ?;
+int C[CMAX][CMAX];
+
+// init C
+C[0][0] = 1;
+for (int i : range(1, CMAX)) {
+    C[i][0] = C[i][i] = 1;
+    for (int j : range(1, i))
+        C[i][j] = C[i-1][j-1] + C[i-1][j];
+}
 endsnippet
 
 
@@ -193,9 +206,70 @@ int tree_distance(int u, int v) {
 }
 endsnippet
 
+snippet mat
+#define MAT_ZERO 0
+#define MAT_ONE  1
+#define MAT_ADD  ADDX_MOD
+#define MAT_MUL  MUL_MOD
+typedef vector<vector<int>> mat_t;
+mat_t make_mat(int m, int n) { return mat_t(m, vector<int>(n, MAT_ZERO)); }
+mat_t make_eye(int n) {
+    mat_t ret = make_mat(n, n);
+    for (int i = 0; i < n; ++i)
+        ret[i][i] = MAT_ONE;
+    return ret;
+}
+mat_t operator *(const mat_t &m1, const mat_t &m2) {
+    int m = (int)m1.size();
+    int n = (int)m1[0].size();
+    int p = (int)m2[0].size();
+    assert(n == m2.size());
+
+    mat_t ret = make_mat(m, p);
+    for (int i = 0; i < m; ++i)
+        for (int k = 0; k < p; ++k) {
+            int ans = MAT_ZERO;
+            for (int j = 0; j < n; ++j)
+                ans = MAT_ADD(ans, MAT_MUL(m1[i][j], m2[j][k]));
+            ret[i][k] = ans;
+        }
+    return ret;
+}
+endsnippet
+
 snippet mod7
 static const int MOD = 1000000007;
 endsnippet
 snippet mod9
 static const int MOD = 1000000009;
+endsnippet
+snippet maxn
+static const int maxn$1 = 100005;
+endsnippet
+
+snippet dir4
+const int dir[4][2] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+endsnippet
+
+snippet review
+// RECOMMEND : 
+// DIFFICULTY: 
+endsnippet
+
+snippet bsearch
+int? low = ?, high = ?;
+while (high - low > 1) {
+    int? mid = (low + high) / 2;
+    if (?) low = mid;
+    else high = mid;
+}
+endsnippet
+
+snippet fbsearch
+double low = ?, high = ?;
+for (int _ = 0; _ < 150; ++_) {
+    double mid = (low + high) / 2;
+    if (?) low = mid;
+    else high = mid;
+}
 endsnippet

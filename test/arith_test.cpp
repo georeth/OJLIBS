@@ -96,6 +96,22 @@ TEST(InvMod, Fermet) {
 		ASSERT_EQ(mul_mod(a, v, MOD), 1);
 	}
 }
+void crt_test(int a1, int a2, int m1, int m2) {
+	int g = gcd(m1, m2);
+	if (((int64_t)a1 - a2) % g != 0)
+		return;
+
+	int64_t s = crt2(a1, m1, a2, m2);
+	bm::mpz_int gs = s;
+	ASSERT_LT(abs(s), bm::mpz_int(m1) * m2);
+	ASSERT_EQ(0, (gs - a1) % m1);
+	ASSERT_EQ(0, (gs - a2) % m2);
+}
+
+TEST(CRT2, Fixed) {
+	crt_test(999979, 499986, 999983, 499991);
+}
+
 
 TEST(CRT2, Random) {
 	const int TEST_SIZE = 10000;
@@ -107,15 +123,7 @@ TEST(CRT2, Random) {
 		int m1 = mdis(gen);
 		int m2 = mdis(gen);
 
-		int g = gcd(m1, m2);
-		if (((int64_t)a1 - a2) % g != 0)
-			continue;
-
-		int64_t s = crt2(a1, m1, a2, m2);
-		bm::mpz_int gs = s;
-		ASSERT_LT(abs(s), bm::mpz_int(m1) * m2);
-		ASSERT_EQ(0, (gs - a1) % m1);
-		ASSERT_EQ(0, (gs - a2) % m2);
+		crt_test(a1, a2, m1, m2);
 	}
 }
 

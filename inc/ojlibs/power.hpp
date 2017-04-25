@@ -8,8 +8,8 @@ T power(const T &x, PInt p, const T &id = 1) {
     T y = x;
     T r = id;
     while (p) {
-        if (p & 1) r *= y;
-        y *= y;
+        if (p & 1) r = r * y;
+        y = y * y;
         p /= 2;
     }
     return r;

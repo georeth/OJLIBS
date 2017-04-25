@@ -13,9 +13,7 @@ TInt crt2(Int a1, Int m1, Int a2, Int m2) {
     // Post condition:
     //         x = a1 (mod m1)
     //         x = a2 (mod m2)
-    //  |x| < m1 * m2
-    //
-    //  x >= 0 may not hold!!
+    // 0 <= x < m1 * m2
     Int k1, k2;
     Int g = extended_gcd(m1, m2, k1, k2);
 
@@ -31,8 +29,12 @@ TInt crt2(Int a1, Int m1, Int a2, Int m2) {
     // a2 * m1 * k1 + a1 * m2 * k2
     //   = a1 + (a2 - a1) * m1 * k1 = a1 (mod m1)
     //   = a2 + (a1 - a2) * m2 * k2 = a2 (mod m2)
-    return (static_cast<TInt>(a2) * k1 % m2 * m1 +
-            static_cast<TInt>(a1) * k2 % m1 * m2) % m12 * g + r1;
+
+    TInt rr;
+    div_pos_r(static_cast<TInt>(a2) * k1 % m2 * m1 +
+               static_cast<TInt>(a1) * k2 % m1 * m2, m12, rr);
+    return rr * g + r1;
+    // result may be negative!
 }
 
 template <typename Int, typename TInt = int64_t>

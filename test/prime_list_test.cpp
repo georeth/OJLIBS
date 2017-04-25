@@ -25,9 +25,9 @@ TEST(BASIC, correct) {
     const int TEST_COUNT = 1000;
     for (int i = 0; i < TEST_COUNT; ++i) {
         int x = dist(gen);
-        ASSERT_EQ(plist.is_prime[x], naive_is_prime(x));
+        ASSERT_EQ(plist.is_prime(x), naive_is_prime(x));
     }
-    ASSERT_EQ(plist.is_prime[9], naive_is_prime(9));
+    ASSERT_EQ(plist.is_prime(9), naive_is_prime(9));
 }
 
 int64_t dummy; // force evaluation

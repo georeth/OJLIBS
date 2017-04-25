@@ -101,6 +101,7 @@ struct bst_iterator {
     head_ptr cur;
     bst_iterator() { cur = nullptr; }
     explicit bst_iterator(head_ptr head) { cur = head; }
+    explicit bst_iterator(head_type &head) { cur = &head; }
     explicit bst_iterator(value_type *value) { cur = Helper::to_member(value); }
     explicit operator bool() {
         return cur;

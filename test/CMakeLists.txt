@@ -22,10 +22,11 @@ set(test_cases # list all tests here
 	network_flow_test
 	# todo : push_relabel_test
 	# todo : kmp_test
+	trie_ac_test
 	prufer_test
 	mst_test
 	# other
-	memorization_test
+	memoization_test
 	arith_test
 	power_test
 	linear_test
@@ -37,6 +38,8 @@ set(test_cases # list all tests here
 	mobius_inversion_test
 	subset_inversion_test
 	# test_type_test
+	# counting_test
+	hash_test
 )
 
 function(ojlibs_add_test filename)

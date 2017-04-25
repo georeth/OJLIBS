@@ -104,7 +104,7 @@ Maximum Bipartitie Matching (Hungarian / Kuhn-Munkres)
 
 Eular Walk (TODO : support removing edge in graph)
 
-## Memorization
+## Memoization
 Generic memorization function without virtual function overhead
 
 (Useful for top-down dynamic programming.)

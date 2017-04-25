@@ -27,9 +27,6 @@ struct list_head {
         prev.next = &next;
         next.prev = &prev;
     }
-
-private:
-    // use unlink instead
     void reset() { prev = next = this; }
 };
 
@@ -41,6 +38,8 @@ struct list_iter
     typedef T &reference;
     typedef iter_range<list_iter> range_type;
     typedef typename std::bidirectional_iterator_tag iterator_category;
+    typedef typename std::ptrdiff_t difference_type; // must be signed
+    typedef intrusive_helper<T, list_head, field> helper_type;
 
     list_head *cur;
     list_iter() { cur = nullptr; }
@@ -63,7 +62,7 @@ struct list_iter
         return --that;
     }
     pointer operator->() const {
-        return member_to_parent(cur, field);
+        return helper_type::to_parent(cur);
     }
     reference operator*() const {
         return *operator->();

@@ -7,6 +7,12 @@
 #include <ojlibs/scc_tarjan.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
+    // input a graph G=(V, E)
+    // v_2k   denotes x
+    // v_2k+1 denotes not x
+    //
+    // (x or y) becomes two edge (not x -> y) and (not y -> x)
+    // do not forget it!
     template <typename EInfo>
     bool find_2sat(graph<EInfo> &g, std::vector<bool> &value_out) {
         assert(g.vertex_size() % 2 == 0);

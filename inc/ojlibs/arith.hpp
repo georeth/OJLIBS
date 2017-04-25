@@ -82,16 +82,32 @@ Int inv_mod(Int a, Int m) {
 }
 
 template <typename Int>
-static Int addx_mod(Int u, Int v, Int m) {
+Int addx_mod(Int u, Int v, Int m) {
     Int r = u + v;
     if (r >= m) r -= m;
     return r;
 }
 template <typename Int>
-static Int subx_mod(Int u, Int v, Int m) {
+Int subx_mod(Int u, Int v, Int m) {
     Int r = u - v;
     if (r < 0) r += m;
     return r;
+}
+template <typename Int>
+Int div_mod(Int u, Int v, Int m) {
+    // find x, s.t.
+    //     u = v * x (mod m)
+    // solution exist
+    //     <=> gcd(v, m) | gcd(u, m)
+    // g = gcd(v, m)   [do not use gcd(u, v)]
+    // uu = u / g
+    // vv = v / g
+    // mm = m / g
+    //     uu = vv * x (mod mm)
+    Int g = gcd(v, m);
+    assert(u % g == 0);
+    Int mm = m / g;
+    return mul_mod(u / g, inv_mod(v / g, mm), mm);
 }
 
 template <typename Int>

@@ -18,7 +18,7 @@
 //  u is Mobius function
 //
 //  Other relations:
-//      EularPhi * 1 = I
+//      EularPhi * 1 = I (EularPhi(n) is number of coprime numbers <= n)
 //      I * 1 = Divisor (number of divisors)
 
 // All range is inclusive, because it is in number theory.
@@ -41,6 +41,7 @@ std::vector<Int> mobius_transform(const std::vector<Int> &f, Op op = Op()) {
 // mobius in {-1, 0, 1}
 // if p^2 | x then mobius[x] = 0
 // else mobius[x] = (-1) ^ number of prime factor of x
+// O(n log n), do not use it unless incremental update.
 std::vector<int> mobius_function(int n) {
     std::vector<int> mobius(n + 1, 0);
     mobius[1] = 1;
@@ -53,6 +54,7 @@ std::vector<int> mobius_function(int n) {
 
 // given g
 // return f = g * u
+// O(n log n)
 template <typename Int, typename Op = binary_plus<Int>>
 std::vector<Int> mobius_inverse(const std::vector<Int> &g, Op op = Op()) {
     // we don't need a mobius[]

@@ -9,6 +9,8 @@
 #define OJLIBS_INC_SHORTHAND_H_
 #include <cstdio>
 #include <cmath>
+#include <climits>      // INT_MIN LLONG_MIN
+#include <cfloat>       // DBL_MIN DBL_MAX
 #include <cstring>      // memset
 #include <cstdlib>      // malloc
 #include <cstdint>      // int64_t
@@ -20,7 +22,9 @@
 #include <map>
 #include <set>
 #include <tuple>        // pair, tuple
-#include <iostream>     // be careful
+#include <iostream>     // be careful.
+                        // mix with cstdio: slowwww...
+                        // mix with cstdio + fastio: bug
 #include <sstream>
 #include <algorithm>
 #include <ojlibs/int_range.hpp>
@@ -53,7 +57,9 @@ T min_s(const T &v1, const T &v2, Args... arg) {
     return min_s(min(v1, v2), arg...);
 }
 static const int HMAX32 = INT32_MAX / 2;
+static const int HMIN32 = -HMAX32;
 static const int64_t HMAX64 = INT64_MAX / 2;
+static const int64_t HMIN64 = -HMAX64;
 
 #define fast_io\
     ios_base::sync_with_stdio(false); cin.tie(nullptr)

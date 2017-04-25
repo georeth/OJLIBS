@@ -12,17 +12,18 @@ namespace ojlibs { // TO_BE_REMOVED
 struct prime_list {
     prime_list(int n) {
         size = std::max(n, 2);
-        is_prime.resize(size, true);
-        is_prime[0] = false;
-        is_prime[1] = false;
-        for (int p = 2; p < size; ++p) if (is_prime[p]) {
+        prime_factor.resize(size);
+        for (int p = 2; p < size; ++p) if (!prime_factor[p]) {
             primes.push_back(p);
-            for (int pp = p * 2; pp < size; pp += p)
-                is_prime[pp] = false;
+            for (int pp = p; pp < size; pp += p)
+                prime_factor[pp] = p;
         }
     }
+    bool is_prime(int n) {
+        return n > 1 && prime_factor[n] == n;
+    }
     int size;
-    std::vector<bool> is_prime;
+    std::vector<int> prime_factor; // least prime factor, support O(number of prime factor) factorize.
     std::vector<int> primes;
 };
 
@@ -47,16 +48,17 @@ prime_factor_t<Int> prime_factor(Int x) {
     return ret;
 }
 
-static bool is_prime_slow(int x) {
+template <typename Int>
+static bool is_prime_slow(Int x) {
     if (x <= 1) return false;
-    for (int p = 2; p * p <= x; ++p) {
+    for (Int p = 2; p * p <= x; ++p) {
         while (x % p == 0) return false;
     }
     return true;
 }
 
 // x <= plist.size * plist.size
-// O(sqrt(P1(x)) / ln x)
+// O(sqrt(P1(x)) / ln P1(x))
 template <typename Int>
 prime_factor_t<Int> prime_factor(Int x, const prime_list &plist) {
     prime_factor_t<Int> ret;
@@ -72,6 +74,14 @@ prime_factor_t<Int> prime_factor(Int x, const prime_list &plist) {
         ret.push_back(std::make_pair(x, 1));
     return ret;
 }
+
+// sum up: worst case for n ~ 1e8 (k = sqrt(n))
+// method               precalc         query
+// prime_factor:        0,              O(sqrt(n))        ~ 10000
+// prime_factor_fast:   O(k log k),     O(sqrt(n) / ln x) ~ 1235
+// by least prime:      O(n log n),     O(log2(n))        ~ 26
+
+// OTHER: enumerate all divisors
     
 } // namespace ojlibs TO_BE_REMOVED
 
