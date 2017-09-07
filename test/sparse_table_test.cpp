@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <ojlibs/sparse_table.hpp>
 #include <ojlibs/shorthand.hpp>
+#include <ojlibs/int_range.hpp>
 
 TEST(BASIC, basic) {
     const int TEST_GROUP = 10;

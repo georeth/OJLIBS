@@ -36,6 +36,55 @@ for (int i : range(1, CMAX)) {
 }
 endsnippet
 
+snippet psegtree
+struct node {
+    int cnt;
+    node*lc,*rc;
+    node();
+} pool[N*20],*pm=pool+1,*null=pool,*root[N];
+node::node(){lc=rc=null;}
+
+static inline node*modify(node*x,int l,int r,int p) {
+    node*v=pm++;*v=*x;
+    v->cnt++;
+    if(l^r)
+    {
+        int t=(l+r)>>1;
+        if(p<=t)v->lc=modify(x->lc,l,t,p);
+        else v->rc=modify(x->rc,t+1,r,p);
+    }
+    return v;
+}
+
+int res;
+
+static inline void query(node*x,node*y,int l,int r,int v) {
+    if(x->cnt-y->cnt<v)return;
+    if(l==r)repl(res,l);
+    int t=(l+r)>>1;
+    query(x->lc,y->lc,l,t,v);
+    query(x->rc,y->rc,t+1,r,v);
+}
+endsnippet
+
+snippet lsegtree
+#include <ojlibs/lazy_segtree.hpp>
+struct linear_op {
+    double a, b;
+    linear_op(double a = 1, double b = 0) : a(a), b(b) {}
+    double operator()(double x, int len) const {
+        return a * x + b * len;
+    }
+    operator bool() {
+        return !(a == 1 && b == 0);
+    }
+    linear_op operator*(const linear_op &that) const {
+        // a * (ta * x + tb) + b
+        return linear_op(a * that.a, a * that.b + b);
+    }
+};
+lazy_segtree<flt_t, binary_plus<flt_t>, linear_op> seg(TEST_SIZE);
+endsnippet
 
 snippet segtree
 // definition
@@ -251,11 +300,6 @@ snippet dir4
 const int dir[4][2] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
 endsnippet
 
-snippet review
-// RECOMMEND : 
-// DIFFICULTY: 
-endsnippet
-
 snippet bsearch
 int? low = ?, high = ?;
 while (high - low > 1) {
@@ -272,4 +316,14 @@ for (int _ = 0; _ < 150; ++_) {
     if (?) low = mid;
     else high = mid;
 }
+endsnippet
+
+snippet review
+// REVIEW:
+// --------------------
+// DO IT AGAIN ?? (0-3)
+// RECOMMEND: ?? (1-5)
+// DIFFICULTY (1-5)
+//   IMPL:
+//   IDEA:
 endsnippet

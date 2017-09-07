@@ -70,10 +70,13 @@ Determinant
 
 ## Computational Geometry
 Vector Arithmatic (Linear, Dot, Cross, Directed area, Distance)
+(Merge with matrix?)
 
 Geometry Transform (TODO)
 
 Closest pair of points
+
+convex hull, intersection of half planes, sweeping line.
 
 ## String Processing
 
@@ -120,6 +123,8 @@ Generic memorization function without virtual function overhead
 2-SAT
 
 snippets (dfs, tree, lca, segtree)
+
+named tuple
 
 # TOOLS
 - Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)

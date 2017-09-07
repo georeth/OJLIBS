@@ -32,7 +32,7 @@ TEST(BASIC, random) {
     const int TEST_NUM = 100;
     typedef double flt_t;
     for (int tg = 0; tg < TEST_GROUP; ++tg) {
-        lazy_segtree<flt_t, binary_plus<flt_t>, linear_op> seg(TEST_SIZE);
+        lazy_segtree<flt_t, binary_plus<flt_t>, linear_op> seg(TEST_SIZE, 0.0);
         vector<flt_t> vec(TEST_SIZE);
 
         // random initial values
@@ -72,7 +72,7 @@ TEST(time, random) {
     const int TEST_NUM = 10000;
     double ans = 0;
     for (int tg = 0; tg < TEST_GROUP; ++tg) {
-        lazy_segtree<double, binary_plus<double>, linear_op> seg(TEST_SIZE);
+        lazy_segtree<double, binary_plus<double>, linear_op> seg(TEST_SIZE, 0.0);
 
         // random initial values
         for (int i = 0; i < TEST_SIZE; ++i) {
