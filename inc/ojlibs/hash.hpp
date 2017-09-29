@@ -11,11 +11,11 @@ void hash_combine(size_t &seed, size_t v) { // from BOOST
 struct ojlibs_hash {
     // forward to std::hash
     template <typename T>
-    size_t operator()(const T &v) {
+    size_t operator()(const T &v) const {
         return std::hash<T>()(v);
     }
     template <typename T1, typename T2>
-    size_t operator()(const std::pair<T1, T2> &v) {
+    size_t operator()(const std::pair<T1, T2> &v) const {
         size_t r = (*this)(v.first);
         hash_combine(r, (*this)(v.second));
         return r;
