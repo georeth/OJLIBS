@@ -1,6 +1,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include <ojlibs/shorthand.hpp>
+#include <ojlibs/int_range.hpp>
 using namespace std;
 
 TEST(BASIC, range_test) {

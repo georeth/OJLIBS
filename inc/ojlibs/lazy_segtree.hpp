@@ -32,10 +32,10 @@ struct lazy_segtree {
     int offset;
     int size; /* size of last layer */
 
-    lazy_segtree(int n) {
+    lazy_segtree(int n, const T &init) {
         size = n;
         offset = ceil_pow2(n);
-        vec.resize(offset + size + 1, op.identity()); /* ensure every leaf has sibling */
+        vec.resize(offset + size + 1, init); /* ensure every leaf has sibling */
         lazy.resize(offset);
     }
     void update_range(int b, int e, const F &f) {

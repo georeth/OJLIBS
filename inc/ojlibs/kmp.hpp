@@ -67,6 +67,7 @@ std::vector<int> kmp_count_occurence(const std::vector<int> &match, const std::v
     for (int i = (int)prefix.size(); i > 0; --i) // if match i, also match prefix[i - 1], dp
         ret[prefix[i - 1]] += ret[i];
 
+    ret[0] = 0; // number of empty match is meaningless
     return ret;
 }
 

@@ -102,6 +102,7 @@ static inline splay_head *splay_find_nth_inner(splay_head *&root, int k) {
     return p;
 }
 static inline splay_head *splay_find_nth(splay_head *&root, int k) {
+    if (!root || k >= root->size) return nullptr;
     splay_head *p = splay_find_nth_inner(root, k);
     splay_splay(root, p, nullptr);
     return p;

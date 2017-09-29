@@ -15,6 +15,7 @@
 #include <cstdlib>      // malloc
 #include <cstdint>      // int64_t
 #include <cinttypes>    // PRId64 SCNd64
+#include <ctime>        // clock
 #include <cassert>      // assert
 #include <limits>       // numeric_limits
 #include <vector>
@@ -27,10 +28,8 @@
                         // mix with cstdio + fastio: bug
 #include <sstream>
 #include <algorithm>
-#include <ojlibs/int_range.hpp>
 
-const double PI = 2 * acos(0.0);
-
+namespace ojlibs{}      // TO_BE_REMOVED
 using namespace std;    // use as solution header. name polution is fine.
 using namespace ojlibs;   // TO_BE_REMOVED
 
@@ -46,34 +45,21 @@ template <typename T>
 bool chmax(T &m, const T &v) { if (v > m) return m = v, true; return false; }
 template <typename T>
 bool chmin(T &m, const T &v) { if (v < m) return m = v, true; return false; }
-template <typename T>
-T max_s(const T &v) { return v; }
-template <typename T, typename... Args>
-T max_s(const T &v1, const T &v2, Args... arg) {
-    return max_s(max(v1, v2), arg...);
-}
-template <typename T>
-T min_s(const T &v) { return v; }
-template <typename T, typename... Args>
-T min_s(const T &v1, const T &v2, Args... arg) {
-    return min_s(min(v1, v2), arg...);
-}
 static const int HMAX32 = INT32_MAX / 2;
 static const int HMIN32 = -HMAX32;
 static const int64_t HMAX64 = INT64_MAX / 2;
 static const int64_t HMIN64 = -HMAX64;
 
-#define fast_io\
-    ios_base::sync_with_stdio(false); cin.tie(nullptr)
-stringstream line_stream() {
-    string str;
-    getline(cin, str);
-    return stringstream(str);
-}
-#define read_int(id) scanf("%d", &id)
-#define read_int64(id) scanf("%" PRId64, &id)
-#define new_int(id) int id; read_int(id)
-#define new_int64(id) int64_t id; read_int64(id)
 #define ALL(x) begin(x), end(x)
+
+#define FOR0(i,n) for(int i=0,i##end=n;i<i##end;i++)
+#define FOR1(i,n) for(int i=1,i##end=n;i<=i##end;i++)
+#define FOR(i,a,b) for(int i=a,i##end=b;i<=i##end;i++)
+#define FOD0(i,n) for(int i=(n)-1;~i;i--)
+#define FOD1(i,n) for(int i=n;i;i--)
+#define FOD(i,a,b) for(int i=a,i##end=b;i>=i##end;i--)
+#define FORE(i,x)for(__typeof(x.end())i=x.begin();i!=x.end();++i)
+
+#include <ojlibs/fio.inc>
 
 #endif /* end of include guard: OJLIBS_INC_SHORTHAND_H_ */

@@ -1,3 +1,20 @@
 split arith/gcd/crt/factorize
 interval inversion
 power by doubling
+binary search shorthand
+	first false of f(x, ctx) => lower_bound(range, ctx, f)
+	first true  of f(x, ctx) => lower_bound(range, ctx, !f)
+
+	use +-1 trick for integer sequence
+rethink segtree (444C)
+persistent segtree (484C) library or snippet
+Edmond's algorithm to find maximum matching https://en.wikipedia.org/wiki/Blossom_algorithm
+rev(arr);
+ac_automaton: use add, build interfaces. it should behave like a map from string to answer.
+symmetric dfs (796C)
+	e.g. dp[u][d] = max { w[v] : dist(u, v) = d }
+	first dfs
+	second dfs
+		1. merge upper
+		2. merge each subtree (bubble sort 3)
+		3. dfs(v)
