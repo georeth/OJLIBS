@@ -29,6 +29,8 @@
 #include <algorithm>
 #include <ojlibs/int_range.hpp>
 
+const double PI = 2 * acos(0.0);
+
 using namespace std;    // use as solution header. name polution is fine.
 using namespace ojlibs;   // TO_BE_REMOVED
 
