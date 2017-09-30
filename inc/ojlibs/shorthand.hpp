@@ -41,10 +41,7 @@ using namespace ojlibs;   // TO_BE_REMOVED
 #  define pr_line()
 #endif
 
-template <typename T>
-bool chmax(T &m, const T &v) { if (v > m) return m = v, true; return false; }
-template <typename T>
-bool chmin(T &m, const T &v) { if (v < m) return m = v, true; return false; }
+#include <ojlibs/util.hpp>
 static const int HMAX32 = INT32_MAX / 2;
 static const int HMIN32 = -HMAX32;
 static const int64_t HMAX64 = INT64_MAX / 2;

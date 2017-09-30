@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <utility>
+#include <ojlibs/util.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
@@ -13,6 +14,7 @@ namespace ojlibs { // TO_BE_REMOVED
 // C - circle
 // I - interval
 // G - polygon
+// H - half-plane
 // is - intersect
 
 static const double EPS = 1e-8;
@@ -24,6 +26,7 @@ static inline int sign(double x) {
 // POINT
 struct P {
     double x, y;
+    union { int id; void *data; };
     double &operator[](int i) { return i == 0 ? x : y; }
 
     explicit P(double x = 0, double y = 0) : x(x), y(y) { }
@@ -44,14 +47,19 @@ struct P {
     P unit() const { return *this / abs(); }
 };
 
-bool isMiddle(double a, double m, double b) {
+bool is_middle(double a, double m, double b) {
     return sign(a - m) == 0 || sign(b - m) == 0 || (a < m != b < m);
 }
-bool isMiddle(const P &p1, const P &q, const P &p2) {
+bool is_middle(const P &p1, const P &q, const P &p2) {
     // q is inside the rectangle?
-    return isMiddle(p1.x, q.x, p2.x) && isMiddle(p1.y, q.y, p2.y);
+    return is_middle(p1.x, q.x, p2.x) && is_middle(p1.y, q.y, p2.y);
 }
 
+/*
+static inline double abs(const P &p1, const P &p2) {
+    return hypot(p1.x - p2.x, p1.y - p2.y);
+}
+*/
 static inline double dot(const P &p1, const P &p2) {
     return p1.x * p2.x + p1.y * p2.y;
 }
@@ -69,17 +77,17 @@ static inline double ccw(const P &p1, const P &p2, const P &p3) { // cross
 struct L { 
     P ps[2];
     L() { }
-    L(P p1, P p2): ps{p1, p2} { }
+    L(const P &p1, const P &p2): ps{p1, p2} { }
     P &operator[](int i) { return ps[i]; }
     P const &operator[](int i) const { return ps[i]; }
     P dir() const { return ps[1] - ps[0]; }
     double alpha() const { return dir().alpha(); }
     double abs() const { return dir().abs(); }
-    double dist(P p) const { return ccw(ps[0], ps[1], p) / abs(); }
-    bool onL(P p) const { return ccw(ps[0], ps[1], p) == 0; }
-    bool onS(P p) const {
+    double dist(const P &p) const { return ccw(ps[0], ps[1], p) / abs(); }
+    bool onL(const P &p) const { return ccw(ps[0], ps[1], p) == 0; }
+    bool onS(const P &p) const {
         return sign(ccw(ps[0], ps[1], p)) == 0
-            && isMiddle(ps[0], p, ps[1]);
+            && is_middle(ps[0], p, ps[1]);
     }
 };
 static inline double ccw(const L &l, const P &p3) { // cross
@@ -93,8 +101,8 @@ static inline P isLL(const L &l1, const L &l2) {
     return isLL(l1[0], l1[1], l2[0], l2[1]);
 }
 static inline bool isII(double l1, double r1, double l2, double r2) {
-    if (l1 > r1) swap(l1, r1);
-    if (l2 > r2) swap(l2, r2);
+    if (l1 > r1) std::swap(l1, r1);
+    if (l2 > r2) std::swap(l2, r2);
 
     return !(sign(l2 - r1) > 0 || sign(l1 - r2) > 0);
 }
@@ -121,23 +129,23 @@ static inline P reflect(const L &l, const P &q) {
     return proj(l[0], l[1], q) * 2 - q;
 }
 
-// polygon
-static inline double area(const vector<P> &ps) { // unsigned
+// POLYGON
+static inline double area(const std::vector<P> &ps) { // signed
     int n = (int)ps.size();
     double ans = 0;
     for (int i = 0; i < n; ++i) {
-        P p1 = ps[i];
-        P p2 = ps[(i + 1) % n];
+        const P &p1 = ps[i];
+        const P &p2 = ps[(i + 1) % n];
         ans += det(p1, p2);
     }
-    return abs(ans / 2);
+    return ans / 2;
 }
-static inline bool onG(const vector<P> &ps, const P &q, int *cycle = nullptr) {
+static inline bool onG(const std::vector<P> &ps, const P &q, int *cycle = nullptr) {
     int n = (int)ps.size();
     double r = 0, pi = acos(0) * 2;
     for (int i = 0; i < n; ++i) {
-        P p1 = ps[i];
-        P p2 = ps[(i + 1) % n];
+        const P &p1 = ps[i];
+        const P &p2 = ps[(i + 1) % n];
 
         if (L(p1, p2).onS(q)) return true;
 
@@ -148,8 +156,79 @@ static inline bool onG(const vector<P> &ps, const P &q, int *cycle = nullptr) {
         r += a;
     }
     printf("r = %lf, pi = %lf\n", r, pi);
-    if (cycle) *cycle = round(r / 2 / pi);
+    if (cycle) *cycle = (int)std::round(r / 2 / pi);
     return false;
+}
+
+// Andrew's monotone chain
+//
+// may return duplicated points if non-strict and all points are on a line
+static inline std::vector<P> convex_hull(std::vector<P> ps, int strict = 1) { // make a copy of ps
+    int n = (int)ps.size();
+    std::vector<P> conv(n * 2);
+    if (n <= 1) return ps;
+
+    sort(ps.begin(), ps.end());
+
+    int k = 0;
+    for (int i = 0; i < n; conv[k++] = ps[i++])
+        while (k >= 2 && sign(ccw(conv[k - 2], conv[k - 1], ps[i])) < strict) --k;
+    for (int i = n - 2; i >= 0; conv[k++] = ps[i--])
+        while (k >= 2 && sign(ccw(conv[k - 2], conv[k - 1], ps[i])) < strict) --k;
+    conv.resize(k - 1);
+    return conv;
+}
+
+static inline double convex_diameter(const std::vector<P> &ps) {
+    int i = 0, j = 0, n = (int)ps.size();
+    if (n <= 1) return 0;
+
+    double ans = 0;
+    for (; i < n; ++i) {
+        while ((ps[(j + 1) % n] - ps[i]).abs() > (ps[j] - ps[i]).abs())
+            j = (j + 1) % n;
+        chmax(ans, (ps[j] - ps[i]).abs());
+    }
+    return ans;
+}
+
+static inline L closest_point_pair(const std::vector<P> &ps, int b, int e, bool sorted = false) {
+    double ans = HUGE_VAL;
+    L seg;
+    if (e - b < 6) {
+        for (int i = b; i < e; ++i) for (int j = b; j < i; ++j)
+            if (chmin(ans, (ps[i] - ps[j]).abs()))
+                seg = L(ps[i], ps[j]);
+        return seg;
+    }
+    if (!sorted) {
+        std::vector<P> pcopy = ps;
+        sort(pcopy.begin() + b, pcopy.begin() + e);
+        return closest_point_pair(pcopy, b, e, true);
+    }
+
+    // divide
+    int m = (b + e) / 2;
+    L s1 = closest_point_pair(ps, b, m, true);
+    L s2 = closest_point_pair(ps, m, e, true);
+    if (chmin(ans, s1.abs())) seg = s1;
+    if (chmin(ans, s2.abs())) seg = s2;
+
+    // merge
+    double x = ps[m].x;
+    std::vector<P> qs;
+    for (int i = b; i < e; ++i) {
+        if (std::abs(ps[i].x - x) < ans) qs.push_back(ps[i]);
+    }
+    sort(qs.begin(), qs.end(), [](const P &p1, const P &p2) { return p1.y < p2.y; });
+    int qn = (int)qs.size();
+    for (int i = 0; i < qn; ++i) {
+        for (int j = i + 1; j < qn && qs[j].y <= qs[i].y + ans; ++j) {
+            if (chmin(ans, (qs[i] - qs[j]).abs()))
+                seg = L(qs[i], qs[j]);
+        }
+    }
+    return seg;
 }
 
 } // namespace ojlibs TO_BE_REMOVED
