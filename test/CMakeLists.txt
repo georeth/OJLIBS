@@ -30,6 +30,7 @@ set(test_cases # list all tests here
 	arith_test
 	power_test
 	linear_test
+	matrix_test
 	shorthand_test
 	prime_list_test
 	# geometry

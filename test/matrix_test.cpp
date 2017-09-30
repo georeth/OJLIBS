@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <random>
-#include <ojlibs/mat3.hpp>
+#include <ojlibs/matrix.hpp>
 #include <ojlibs/power.hpp>
 using namespace std;
 
