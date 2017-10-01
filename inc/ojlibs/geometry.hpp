@@ -69,12 +69,15 @@ static inline double det(const P &p1, const P &p2) {
 static inline double ccw(const P &p1, const P &p2, const P &p3) { // cross
     return det(p2 - p1, p3 - p1);
 }
+static inline double rad(const P &p1, const P &p2) {
+    return atan2(det(p1, p2), dot(p1, p2));
+}
 
 // LINE
 
 // line or segment (ps[0] -> ps[1])
 // or half-plane (left hand side / CCW > 0)
-struct L { 
+struct L {
     P ps[2];
     L() { }
     L(const P &p1, const P &p2): ps{p1, p2} { }
@@ -148,20 +151,13 @@ static inline bool onG(const std::vector<P> &ps, const P &q, int *cycle = nullpt
         const P &p2 = ps[(i + 1) % n];
 
         if (L(p1, p2).onS(q)) return true;
-
-        double a = (p2 - q).alpha() - (p1 - q).alpha();
-        // the sign of fmod is strange... do not use it
-        if (a > pi) a -= 2 * pi;
-        else if (a < -pi) a += 2 * pi;
-        r += a;
+        r += rad(p1 - q, p2 - q); // big trick
     }
-    printf("r = %lf, pi = %lf\n", r, pi);
     if (cycle) *cycle = (int)std::round(r / 2 / pi);
     return false;
 }
 
 // Andrew's monotone chain
-//
 // may return duplicated points if non-strict and all points are on a line
 static inline std::vector<P> convex_hull(std::vector<P> ps, int strict = 1) { // make a copy of ps
     int n = (int)ps.size();
@@ -178,7 +174,6 @@ static inline std::vector<P> convex_hull(std::vector<P> ps, int strict = 1) { //
     conv.resize(k - 1);
     return conv;
 }
-
 static inline double convex_diameter(const std::vector<P> &ps) {
     int i = 0, j = 0, n = (int)ps.size();
     if (n <= 1) return 0;
@@ -191,7 +186,6 @@ static inline double convex_diameter(const std::vector<P> &ps) {
     }
     return ans;
 }
-
 static inline L closest_point_pair(const std::vector<P> &ps, int b, int e, bool sorted = false) {
     double ans = HUGE_VAL;
     L seg;
@@ -229,6 +223,93 @@ static inline L closest_point_pair(const std::vector<P> &ps, int b, int e, bool 
         }
     }
     return seg;
+}
+
+// CIRCLE
+static inline std::vector<P> isCL(const P &o, double r, L ln) {
+    P m = proj(ln, o);
+    double d = (m - o).abs();
+    int t = sign(r - d);
+
+    if (t < 0) return {};
+    else if (t == 0) return {m};
+
+    P dir = ln.dir().unit();
+    double dr = sqrt(r * r - d * d);
+    return {m - dir * dr, m + dir * dr}; // along ln
+}
+static inline std::vector<P> isCC(const P &o1, double r1, const P &o2, double r2) {
+    P dir = o2 - o1;
+    double d = dir.abs();
+    int t = sign(d - r1 - r2);
+    if (t > 0 || sign(d - std::abs(r1 - r2)) < 0) return {};
+    else if (t == 0) return {o1 + (o2 - o1).unit() * r1};
+
+    P u = dir / d;
+    double x = (r1 * r1 + d * d - r2 * r2) / (2 * d), y = sqrt(r1 * r1 - x * x);
+    P q1 = o1 + u * x;
+    P q2 = u.rot90() * y;
+    return {q1 - q2, q1 + q2}; // along ccw on C1
+}
+static inline std::vector<P> tanCP(const P &o, double r, const P &p) {
+    // returns tangent points
+    P dir = p - o;
+    double d = dir.abs();
+    int t = sign(d - r);
+    if (t < 0) return {};
+    else if (t == 0) return {p}; // do an adjustment?
+
+    P u = dir.unit();
+    double x = r * r / d, y = sqrt(r * r - x * x);
+    P q1 = o + u * x;
+    P q2 = u.rot90() * y;
+    return {q1 - q2, q1 + q2}; // along ccw on C
+}
+static inline std::vector<L> intanCC(const P &o1, double r1, const P &o2, double r2) {
+    // return a list of segment {tangent point on C1, tangent point on C2}
+    std::vector<L> ans;
+    P p = (o1 * r2 + o2 * r1) / (r1 + r2); // similar center
+    std::vector<P> ps1 = tanCP(o1, r1, p), ps2 = tanCP(o2, r2, p);
+    for (size_t i = 0; i < ps1.size(); ++i)
+        ans.push_back({ps1[i], ps2[i]});
+    return ans;
+}
+static inline std::vector<L> extanCC(const P &o1, double r1, const P &o2, double r2) {
+    std::vector<L> ans;
+    if (sign(r1 - r2) == 0) {
+        P dr = (o2 - o1).unit().rot90() * r1;
+        return {{o1 + dr, o2 + dr}, {o1 - dr, o2 - dr}};
+    }
+
+    P p = (o1 * r2 - o2 * r1) / (r2 - r1); // simalar center
+    std::vector<P> ps1 = tanCP(o1, r1, p), ps2 = tanCP(o2, r2, p);
+    for (size_t i = 0; i < ps1.size(); ++i)
+        ans.push_back({ps1[i], ps2[i]});
+    return ans;
+}
+static inline double areaCT(double r, const P &p1, const P &p2) { // signed
+    // C(0, r), T(0, p1, p2)
+    double rr = r * r, rr2 = rr / 2;
+    std::vector<P> is = isCL(P(0, 0), r, L(p1, p2));
+    if (is.size() < 2) return rr2 * rad(p1, p2); // sector
+
+    bool b1 = sign(p1.abs2() - rr) > 0, b2 = sign(p2.abs2() - rr) > 0;
+    if (b1 && b2) {
+        if (dot(p2 - is[0], p1 - is[0]) <= 0) // sector, triangle, sector
+            return rr2 * (rad(p1, is[0]) + rad(is[1], p2)) + det(is[0], is[1]) / 2;
+        return rr2 * rad(p1, p2); // sector
+    } else if (b1) {
+        return rr2 * rad(p1, is[0]) + det(is[0], p2) / 2; // sector, triangle
+    } else if (b2) {
+        return det(p1, is[1]) / 2 + rr2 * rad(is[1], p2); // triangle, sector
+    } else {
+        return det(p1, p2) / 2; // triangle
+    }
+}
+static inline vector<P> isHS(vector<L> &hs) { // intersect half-planes
+    // ZZY incremental rotating method
+    // not implemented (no question to test now)
+    throw 0;
 }
 
 } // namespace ojlibs TO_BE_REMOVED
