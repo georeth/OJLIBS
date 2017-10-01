@@ -268,7 +268,7 @@ db areaCT(db r, P p1, P p2){
 	bool b1 = cmp(p1.abs2(),r*r) == 1, b2 = cmp(p2.abs2(), r*r) == 1;
 	if(b1 && b2){
 		if(sign((p1-is[0]).dot(p2-is[0])) <= 0 &&
-			sign((p1-is[0]).dot(p2-is[0])) <= 0)
+		   sign((p1-is[0]).dot(p2-is[0])) <= 0)
 		return r*r*(rad(p1,is[0]) + rad(is[1],p2))/2 + is[0].det(is[1])/2;
 		else return r*r*rad(p1,p2)/2;
 	}
