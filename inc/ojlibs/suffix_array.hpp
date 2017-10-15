@@ -75,5 +75,8 @@ std::vector<int> lcp_from_sa(It s, const std::vector<int> &sa) {
     return lcp;
 }
 
+// TODO: linear SA construction
+//   DC3 or SA-IS
+
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_SUFFIX_ARRAY_H_ */
