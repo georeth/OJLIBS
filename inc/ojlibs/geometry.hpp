@@ -13,7 +13,7 @@ namespace ojlibs { // TO_BE_REMOVED
 // R - rectangle
 // C - circle
 // I - interval
-// G - polygon
+// G - polygon / convex hull
 // H - half-plane
 // is - intersect
 
@@ -48,7 +48,7 @@ struct P {
 };
 
 bool is_middle(double a, double m, double b) {
-    return sign(a - m) == 0 || sign(b - m) == 0 || (a < m != b < m);
+    return sign(a - m) == 0 || sign(b - m) == 0 || ((a < m) != (b < m));
 }
 bool is_middle(const P &p1, const P &q, const P &p2) {
     // q is inside the rectangle?
@@ -306,7 +306,7 @@ static inline double areaCT(double r, const P &p1, const P &p2) { // signed
         return det(p1, p2) / 2; // triangle
     }
 }
-static inline vector<P> isHS(vector<L> &hs) { // intersect half-planes
+static inline std::vector<P> isH(std::vector<L> &hs) { // intersect half-planes
     // ZZY incremental rotating method
     // not implemented (no question to test now)
     throw 0;

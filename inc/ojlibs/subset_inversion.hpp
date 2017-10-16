@@ -5,11 +5,15 @@
 // 
 // g[x] = sum{y subset x} f[y]
 // h[x] = sum{z superset x} f[z]
+// i[x] = sum{z} (-1)^(x intersect z) f[z]
 //
-// g[*] and h[*] can be compute in time O(K * 2^K)
+// f[*] <-> g[*], h[*], i[*] can be compute in time O(K * 2^K)
 //
 // given x, h[*] => f[x] in O(2^K)
 // given x, g[*] => f[x] in O(2^K)
+//
+// convolution:
+// f[x] = sum{y and z = x} f1[y] * f2[z] -> g[x] = g1[x] * g2[x]
 #include <vector>
 #include <ojlibs/binary_operator.hpp>
 
