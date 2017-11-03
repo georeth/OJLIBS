@@ -9,9 +9,11 @@ std::mt19937 gen;
 using uni = uniform_int_distribution<>;
 uniform_real_distribution<> dist_weight(0, 1000);
 
-ojlibs::graph<double> random_weighted_graph(int size_v, int size_e) {
+typedef ojlibs::graph<ojlibs::atom_attr<double>> graph_type;
+
+graph_type random_weighted_graph(int size_v, int size_e) {
     vector<int> roots;
-    ojlibs::graph<double> g(size_v, size_e * 2 + size_v * 2);
+    graph_type g(size_v);
     set<pair<int, int>> visit;
     for (int i = 0; i < size_v; ++i)
         roots.push_back(i);
@@ -26,8 +28,8 @@ ojlibs::graph<double> random_weighted_graph(int size_v, int size_e) {
         y = 1;
 
         double w = dist_weight(gen);
-        g.add_edge(roots[0], roots[1], w);
-        g.add_edge(roots[1], roots[0], w);
+        g.add(roots[0], roots[1], {w});
+        g.add(roots[1], roots[0], {w});
         visit.insert(make_pair(roots[0], roots[1]));
         visit.insert(make_pair(roots[1], roots[0]));
 
@@ -45,22 +47,17 @@ ojlibs::graph<double> random_weighted_graph(int size_v, int size_e) {
         visit.insert(make_pair(y, x));
 
         double w = dist_weight(gen);
-        g.add_edge(x, y, w);
-        g.add_edge(y, x, w);
+        g.add(x, y, w);
+        g.add(y, x, w);
     }
     return g;
 }
 
-double weight_sum(ojlibs::graph<double> &g, vector<pair<int, int>> tree) {
+double weight_sum(const vector<graph_type::E> &tree) {
     double ans = 0;
-    map<pair<int, int>, double> W;
-    for (int ie : ojlibs::range(g.edge_size())) {
-        W[make_pair(g.edges[ie].from, g.edges[ie].to)] = g.edges[ie].info;
-        W[make_pair(g.edges[ie].to, g.edges[ie].from)] = g.edges[ie].info;
-    }
+    for (auto &e : tree)
+        ans += e.w;
 
-    for (auto xy : tree)
-        ans += W[make_pair(xy.first, xy.second)];
     return ans;
 }
 
@@ -71,16 +68,18 @@ TEST(BASIC, random) {
     static const int ESIZE_MAX = 20000;
 
     for (int T = 0; T < 20; ++T) {
-        ojlibs::graph<double> graph = random_weighted_graph(uni(VSIZE_MIN, VSIZE_MAX)(gen), uni(ESIZE_MIN, ESIZE_MAX)(gen));
+        graph_type graph = random_weighted_graph(uni(VSIZE_MIN, VSIZE_MAX)(gen), uni(ESIZE_MIN, ESIZE_MAX)(gen));
         vector<pair<double, pair<int, int>>> graph_edges;
-        for (int ie = 0; ie < graph.edge_size(); ie += 2)
-            graph_edges.push_back(make_pair(graph.edges[ie].info, make_pair(graph.edges[ie].from, graph.edges[ie].to)));
+        for (int ix = 0; ix < graph.size(); ix += 1) {
+            for (auto &e : graph.edges[ix])
+                graph_edges.push_back(make_pair(e.w, make_pair(e.from, e.to)));
+        }
 
-        vector<pair<int, int>> T1 = ojlibs::mst_prim(graph, 0);
-        vector<pair<int, int>> T2 = ojlibs::mst_kruskal(graph_edges, graph.vertex_size());
+        vector<graph_type::E> T1 = ojlibs::mst_prim(graph, 0);
+        vector<graph_type::E> T2 = ojlibs::mst_kruskal(graph);
 
-        ASSERT_EQ(T1.size(), graph.vertex_size() - 1);
-        ASSERT_EQ(T2.size(), graph.vertex_size() - 1);
-        ASSERT_FLOAT_EQ(weight_sum(graph, T1), weight_sum(graph, T2));
+        ASSERT_EQ(T1.size(), graph.size() - 1);
+        ASSERT_EQ(T2.size(), graph.size() - 1);
+        ASSERT_FLOAT_EQ(weight_sum(T1), weight_sum(T2));
     }
 }

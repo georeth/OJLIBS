@@ -91,11 +91,15 @@ strong probable-prime base
 64bit: 2, 325, 9375, 28178, 450775, 9780504, 1795265022
 */
 
+// constexpr support is not complete, use data member instead.
+template <typename Int> struct SPRP;
+template <> struct SPRP<int> { std::vector<int> bases = {2, 7, 61}; };
+template <> struct SPRP<int64_t> { std::vector<int64_t> bases = {
+    2, 325, 9375, 28178, 450775, 9780504, 1795265022}; };
+
 // deterministic Miller-rabin
 template <typename Int>
-bool is_prime(Int n);
-template <>
-bool is_prime(int n) {
+bool is_prime(Int n) {
     if (n <= 3) {
         if (n <= 1) return false;
         return true;
@@ -103,12 +107,13 @@ bool is_prime(int n) {
     if (n % 2 == 0) return false;
 
     // n - 1 = 2^s * d
-    int d = n - 1, s = 0;
+    Int d = n - 1;
+    int s = 0;
     while (d % 2 == 0)
         d /= 2, ++s;
 
-    for (int b : {2, 7, 61}) {
-        int x = pow_mod(b, d, n);
+    for (Int b : SPRP<Int>().bases) {
+        Int x = pow_mod(b, d, n);
         // (x == 0) case is not considered in most materials,
         // because they assume n is large enough.
         if (x == 0 || x == 1 || x == n - 1)

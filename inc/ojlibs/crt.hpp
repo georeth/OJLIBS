@@ -34,7 +34,6 @@ TInt crt2(Int a1, Int m1, Int a2, Int m2) {
     div_pos_r(static_cast<TInt>(a2) * k1 % m2 * m1 +
                static_cast<TInt>(a1) * k2 % m1 * m2, m12, rr);
     return rr * g + r1;
-    // result may be negative!
 }
 
 template <typename Int, typename TInt = int64_t>

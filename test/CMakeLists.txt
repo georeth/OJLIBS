@@ -3,6 +3,7 @@ link_libraries(gtest_main gtest gmp pthread)
 
 set(test_cases # list all tests here
 	# hello_test
+	2sat_test
 	# data_structure
 	# list_test
 	# slist_test
@@ -19,7 +20,7 @@ set(test_cases # list all tests here
 	# algorithm
 	string_test
 	suffix_array_test
-	network_flow_test
+	dinic_hugarian_test
 	# todo : push_relabel_test
 	# todo : kmp_test
 	trie_ac_test

@@ -23,6 +23,7 @@ I bool IS(char x){return x==10||x==13||x==' ';}template<typename T>struct Fr{T P
 {RX;if(f)x=-x;RT}I OP int(){int x;TR}I Fr&OP,(ll &x){RX;if(f)x=-x;RT}I OP ll(){ll x;TR}I Fr&OP,(char &x)
 {for(x=P();IS(x);x=P())continue;RT}I OP char(){char x;TR}I Fr&OP,(char *x){char t=P();for(;IS(t);t=P())continue;if(~t){for(;!IS(t)&&~t;t=P())*x++=t;}*x++=0;RT}I Fr&OP,(lf &x){RX;RL;RT}I OP lf(){lf x;TR}I Fr&OP,(llf &x){RX;RL;RT}I OP llf()
 {llf x;TR}I Fr&OP,(uint &x){RU;RT}I OP uint(){uint x;TR}I Fr&OP,(ull &x){RU;RT}I OP ull(){ull x;TR}};
+
 #define WI(S) if(x){if(x<0)P('-'),x=-x;char s[S];int c=0;while(x)s[c++]=x%10+'0',x/=10;while(c--)P(s[c]);}else P('0')
 #define WL if(y){lf t=0.5;for(int i=y;i--;)t*=0.1;if(x>=0)x+=t;else x-=t,P('-');*this,(ll)(abs(x));P('.');if(x<0)\
 x=-x;while(y--){x*=10;x-=floor(x*0.1)*10;P(((int)x)%10+'0');}}else if(x>=0)*this,(ll)(x+0.5);else *this,(ll)(x-0.5);

@@ -179,6 +179,22 @@ TEST(DivPosR, Random) {
 	}
 }
 
+TEST(MulMod, INT64) {
+	std::uniform_int_distribution<int64_t> dis(1, 1LL << 62);
+	const int TEST_SIZE = 10000;
+	for (int i = 0; i < TEST_SIZE; ++i) {
+		int64_t a = dis(gen);
+		int64_t b = dis(gen);
+		int64_t m = dis(gen);
+		int64_t r = mul_mod(a, b, m);
+
+		bm::mpz_int za(a), zb(b), zr;
+		zr = za * zb % m;
+
+		ASSERT_EQ(r, zr);
+	}
+}
+
 /*
 TEST(LOG, Basic) {
 	int e;

@@ -8,62 +8,77 @@
 
 namespace ojlibs { // TO_BE_REMOVED
 
-template<typename EInfo, typename WVisitor>
-bool dinic_bfs(graph<EInfo> &g, int s, int t, std::vector<int> &level) {
-    std::vector<int> q(g.vertex_size()); // fixed size vector is faster
-    int qh = 0, qt = 0;
-    level[s] = 1;
-    q[qt++] = s;
+// time: O(V^2 E)
+// unit capacity: O(min(V^(2/3), E^(1/2)) E)
+// biparti-mathcing: O(sqrt(V) E)
+template <typename Flow>
+struct dinic_max_flow {
+    typedef int Index;
+    struct attr {
+        Flow f;
+        Index rev;
+    };
+    graph<attr> g;
+    dinic_max_flow(int max_vertex) : g(max_vertex) { }
+    int add(Index from, Index to, Flow cap, Flow rev_cap = 0) { // input a residue graph
+        if (from == to) return -1;
+        attr e1 = {cap, (int)g.edges[to].size()};
+        attr e2 = {rev_cap, (int)g.edges[from].size()};
+        int ret = (int)g.edges[from].size();
+        g.add(from, to, e1);
+        g.add(to, from, e2);
+        return ret;
+    }
+    bool dinic_bfs(Index s, Index t, std::vector<int> &level) {
+        std::vector<int> q(g.size()); // fixed size vector is faster
+        int qh = 0, qt = 0;
+        level[s] = 1;
+        q[qt++] = s;
 
-    while (qh < qt && !level[t]) {
-        int u = q[qh++];
+        while (qh < qt && !level[t]) {
+            int u = q[qh++];
 
-        for (auto &e : g.edge_list(u)) {
-            int v = e.to;
-            if (!level[v] && WVisitor::get(e.info) > 0) {
-                level[v] = level[u] + 1;
-                q[qt++] = v;
+            for (auto &e : g.edges[u]) {
+                int v = e.to;
+                if (!level[v] && e.f > 0) {
+                    level[v] = level[u] + 1;
+                    q[qt++] = v;
+                }
             }
         }
+        return level[t];
     }
-    return level[t];
-}
-
-template<typename W, typename EInfo, typename WVisitor>
-W dinic_dfs(graph<EInfo> &g, int u, int t, int64_t flow, std::vector<int> &level) {
-    if (u == t) return flow;
-    W pushed = 0;
-    typename graph<EInfo>::range_type range = g.edge_list(u);
-    for (auto it = range.first; it != range.second; ++it) {
-        if (!flow) break;
-        int v = it->to;
-        W w = WVisitor::get(it->info);
-        if (level[v] == level[u] + 1 && w) {
-            W f = dinic_dfs<W, EInfo, WVisitor>(g, v, t, std::min(flow, w), level);
-            WVisitor::get(it->info) -= f;
-            WVisitor::get(g.edges[it.index() ^ 1].info) += f;
-            flow -= f;
-            pushed += f;
-            // keep on going, do not stop on positive f
+    Flow dinic_dfs(Index u, Index t, Flow flow, const std::vector<int> &level) {
+        if (u == t) return flow;
+        Flow pushed = 0;
+        for (auto &e : g.edges[u]) {
+            if (!flow) break;
+            int v = e.to;
+            Flow w = e.f;
+            if (level[v] == level[u] + 1 && w) {
+                Flow f = dinic_dfs(v, t, std::min(flow, w), level);
+                e.f -= f;
+                g.edges[v][e.rev].f += f;
+                flow -= f;
+                pushed += f;
+                // keep on going, do not stop on positive f
+            }
         }
+        return pushed;
     }
-    return pushed;
-}
-
-// requirement of graph : edge[2k] = {u, v} then  edge[2k+1] = {v, u}
-template<typename W, typename EInfo, typename WVisitor = identity_visitor<EInfo>>
-W dinic(graph<EInfo> &g, int s, int t) {
-    W flow = 0;
-    std::vector<int> level(g.vertex_size()); // level[s] = 1
-    while (dinic_bfs<EInfo, WVisitor>(g, s, t, level)) {
-        // update blocked flow in a single dfs!!
-        // 0.37s vs TLE(> 2.76s) in SPOJ FASTFLOW
-        // I've seen so many blogs on DINIC doing dfs in a loop
-        flow += dinic_dfs<W, EInfo, WVisitor>(g, s, t, std::numeric_limits<W>::max(), level);
-        fill(level.begin(), level.end(), 0);
+    Flow max_flow(int s, int t) {
+        Flow flow = 0;
+        std::vector<int> level(g.size()); // level[s] = 1
+        while (dinic_bfs(s, t, level)) {
+            // update blocked flow in a single dfs!!
+            // 0.37s vs TLE(> 2.76s) in SPOJ FASTFLOW
+            // I've seen so many blogs on DINIC doing dfs in a loop
+            flow += dinic_dfs(s, t, std::numeric_limits<Flow>::max(), level);
+            fill(level.begin(), level.end(), 0);
+        }
+        return flow;
     }
-    return flow;
-}
+};
 
 } // namespace ojlibs TO_BE_REMOVED
 

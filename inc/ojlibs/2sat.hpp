@@ -15,20 +15,20 @@ namespace ojlibs { // TO_BE_REMOVED
     // do not forget it!
     template <typename EInfo>
     bool find_2sat(graph<EInfo> &g, std::vector<bool> &value_out) {
-        assert(g.vertex_size() % 2 == 0);
-        int nr_var = g.vertex_size() / 2;
+        // assert(g.vertex_size() % 2 == 0);
+        int nr_var = g.size() / 2;
 
         int nr_scc;
         std::vector<int> scc_id = scc_tarjan(g, nr_scc);
 
-        std::vector<bool> assigned(g.vertex_size());
+        std::vector<bool> assigned(nr_var);
         std::vector<std::vector<int>> scc(nr_scc);
 
         for (int i = 0; i < nr_var; ++i) {
             if (scc_id[2 * i] == scc_id[2 * i + 1]) return false;
         }
 
-        vector<bool> value(nr_var);
+        std::vector<bool> value(nr_var);
         for (int i = 0; i < 2 * nr_var; ++i)
             scc[scc_id[i]].push_back(i);
 

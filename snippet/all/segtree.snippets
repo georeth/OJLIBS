@@ -1,0 +1,97 @@
+snippet psegtree
+struct node {
+    int cnt;
+    node*lc,*rc;
+    node();
+} pool[N*20],*pm=pool+1,*null=pool,*root[N];
+node::node(){lc=rc=null;}
+
+static inline node*modify(node*x,int l,int r,int p) {
+    node*v=pm++;*v=*x;
+    v->cnt++;
+    if(l^r)
+    {
+        int t=(l+r)>>1;
+        if(p<=t)v->lc=modify(x->lc,l,t,p);
+        else v->rc=modify(x->rc,t+1,r,p);
+    }
+    return v;
+}
+
+int res;
+
+static inline void query(node*x,node*y,int l,int r,int v) {
+    if(x->cnt-y->cnt<v)return;
+    if(l==r)repl(res,l);
+    int t=(l+r)>>1;
+    query(x->lc,y->lc,l,t,v);
+    query(x->rc,y->rc,t+1,r,v);
+}
+endsnippet
+
+snippet lsegtree
+#include <ojlibs/lazy_segtree.hpp>
+struct linear_op {
+    double a, b;
+    linear_op(double a = 1, double b = 0) : a(a), b(b) {}
+    double operator()(double x, int len) const {
+        return a * x + b * len;
+    }
+    operator bool() {
+        return !(a == 1 && b == 0);
+    }
+    linear_op operator*(const linear_op &that) const {
+        // a * (ta * x + tb) + b
+        return linear_op(a * that.a, a * that.b + b);
+    }
+};
+lazy_segtree<flt_t, binary_plus<flt_t>, linear_op> seg(TEST_SIZE);
+endsnippet
+
+snippet segtree
+// definition
+static const int OFFSET = 2 << 17;
+struct node_t {
+    int b, e;
+    int64_t sum;
+};
+node_t seg[2 * OFFSET];
+    // rebuild
+    for (int i : range(OFFSET)) {
+        seg[i + OFFSET].b = i;
+        seg[i + OFFSET].e = i + 1;
+    }
+    for (int i : rev(range(OFFSET))) {
+        seg[i].b = seg[i + i].b;
+        seg[i].e = seg[i + i + 1].e;
+        seg[i].sum = seg[i + i].sum + seg[i + i + 1].sum;
+    }
+// query
+void query_single(int no, int k, int x) {
+    node_t &cur = seg[no];
+    if (cur.b == k && cur.e == k + 1) {
+        return cur.sum;
+    }
+    int m = (cur.b + cur.e) / 2;
+    if (k < m)
+        query_single(no + no, k, x);
+    else
+        query_single(no + no + 1, k, x);
+
+    // recompute
+    cur.sum = seg[no + no].sum + seg[no + no + 1].sum;
+}
+int64_t query_range(int no, int l, int r) {
+    node_t &cur = seg[no];
+    if (l <= cur.b && r >= cur.e)
+        return cur.sum;
+
+    int64_t ans = 0;
+    int m = (cur.b + cur.e) / 2;
+    if (l < m)
+        ans += query_range(no + no, l, r);
+    if (r > m)
+        ans += query_range(no + no + 1, l, r);
+    return ans;
+}
+endsnippet

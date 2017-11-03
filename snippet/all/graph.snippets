@@ -1,0 +1,95 @@
+snippet tree
+struct EAttr { int w; };
+int n, m;
+graph<EAttr> g(maxn?);
+int depth[maxn?], height[maxn?], sz[maxn?], parent[maxn?],
+        btime[maxn?], etime[maxn?],
+        dfs_ord[maxn?], tour[maxn? * 2], now, tnow;
+
+void pre_compute(int u, int p, int d) {
+    depth[u] = d;
+    height[u] = 0;
+    sz[u] = 1;
+    parent[u] = p;
+
+    dfs_ord[now] = u;
+    btime[u] = now++;
+    tour[tnow++] = u;
+    for (auto &e: g.edges[u]) if (e.to != p) {
+        int v = e.to;
+        pre_compute(v, u, d + 1);
+        chmax(height[u], height[v] + 1);
+        sz[u] += sz[v];
+        tour[tnow++] = u;
+    }
+    etime[u] = now;
+}
+
+void dfs(int u, int p) {
+    for (auto &e: g.edges[u]) if (e.to != p) {
+        int v = e.to;
+        dfs(v, u);
+    }
+}
+
+    fin, n;
+    FOR0(i, n - 1) {
+        int u, v; fin, u, v;
+        int w; fin, w;
+
+        g.add(u, v, {w});
+        g.add(v, u, {w});
+    }
+endsnippet
+
+snippet cd
+// sz[v] = size of subtree v in current subtree u
+// vis[v] = processed? (used as a root)
+int sz[maxn], vis[maxn];
+void get_size(int u, int p) {
+    sz[u] = 1;
+    for (int v : g[u]) if (!vis[v] && v != p) {
+        get_size(v, u);
+        sz[u] += sz[v];
+    }
+}
+int get_root(int u, int p, int tot_sz) {
+    int cur = tot_sz - sz[u];
+    for (int v : g[u]) if (!vis[v] && v != p) {
+        chmax(cur, sz[v]);
+        int t = get_root(v, u, tot_sz);
+        if (t != -1) return t;
+    }
+    if (cur <= rootsz / 2)
+        return root;
+    return -1;
+}
+void cd(int u) {
+    get_size(u, -1);
+    u = get_root(u, -1, sz[u]);
+
+    for (int v : g[u]) if (!vis[v]) {
+        // process each subtree here
+        cd(v);
+    }
+}
+endsnippet
+
+snippet graph
+struct EAttr { int w; };
+int n, m;
+graph<EAttr> g(maxn);
+
+    fin, n, m;
+    FOR0(i, m) {
+        int u, v; fin, u, v;
+        int w; fin, w;
+
+        g.add(u, v, {w});
+        g.add(v, u, {w});
+    }
+endsnippet
+
+snippet attr
+struct attr { int w; };
+endsnippet

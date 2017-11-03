@@ -16,6 +16,11 @@ struct iter_range : std::pair<It, It> {
 };
 
 template <typename It>
+iter_range<It> make_range(It b, It e) {
+    return iter_range<It>(b, e);
+}
+
+template <typename It>
 iter_range<std::reverse_iterator<It>> rev(const iter_range<It> &origin) {
     using rev_t = std::reverse_iterator<It>;
     return {rev_t(origin.second), rev_t(origin.first)};

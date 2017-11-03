@@ -19,18 +19,18 @@ struct scc_tarjan_solver {
     int nr_scc;
 
     scc_tarjan_solver(graph<EInfo> &g) : g(g) {
-        onstack.resize(g.vertex_size());
-        answer.resize(g.vertex_size(), -1);
+        onstack.resize(g.size());
+        answer.resize(g.size(), -1);
 
-        id.resize(g.vertex_size(), -1);
-        low.resize(g.vertex_size());
+        id.resize(g.size(), -1);
+        low.resize(g.size());
 
         now = 0;
         nr_scc = 0;
     }
 
     std::vector<int> solve(int &nr_scc_out) {
-        for (int u = 0; u < g.vertex_size(); ++u)
+        for (int u = 0; u < g.size(); ++u)
             if (answer[u] == -1)
                 dfs(u);
         nr_scc_out = nr_scc;
@@ -45,12 +45,14 @@ struct scc_tarjan_solver {
         stack.push_back(u);
         onstack[u] = true;
 
-        for (auto &e : g.edge_list(u)) {
-            int v = e.to;
+        for (int v : g[u]) {
             if (id[v] == -1) {
                 dfs(v);
                 low[u] = std::min(low[u], low[v]);
             } else if (onstack[v]) {
+                // the original
+                //      low[u] = std::min(low[u], id[v]);
+                // is also correct, but i think this is more clear
                 low[u] = std::min(low[u], low[v]);
             }
         }

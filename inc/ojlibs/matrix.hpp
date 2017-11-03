@@ -86,7 +86,7 @@ struct matrix {
     T *operator[](int i) { return row(i); }
     T const *operator[](int i) const { return row(i); }
     vector_view column(int i) { return vector_view(arr.data() + i, ncol); }
-    vector_view const *column(int i) const { return vector_view(arr.data() + i, ncol); }
+    vector_view const column(int i) const { return vector_view(static_cast<T *>(arr.data()) + i, ncol); }
     static matrix eye(int n) {
         matrix mat(n, n);
         for (int i = 0; i < n; ++i)
@@ -101,7 +101,7 @@ struct matrix {
     template <typename T, typename EleTraits = ring_traits<T>>
 #define MAT_T matrix<T, EleTraits>
 
-// A * B
+// A * B (no *=)
 TEMPL_MAT_ARG
 MAT_T operator*(const MAT_T &left, const MAT_T &right) {
     int mm = left.r(), nn = left.c(), pp = right.c();

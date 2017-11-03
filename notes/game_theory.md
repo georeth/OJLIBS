@@ -1,4 +1,15 @@
 # Game theory
+## Definitions and Classifications
+number of players (2)
+position, move
+random move
+information
+perfect information
+combinatorial = two-person + win or lose + perfect information + no random move
+impartial = combinatorial + two players have the same move set
+partizan = combinatorial + two player have different move sets
+
+
 ## Impartial Games
 G = (X, F).
 G is game or graph.
@@ -51,3 +62,13 @@ the current player can choose a game to play.
 
 ### Spague-Grundy Theorem
 sg(x) = sg(x1) + ... + sg(xk)
+
+## Recursive and Stochastic Games
+There are two sets of parameters: expected value of states and strategy.
+
+To get the strategy (determine the move), we need expected value of following states.
+To compute the expected value, we need know the strategy.
+
+(866C)
+if we assume the root game expected value, then all expected value and strategy can be computed.
+By negative feedback, we can binary search the value.

@@ -80,6 +80,7 @@ function main() {
         console.log("Usage :");
         console.log("\tcf_test_crawler -p/c CID P");
         console.log("\tcf_test_crawler -u url");
+        console.log("\tcf_test_crawler -g GYM P");
         return;
     }
     console.log(`Crawl from ${url}`);

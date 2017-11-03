@@ -2,41 +2,39 @@
 #define OJLIBS_INC_GRAPH_H_
 
 #include <vector>
+#include <deque>
 #include <ojlibs/empty_type.hpp>
-#include <ojlibs/int_range.hpp> // all_vertex
-#include <ojlibs/index_range.hpp>
+#include <ojlibs/iter_range.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
-template <typename EInfo = empty_type>
+template <typename EAttr = empty_type>
 struct graph {
-    struct edge_type {
-        int next_index;
-        int from;
-        int to;
-        EInfo info;
+    typedef int Index;
+    struct E : EAttr {
+        Index from, to;
+        E() { }
+        E(Index from, Index to, const EAttr &attr)
+            : EAttr(attr), from(from), to(to) { }
     };
-    typedef index_iter<edge_type> iter_type;
-    typedef typename iter_type::range_type range_type;
+    typedef typename std::deque<E> list_type;
+    typedef typename list_type::iterator list_iter_type;
+    struct target_iter : list_iter_type { // for (int v : g[u])
+        using list_iter_type::list_iter_type;
+        Index operator*() { return (*this)->to; }
+    };
 
-    int top = 0;
-    std::vector<int> heads;
-    std::vector<edge_type> edges;
+    graph(int n) : edges(n) { }
+    void assign(int n) { edges.assign(n); }
 
-    int vertex_size() const { return (int)heads.size(); }
-    int edge_size() const { return top; }
-    void add_edge(int s, int t, const EInfo &info = EInfo()) {
-        int edge_idx = top++;
-        edge_type *e = &edges[edge_idx];
-        e->from = s;
-        e->to = t;
-        e->info = info;
-        e->next_index = heads[s];
-        heads[s] = edge_idx;
+    int size() { return (int)edges.size(); }
+    void add(int u, int v, EAttr attr = EAttr()) {
+        edges[u].push_back({u, v, attr});
     }
-    graph(int max_v, int max_e) : heads(max_v, -1), edges(max_e) { }
-    edge_type &edge(int edge_idx) { return edges[edge_idx]; }
-    range_type edge_list(int start) { return iter_type::make_range(heads[start], edges.data()); }
+    iter_range<target_iter> operator[](int u) {
+        return make_range(target_iter(edges[u].begin()), target_iter(edges[u].end()));
+    }
+    std::vector<list_type> edges; // to support erasion, no reallocation
 };
 
 } // ojlibs TO_BE_REMOVED

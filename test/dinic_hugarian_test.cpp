@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 
+#include <ojlibs/attr.hpp>
 #include <ojlibs/graph.hpp>
 #include <ojlibs/dinic.hpp>
 #include <ojlibs/hungarian.hpp>
@@ -25,19 +26,19 @@ struct MAX_MATCH : testing::Test {
 };
 
 TEST(BASIC, dinic) {
-    ojlibs::graph<int> g(10, 100);
-    g.add_edge(0, 1, 10);
-    g.add_edge(1, 0, 0);
+    ojlibs::dinic_max_flow<int> g(10);
+    g.add(0, 1, 10);
+    g.add(1, 0, 0);
 
-    g.add_edge(0, 2, 10);
-    g.add_edge(2, 0, 0);
+    g.add(0, 2, 10);
+    g.add(2, 0, 0);
 
-    g.add_edge(2, 3, 5);
-    g.add_edge(3, 2, 0);
+    g.add(2, 3, 5);
+    g.add(3, 2, 0);
 
-    g.add_edge(3, 1, 2);
-    g.add_edge(1, 3, 0);
-    ASSERT_EQ(ojlibs::dinic<int64_t>(g, 0, 1), 12);
+    g.add(3, 1, 2);
+    g.add(1, 3, 0);
+    ASSERT_EQ(g.max_flow(0, 1), 12);
 }
 static const int TEST_GROUP = 20;
 TEST_F(MAX_MATCH, correctness) {

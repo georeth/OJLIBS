@@ -34,12 +34,12 @@ int64_t dummy; // force evaluation
 
 TEST(BASIC, time_with_plist) {
     for (int i = 0; i < TEST_COUNT; ++i) {
-        dummy += ojlibs::prime_factor(idist(gen), plist).size();
+        dummy += ojlibs::factorize(idist(gen), plist).size();
     }
 }
 TEST(BASIC, time_without_plist) {
     for (int i = 0; i < TEST_COUNT; ++i) {
-        dummy += ojlibs::prime_factor(idist(gen)).size();
+        dummy += ojlibs::factorize(idist(gen)).size();
     }
 }
 
@@ -47,7 +47,7 @@ TEST(BASIC, largest_prime) {
     int64_t sum, expected;
     for (int i = 0; i < 100; ++i) {
         int64_t x = idist(gen);
-        sum += ojlibs::prime_factor(x).back().first;
+        sum += ojlibs::factorize(x).back().first;
         expected += pow(x, 0.624);
     }
     cout << "actual   : " << sum << endl;

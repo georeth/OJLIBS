@@ -6,8 +6,6 @@
 #include <limits>
 #include <type_traits>
 
-// TODO : use gcc arith extension like __builtin_add_overflow
-
 namespace ojlibs { // TO_BE_REMOVED
 
 // try binary gcd on large number
@@ -52,14 +50,28 @@ Int extended_gcd(Int a, Int b, XInt &x, XInt &y) {
     return g;
 }
 
-template <typename Int, typename TInt = int64_t>
+template <typename Int>
 Int mul_mod(Int a, Int b, Int m) {
+    typedef int64_t TInt;
+    static_assert(2 * std::numeric_limits<Int>::digits <= std::numeric_limits<TInt>::digits,
+            "multiplication will overflow!");
     TInt p = a;
     p = (p * b) % m;
     return (Int)p;
 }
 
-template <typename Int, typename PInt, typename TInt = int64_t>
+template <>
+int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
+    int64_t r = 0;
+    for (int i = 63; i >= 0; --i) {
+        r = (r + r) % m;
+        if ((b >> i) & 1)
+            r = (r + a) % m;
+    }
+    return r;
+}
+
+template <typename Int, typename PInt>
 Int pow_mod(Int a, PInt p, Int m) {
     Int r;
     a %= m;

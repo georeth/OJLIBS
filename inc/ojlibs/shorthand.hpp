@@ -42,11 +42,6 @@ using namespace ojlibs;   // TO_BE_REMOVED
 #endif
 
 #include <ojlibs/util.hpp>
-static const int HMAX32 = INT32_MAX / 2;
-static const int HMIN32 = -HMAX32;
-static const int64_t HMAX64 = INT64_MAX / 2;
-static const int64_t HMIN64 = -HMAX64;
-
 #define ALL(x) begin(x), end(x)
 
 #define FOR0(i,n) for(int i=0,i##end=n;i<i##end;i++)
@@ -56,6 +51,11 @@ static const int64_t HMIN64 = -HMAX64;
 #define FOD1(i,n) for(int i=n;i;i--)
 #define FOD(i,a,b) for(int i=a,i##end=b;i>=i##end;i--)
 #define FORE(i,x)for(__typeof(x.end())i=x.begin();i!=x.end();++i)
+
+typedef vector<int> vi;
+typedef pair<int, int> pii;
+typedef vector<pair<int, int>> vii;
+typedef vector<vector<int>> vvi;
 
 #include <ojlibs/fio.inc>
 
