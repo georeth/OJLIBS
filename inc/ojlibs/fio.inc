@@ -44,7 +44,7 @@ template<class U,class...Us>I Fw&print(U x,Us...args){(*this),x;P(' ');print(arg
 #undef W4D
 #undef WR_INT
 #undef WR_FLT
-};
+}
 fio::Fr<fio::Cg>fin;
 fio::Fw<fio::Cp>fout;
 fio::Fw<fio::Ce>ferr;

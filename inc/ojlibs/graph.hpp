@@ -20,7 +20,9 @@ struct graph {
     typedef typename std::deque<E> list_type;
     typedef typename list_type::iterator list_iter_type;
     struct target_iter : list_iter_type { // for (int v : g[u])
-        using list_iter_type::list_iter_type;
+        // using list_iter_type::list_iter_type does not work TO_BE_REMOVED
+        // because inherited copy constructor is hidden       TO_BE_REMOVED
+        target_iter(const list_iter_type &base): list_iter_type(base) { }
         Index operator*() { return (*this)->to; }
     };
 
