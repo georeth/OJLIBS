@@ -48,6 +48,8 @@ Modular Arithmatic
 
 Chinese Remainder Theorem
 
+PELL equation (python source)
+
 ## Mathematics Structure (TODO)
 Permutaion, Combination, Subset.
 
