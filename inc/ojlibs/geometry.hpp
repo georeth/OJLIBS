@@ -1,8 +1,10 @@
 #ifndef OJLIBS_INC_GEOMETRY_H_
 #define OJLIBS_INC_GEOMETRY_H_
 #include <cmath>
+#include <cstdlib>
 #include <vector>
 #include <utility>
+#include <algorithm>
 #include <ojlibs/util.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
