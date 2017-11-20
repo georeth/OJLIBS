@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 namespace fio {
+static const char eof = '\xff';
 #define LL long long
 #define I inline
 #define OP operator
@@ -12,13 +13,14 @@ namespace fio {
 #define R2F if(c=='.'){double u=0.1;for(c=P();c>='0'&&c<='9';c=P(),u*=0.1)x+=u*(c-'0');}
 #define RD_INT(Int) I Fr&OP,(Int&x){S2D;R2D;if(h)x=-x;RT}
 #define RD_FLT(Flt) I Fr&OP,(Flt&x){S2D;R2D;R2F;if(h)x=-x;RT}
-struct Cg{I char OP()(){return (char)getchar();}};
+struct Cg{I char OP()(){char c=(char)getchar();if(c == eof)valid=false;return c;};bool valid=true;};
 struct Cp{I void OP()(int x){putchar(x);}};
 struct Ce{I void OP()(int x){putc(x,stderr);}};
 I bool IS(char x){return x==' '||x=='\r'||x=='\n'||x=='\t';}
 template<class T>struct Fr{T P;ALL_INT(RD_INT)ALL_FLT(RD_FLT)I Fr&OP,(char&x){for(x=P();IS(x);)x=P();RT}
-I Fr&OP,(char*s){for(*s=P();IS(*s);)*s=P();for(;!IS(*s);)*++s=P();*s=0;RT}
-I Fr&OP,(string &s){char c=P();for(;IS(c);)c=P();for(;!IS(c);)s.push_back(c),c=P();RT}
+I Fr&OP,(char*s){for(*s=P();IS(*s)&&P.valid;)*s=P();for(;!IS(*s)&&P.valid;)*++s=P();*s=0;RT}
+I Fr&OP,(string &s){s.clear();char c=P();for(;IS(c)&&P.valid;)c=P();for(;!IS(c)&&P.valid;)s.push_back(c),c=P();RT}
+I OP bool() { return P.valid; }
 };
 #define W4D if(x){if(x<0)P('-'),x=-x;int p=0;while(x)B[p++]=x%10+'0',x/=10;while(p--)P(B[p]);}else P('0')
 #define WR_INT(Int) I Fw&OP,(Int x){W4D;RT}
@@ -26,7 +28,7 @@ I Fr&OP,(string &s){char c=P();for(;IS(c);)c=P();for(;!IS(c);)s.push_back(c),c=P
 template<class T>struct Fw{T P;char B[32];ALL_INT(WR_INT)ALL_FLT(WR_FLT)I Fw&OP,(char x){P(x);RT}typedef char_traits<char>CT;typedef basic_ostream<char,CT>&OS;typedef basic_istream<char,CT>&IS;I Fw&OP,(OS&(*func)(OS)){if(func==static_cast<OS&(*)(OS)>(endl<char,CT>))P('\n');RT}I Fw&OP,(IS&(*func)(IS)){if(func==static_cast<IS&(*)(IS)>(ws<char,CT>))P(' ');RT}
 I Fw&OP,(const char*s){for(;*s;++s)P(*s);RT}
 I Fw&OP,(const string&s){(*this),s.c_str();RT}
-template<class U>I Fw&all(const vector<U> &v, char sep=' ', char nl='\n'){for(int i=0;i<(int)v.size();++i){if(i&&sep)P(sep);(*this),v[i];}if(nl)P(nl);RT}
+template<class C>I Fw&all(const C &v, char sep=' ', char nl='\n'){auto it=v.begin();for(int i=0;i<(int)v.size();++i,++it){if(i&&sep)P(sep);(*this),*it;}if(nl)P(nl);RT}
 template<class U>I Fw&print(U x){(*this),x;P('\n');RT}
 template<class U,class...Us>I Fw&print(U x,Us...args){(*this),x;P(' ');print(args...);RT}
 };

@@ -1,4 +1,5 @@
 split arith/gcd/crt/factorize
+fast stringstream (test with euler060)
 binary search shorthand
 	first false of f(x, ctx) => lower_bound(range, ctx, f)
 	first true  of f(x, ctx) => lower_bound(range, ctx, !f)

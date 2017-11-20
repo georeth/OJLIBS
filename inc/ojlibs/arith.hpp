@@ -6,6 +6,10 @@
 #include <limits>
 #include <type_traits>
 
+#ifndef OJLIBS_USE_INT128
+#  define OJLIBS_USE_INT128 1
+#endif
+
 namespace ojlibs { // TO_BE_REMOVED
 
 // try binary gcd on large number
@@ -60,6 +64,13 @@ Int mul_mod(Int a, Int b, Int m) {
     return (Int)p;
 }
 
+#if defined(__SIZEOF_INT128__) && OJLIBS_USE_INT128
+template <>
+int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
+    __int128_t p = __int128_t(a) * b;
+    return (int64_t)(p % m);
+}
+#else
 template <>
 int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
     int64_t r = 0;
@@ -70,6 +81,7 @@ int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
     }
     return r;
 }
+#endif
 
 template <typename Int, typename PInt>
 Int pow_mod(Int a, PInt p, Int m) {

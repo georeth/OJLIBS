@@ -18,6 +18,7 @@ namespace ojlibs { // TO_BE_REMOVED
 // G - polygon / convex hull
 // H - half-plane
 // is - intersect
+// tan - tangent
 
 static const double EPS = 1e-8;
 

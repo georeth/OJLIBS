@@ -35,5 +35,33 @@ std::vector<W> dijkstra(graph<EInfo> &g, int start, std::vector<bool> *visit_out
     return dist;
 }
 
+/*
+vector<int64_t> dijkstra(graph<atom_attr<int64_t>> &g, int src, vector<bool> *visit_out) {
+    vector<int64_t> dist(g.size());
+    vector<bool> visit(g.size());
+
+    using p_wu = pair<int64_t, int>;
+    priority_queue<p_wu, vector<p_wu>, std::greater<p_wu>> pq;
+    pq.push({0, src});
+    while (pq.size()) {
+        int64_t w; int u;
+        tie(w, u) = pq.top(); pq.pop();
+
+        if (visit[u]) continue;
+        visit[u] = true;
+        dist[u] = w;
+
+        for (auto v : g.edges[u]) {
+            if (!visit[v.to]) {
+                pq.push({w + v.w, v.to});
+            }
+        }
+    }
+    if (visit_out) *visit_out = visit;
+    return dist;
+}
+
+ */
+
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_DIJKSTRA_H_ */

@@ -59,7 +59,7 @@ Mobius Inversion.
 
 Subset Inversion.
 
-Karatsuba, FFT, Multiprecision.
+Karatsuba, FFT, FWT, Multiprecision.
 
 ## Linear Algebra
 Matrix
@@ -71,14 +71,10 @@ Arithmatic operation (naive implementation)
 Determinant
 
 ## Computational Geometry
-Vector Arithmatic (Linear, Dot, Cross, Directed area, Distance)
-(Merge with matrix?)
+
+2D geometry (point, line, circle, convex hull, half-planes intersection, closest point pair)
 
 Geometry Transform (TODO)
-
-Closest pair of points
-
-convex hull, intersection of half planes, sweeping line.
 
 ## String Processing
 
@@ -86,9 +82,9 @@ KMP
 
 Z-Function
 
-Suffix Array (SA-IS algorithm : linear time construction)
+Suffix Array (TODO: SA-IS algorithm, linear time construction)
 
-AC-Automaton(TODO)
+AC-Automaton
 
 ## Graph Theory
 A Generic Graph Implementation
@@ -115,11 +111,13 @@ Generic memorization function without virtual function overhead
 (Useful for top-down dynamic programming.)
 
 ## FAST IO
-(TODO)
-
-- mmap or read into big buffer (avoid \<cstdio\> or \<iostream\>)
-
-- read\_int(), read\_string(), etc.
+```c++
+// A + B problem
+int main() {
+    int a, b; fin, a, b;
+    fout, a + b, endl;
+}
+```
 
 ## TODO
 2-SAT
@@ -134,3 +132,10 @@ named tuple
 - A tool that can combine source code with included header files of this library to produce a single source file to submit. (tools/ojlibs\_cpp)
 
 - Solution Template : main.cpp, check.sh, interactive.sh and Makefile (src/)
+
+```bash
+# Download test cases
+$ cf_test_crawler -p 123 A
+# Check program
+$ make check
+```
