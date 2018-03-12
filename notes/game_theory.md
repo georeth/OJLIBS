@@ -61,7 +61,7 @@ X = X1 * X2 * ... * Xk
 the current player can choose a game to play.
 
 ### Spague-Grundy Theorem
-sg(x) = sg(x1) + ... + sg(xk)
+sg(x) = sg(x1) xor ... xor sg(xk)
 
 ## Recursive and Stochastic Games
 There are two sets of parameters: expected value of states and strategy.

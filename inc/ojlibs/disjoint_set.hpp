@@ -27,6 +27,10 @@ struct disjoint_set {
     }
 };
 
+// extension: distance function and function f          TO_BE_REMOVED
+//      dist(u, u) = 0                                  TO_BE_REMOVED
+//      dist(u, w) = f(dist(u, v), dist(v, w))          TO_BE_REMOVED
+
 } // ojlibs TO_BE_REMOVED
 
 
