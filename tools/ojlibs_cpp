@@ -22,7 +22,7 @@ sub parse_file {
         # author line
         $line =~ s/OJLIBS_CODER_NAME/$author_name/;
         # bracket include
-        if ($line =~ /^\s*#\s*include\s*<([^>]*)>/) {
+        if ($line =~ /^\s*#\s*include\s*<([^>]*)>\s*$/) {
             my $file = $1;
             next if ($file ~~ @included_files); # already included
             push @included_files, $file;
