@@ -139,7 +139,8 @@ static inline void rb_rotate_right(struct rb_head *old_root, struct rb_head *new
 
 	rb_change_child(old_root, new_root, pp, root);
 }
-static inline void rb_insert(struct rb_head *n, struct rb_root *root) {
+static inline void rb_insert_rebalance(struct rb_head *n, struct rb_root *root) {
+	// n is newly inserted node
 	struct rb_head *p, *pp, *u;
 	while (true) {
 		p = n->parent;
@@ -432,7 +433,7 @@ struct rb_tree {
 				return iterator_type();
 		}
 		rb_link_node(head, parent, link);
-		rb_insert(head, &root);
+		rb_insert_rebalance(head, &root);
 		return iterator_type(head);
 	}
 	// return next iterator

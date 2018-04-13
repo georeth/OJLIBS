@@ -147,6 +147,9 @@ public:
         return *this = *this * that;
     }
 };
+template <typename T, template <typename> class Ring>
+Ring<T> matrix<T, Ring>::traits;
+
 
 // opeator non-member
 template <typename T, template <typename> class Ring>

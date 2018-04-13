@@ -10,3 +10,5 @@ Edmond's algorithm to find maximum matching (generic graph) https://en.wikipedia
 ac_automaton: use add, build interfaces. it should behave like a map from string to answer. (ac_automaton.hpp -> aca.hpp?)
 
 Now we have a new graph template. should Dijkstra, Dinic, 2SAT, MCMF be is-a, has-a, or another implementation?
+
+Our graph class may have unused vertices. algorithms like SCC will get dummy results. Better solution?

@@ -44,7 +44,7 @@ TEST(BASIC, time_without_plist) {
 }
 
 TEST(BASIC, largest_prime) {
-    int64_t sum, expected;
+    int64_t sum = 0, expected = 0;
     for (int i = 0; i < 100; ++i) {
         int64_t x = idist(gen);
         sum += ojlibs::factorize(x).back().first;

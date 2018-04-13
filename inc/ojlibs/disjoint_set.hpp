@@ -8,8 +8,8 @@ namespace ojlibs { // TO_BE_REMOVED
 struct disjoint_set {
     std::vector<int> parent;
     void reset(int size){
-	parent.resize(size);
-        for (int i = 0; i < parent.size(); i++){
+        parent.resize(size);
+        for (int i = 0; i < (int)parent.size(); i++){
             parent[i] = i;
         }
     }
