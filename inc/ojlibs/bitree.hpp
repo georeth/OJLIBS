@@ -31,7 +31,7 @@ struct bitree {
         if (p == 0)
             vec[0] = op(vec[0], n);
         else {
-            while (p < vec.size()) {
+            while (p < (int)vec.size()) {
                 vec[p] = op(vec[p], n);
                 p += p & -p;
             }
