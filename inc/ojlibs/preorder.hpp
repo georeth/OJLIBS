@@ -14,6 +14,8 @@ struct preorder_solver_general {
     typedef std::array<int, D> coord_t;
     enum type { UPDATE, QUERY }; // update first
 
+    preorder_solver_general(std::array<bool, D> rev = {}) : rev(rev) { }
+
     struct Q {
         coord_t coord;
         type ty;
@@ -22,6 +24,7 @@ struct preorder_solver_general {
         int64_t ans;
     };
     std::vector<Q> qs;
+    std::array<bool, D> rev;
 
     // First, add query and update
     void add_query(coord_t coord, int id) {
@@ -65,7 +68,7 @@ struct preorder_solver_general {
         for (size_t i = 0; i < qs.size(); ++i)
             v[i] = &qs[i];
 
-        std::sort(v.begin(), v.end(), cmp(0));
+        std::sort(v.begin(), v.end(), cmp(0, rev[0]));
         CDQ(0, v, 0, v.size());
     }
     void CDQ(int dep, std::vector<Q *> &v, size_t b, size_t e) {
@@ -85,7 +88,7 @@ struct preorder_solver_general {
         for (size_t i = m; i < e; ++i)
             if (v[i]->ty == QUERY) vv.push_back(v[i]);
 
-        std::sort(vv.begin(), vv.end(), cmp(dep + 1));
+        std::sort(vv.begin(), vv.end(), cmp(dep + 1, rev[dep + 1]));
         CDQ(dep + 1, vv, 0, vv.size());
     }
     void solve_2D(std::vector<Q *> &v, size_t b, size_t e) {
@@ -122,11 +125,11 @@ struct preorder_solver_general {
 
     // helper functions
     struct cmp {
-        int d;
-        cmp(int d) : d(d) { }
+        int d; bool rev;
+        cmp(int d, bool rev) : d(d), rev(rev) { }
         bool operator()(const Q *q1, const Q *q2) const {
             if (q1->coord[d] != q2->coord[d])
-                return q1->coord[d] < q2->coord[d];
+                return rev ^ (q1->coord[d] < q2->coord[d]);
             return q1->ty < q2->ty;
         }
     };
