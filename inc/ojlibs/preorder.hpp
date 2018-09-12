@@ -9,29 +9,25 @@
 
 namespace ojlibs { // TO_BE_REMOVED
 
-template <int D>
+template <int D, typename ID = int>
 struct preorder_solver_general {
     typedef std::array<int, D> coord_t;
-    enum type { UPDATE, QUERY }; // update first
-
-    preorder_solver_general(std::array<bool, D> rev = {}) : rev(rev) { }
 
     struct Q {
         coord_t coord;
-        type ty;
+        bool is_q;
 
-        int id;
+        ID id;
         int64_t ans;
     };
     std::vector<Q> qs;
-    std::array<bool, D> rev;
 
     // First, add query and update
-    void add_query(coord_t coord, int id) {
-        qs.push_back(Q{.ty = QUERY, .coord = coord, .ans = 0, .id = id});
+    void add_query(coord_t coord, ID id) {
+        qs.push_back(Q{coord, true, id, 0});
     }
     void add_update(coord_t coord) {
-        qs.push_back(Q{.ty = UPDATE, .coord = coord, .ans = 0});
+        qs.push_back(Q{coord, false, ID(), 0});
     }
 
     // Second, do discretize (optional)
@@ -68,7 +64,7 @@ struct preorder_solver_general {
         for (size_t i = 0; i < qs.size(); ++i)
             v[i] = &qs[i];
 
-        std::sort(v.begin(), v.end(), cmp(0, rev[0]));
+        std::sort(v.begin(), v.end(), cmp(0));
         CDQ(0, v, 0, v.size());
     }
     void CDQ(int dep, std::vector<Q *> &v, size_t b, size_t e) {
@@ -84,23 +80,23 @@ struct preorder_solver_general {
 
         std::vector<Q *> vv;
         for (size_t i = b; i < m; ++i)
-            if (v[i]->ty == UPDATE) vv.push_back(v[i]);
+            if (!v[i]->is_q) vv.push_back(v[i]);
         for (size_t i = m; i < e; ++i)
-            if (v[i]->ty == QUERY) vv.push_back(v[i]);
+            if (v[i]->is_q) vv.push_back(v[i]);
 
-        std::sort(vv.begin(), vv.end(), cmp(dep + 1, rev[dep + 1]));
+        std::sort(vv.begin(), vv.end(), cmp(dep + 1));
         CDQ(dep + 1, vv, 0, vv.size());
     }
     void solve_2D(std::vector<Q *> &v, size_t b, size_t e) {
         for (size_t i = b; i < e; ++i)
-            if (v[i]->ty == UPDATE) {
+            if (!v[i]->is_q) {
                 bit.increase_element(v[i]->coord[D - 1], 1);
             } else {
                 v[i]->ans += bit.query_include(v[i]->coord[D - 1]);
             }
 
         for (size_t i = b; i < e; ++i)
-            if (v[i]->ty == UPDATE)
+            if (!v[i]->is_q)
                 bit.increase_element(v[i]->coord[D - 1], -1);
     }
 
@@ -112,29 +108,28 @@ struct preorder_solver_general {
         solve_2D_alter(v, m, e);
 
         for (size_t i = b; i < m; ++i)
-            if (v[i]->ty == UPDATE)
+            if (!v[i]->is_q)
                 bit.increase_element(v[i]->coord[D - 1], 1);
         for (size_t i = m; i < e; ++i)
-            if (v[i]->ty == QUERY)
+            if (v[i]->is_q)
                 v[i]->ans += bit.query_include(v[i]->coord[D - 1]);
         for (size_t i = b; i < m; ++i)
-            if (v[i]->ty == UPDATE)
+            if (!v[i]->is_q)
                 bit.increase_element(v[i]->coord[D - 1], -1);
     }
 
 
     // helper functions
     struct cmp {
-        int d; bool rev;
-        cmp(int d, bool rev) : d(d), rev(rev) { }
+        int d;
+        cmp(int d) : d(d) { }
         bool operator()(const Q *q1, const Q *q2) const {
             if (q1->coord[d] != q2->coord[d])
-                return rev ^ (q1->coord[d] < q2->coord[d]);
-            return q1->ty < q2->ty;
+                return q1->coord[d] < q2->coord[d];
+            return q1->is_q < q2->is_q;
         }
     };
 };
-
 
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: INC_OJLIBS_PREORDER_H_ */

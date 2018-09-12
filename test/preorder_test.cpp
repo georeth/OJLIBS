@@ -57,7 +57,7 @@ void test_general_func(int test_size, bool check = true) {
     }
 
     for (auto q : solver.qs) {
-        if (q.ty == solver_t::QUERY) {
+        if (q.is_q) {
             actual[q.id] = q.ans;
         }
     }
