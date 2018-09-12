@@ -36,7 +36,7 @@ sub parse_file {
             }
         }
         if ($line =~ /^\s*#\s*include\s*"([^"]*)"/) {
-            die "quote include is not allowed";
+            say STDERR color("red"), "quote include is not allowed", color("reset");
         }
         # guard (remove)
         if ($line =~ /^\s*#\s*(ifndef|define|endif).*$guard_pattern/) {
