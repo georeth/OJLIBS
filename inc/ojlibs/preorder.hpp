@@ -101,6 +101,25 @@ struct preorder_solver_general {
                 bit.increase_element(v[i]->coord[D - 1], -1);
     }
 
+    void solve_2D_alter(std::vector<Q *> &v, size_t b, size_t e) {
+        if (e - b <= 1) return;
+
+        size_t m = (b + e) / 2;
+        solve_2D_alter(v, b, m);
+        solve_2D_alter(v, m, e);
+
+        for (size_t i = b; i < m; ++i)
+            if (v[i]->ty == UPDATE)
+                bit.increase_element(v[i]->coord[D - 1], 1);
+        for (size_t i = m; i < e; ++i)
+            if (v[i]->ty == QUERY)
+                v[i]->ans += bit.query_include(v[i]->coord[D - 1]);
+        for (size_t i = b; i < m; ++i)
+            if (v[i]->ty == UPDATE)
+                bit.increase_element(v[i]->coord[D - 1], -1);
+    }
+
+
     // helper functions
     struct cmp {
         int d;

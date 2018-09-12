@@ -42,10 +42,11 @@ set(test_cases # list all tests here
 	# test_type_test
 	# counting_test
 	hash_test
-
+	# zint_test
 
 	## Other tests
 	digit_dc_test
+	preorder_test
 )
 
 function(ojlibs_add_test filename)
