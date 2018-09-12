@@ -154,6 +154,16 @@ Int div_pos_r(Int a, Int b, Int &r) {
     return q;
 }
 
+// return largest x | a, s.t. (x, b) = 1
+template <typename Int>
+Int coprime_div(Int a, Int b) {
+    while (b != 1) {
+        while (a % b == 0) a /= b;
+        b = gcd(a, b);
+    }
+    return a;
+}
+
 // TODO: gauss_factorial, factorial_mod.
 //       log, factorial_exp
 
