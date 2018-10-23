@@ -313,15 +313,6 @@ T determinant(const MAT_T &A) {
     return ret;
 }
 
-void print(const ojlibs::matrix<double> &m) {
-    for (int i = 0; i < m.r(); ++i) {
-	for (int j = 0; j < m.r(); ++j)
-	    std::cout << m(i, j) << " ";
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
-
 // inverse my Guass elimination
 TEMPL_ARG
 MAT_T inverse(const MAT_T &A) {
