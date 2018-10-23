@@ -30,7 +30,7 @@ set(test_cases # list all tests here
 	memoization_test
 	arith_test
 	power_test
-	linear_test
+	# linear_test (deprecated)
 	matrix_test
 	shorthand_test
 	prime_list_test
@@ -47,6 +47,8 @@ set(test_cases # list all tests here
 	## Other tests
 	digit_dc_test
 	preorder_test
+
+	bench_test
 )
 
 function(ojlibs_add_test filename)
