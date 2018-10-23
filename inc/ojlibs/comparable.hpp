@@ -3,6 +3,8 @@
 
 namespace ojlibs { // TO_BE_REMOVED
 
+// this is a crtp pattern
+// struct T : comparable<T> { ... }
 template <typename D>
 struct comparable {
 bool operator<(const comparable &that) const {
