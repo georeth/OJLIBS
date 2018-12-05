@@ -14,23 +14,23 @@ TEST(RANDOM, subset) {
     static const int K = 10;
     static const int M = 1 << K;
     for (int i = 0; i < TEST_GROUP; ++i) {
-	vector<int> f(M);
-	for (int x = 0; x < M; ++x)
-	    f[x] = uni(0, 1000)(gen);
+        vector<int> f(M);
+        for (int x = 0; x < M; ++x)
+            f[x] = uni(0, 1000)(gen);
 
-	vector<int> g = ojlibs::subset_transform(f, K, Op());
+        vector<int> g = ojlibs::subset_transform(f, K, Op());
 
-	vector<int> gg(M);
-	for (int x = 0; x < M; ++x)
-	    for (int y = 0; y < M; ++y) if ((y & x) == y)
-		gg[x] = op(gg[x], f[y]);
-	ASSERT_EQ(g, gg);
+        vector<int> gg(M);
+        for (int x = 0; x < M; ++x)
+            for (int y = 0; y < M; ++y) if ((y & x) == y)
+                gg[x] = op(gg[x], f[y]);
+        ASSERT_EQ(g, gg);
 
-	vector<int> ff = ojlibs::subset_inverse(g, K, Op());
-	ASSERT_EQ(f, ff);
+        vector<int> ff = ojlibs::subset_inverse(g, K, Op());
+        ASSERT_EQ(f, ff);
 
-	int x = uni(0, M - 1)(gen);
-	EXPECT_EQ(f[x], ojlibs::subset_inverse_single(g, K, x, Op()));
+        int x = uni(0, M - 1)(gen);
+        EXPECT_EQ(f[x], ojlibs::subset_inverse_single(g, K, x, Op()));
     }
 }
 TEST(RANDOM, superset) {
@@ -38,24 +38,24 @@ TEST(RANDOM, superset) {
     static const int K = 10;
     static const int M = 1 << K;
     for (int i = 0; i < TEST_GROUP; ++i) {
-	vector<int> f(M);
-	for (int x = 0; x < M; ++x)
-	    f[x] = uni(0, 1000)(gen);
+        vector<int> f(M);
+        for (int x = 0; x < M; ++x)
+            f[x] = uni(0, 1000)(gen);
 
-	vector<int> g = ojlibs::superset_transform(f, K, Op());
+        vector<int> g = ojlibs::superset_transform(f, K, Op());
 
-	vector<int> gg(M);
-	for (int x = 0; x < M; ++x)
-	    for (int y = 0; y < M; ++y) if ((y & x) == x)
-		gg[x] = op(gg[x], f[y]);
+        vector<int> gg(M);
+        for (int x = 0; x < M; ++x)
+            for (int y = 0; y < M; ++y) if ((y & x) == x)
+                gg[x] = op(gg[x], f[y]);
 
-	ASSERT_EQ(g, gg);
+        ASSERT_EQ(g, gg);
 
-	vector<int> ff = ojlibs::superset_inverse(g, K, Op());
+        vector<int> ff = ojlibs::superset_inverse(g, K, Op());
 
-	ASSERT_EQ(f, ff);
+        ASSERT_EQ(f, ff);
 
-	int x = uni(0, M - 1)(gen);
-	EXPECT_EQ(f[x], ojlibs::superset_inverse_single(g, K, x, Op()));
+        int x = uni(0, M - 1)(gen);
+        EXPECT_EQ(f[x], ojlibs::superset_inverse_single(g, K, x, Op()));
     }
 }

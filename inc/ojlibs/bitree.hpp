@@ -39,18 +39,18 @@ struct bitree {
     }
 };
 // inline int sum (int r) {
-// 	int ans = 0;
-// 	for (; r >= 0; r = (r & (r + 1)) - 1)
-// 		ans += t[r];
-// 		
-// 	return ans;
+//     int ans = 0;
+//     for (; r >= 0; r = (r & (r + 1)) - 1)
+//         ans += t[r];
+//         
+//     return ans;
 // }
 // inline int sum (int l, int r) {
-//  	return sum(r) - sum(l - 1);
+//      return sum(r) - sum(l - 1);
 // }
 // inline void inc (int i, int add) {
-// 	for (; i < N; i = (i | (i + 1)))
-// 		t[i] += add;
+//     for (; i < N; i = (i | (i + 1)))
+//         t[i] += add;
 // }
 
 } // namespace ojlibs TO_BE_REMOVED

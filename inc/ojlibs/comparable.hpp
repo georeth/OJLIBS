@@ -8,22 +8,22 @@ namespace ojlibs { // TO_BE_REMOVED
 template <typename D>
 struct comparable {
 bool operator<(const comparable &that) const {
-	return static_cast<const D &>(*this) < static_cast<const D &>(that);
+    return static_cast<const D &>(*this) < static_cast<const D &>(that);
 }
 bool operator==(const comparable &that) const {
-	return (*this) < that && (that < *this);
+    return (*this) < that && (that < *this);
 }
 bool operator!=(const comparable &that) const {
-	return !(*this == that);
+    return !(*this == that);
 }
 bool operator>(const comparable &that) const {
-	return !(*this <= that);
+    return !(*this <= that);
 }
 bool operator<=(const comparable &that) const {
-	return *this < that || *this == that;
+    return *this < that || *this == that;
 }
 bool operator>=(const comparable &that) const {
-	return !(*this < that);
+    return !(*this < that);
 }
 };
 

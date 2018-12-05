@@ -53,4 +53,4 @@ fio::Fw<fio::Ce>ferr;
 
 // TODO: stringstream IO, strings, char *, vector TO_BE_REMOVED
 // e.g., fout.print(1, 2, 3): add spaces and newline TO_BE_REMOVED
-// 	 fout.all(vec)
+//     fout.all(vec)

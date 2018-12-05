@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ ! -d test ]; then
+  mkdir test
+fi
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 test_case_id"
+  exit -1
+fi
+
+vim -o test/in-${1}.txt test/out-${1}.txt

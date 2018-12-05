@@ -13,9 +13,9 @@ test_type f() {
     test_type v = test_type(100);
     printf("f: v = %d\n", v.v);
     if (tmp.v == 123) // if there is no `if', v ctor will be in-place. (c++ magic)
-	return v;
+        return v;
     else
-	return test_type(321);
+        return test_type(321);
 }
 
 test_type &g() {
@@ -25,7 +25,7 @@ test_type &g() {
 TEST(BASIC, t1) {
     vector<test_type> vec(5);
     for (auto &&k : vec) {
-	printf("v = %d\n", k.v);
+        printf("v = %d\n", k.v);
     }
     // auto && : the perfect forwarding
     auto &&t1 = f();

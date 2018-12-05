@@ -47,7 +47,7 @@ protected:
 };
 
 template <typename Derived, typename Ret, typename Arg,
-	  template<typename K, typename V, typename ...> class Map = std::unordered_map>
+          template<typename K, typename V, typename ...> class Map = std::unordered_map>
 class map_memo_crtp : public map_memo<Ret, Arg, Map> {
 public:
     typedef Arg arg_type;

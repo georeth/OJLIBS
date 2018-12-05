@@ -29,7 +29,12 @@
 #include <sstream>
 #include <algorithm>
 
+<<<<<<< HEAD
+const double PI = 2 * acos(0.0);
+
+=======
 namespace ojlibs{}      // TO_BE_REMOVED
+>>>>>>> d23a05ccb42503f0adeef0de099f0fa5297bea42
 using namespace std;    // use as solution header. name polution is fine.
 using namespace ojlibs;   // TO_BE_REMOVED
 
@@ -41,7 +46,15 @@ using namespace ojlibs;   // TO_BE_REMOVED
 #  define pr_line()
 #endif
 
-#include <ojlibs/util.hpp>
+template <typename T>
+bool chmax(T &m, const T &v) { if (v > m) return m = v, true; return false; }
+template <typename T>
+bool chmin(T &m, const T &v) { if (v < m) return m = v, true; return false; }
+static const int HMAX32 = INT32_MAX / 2;
+static const int HMIN32 = -HMAX32;
+static const int64_t HMAX64 = INT64_MAX / 2;
+static const int64_t HMIN64 = -HMAX64;
+
 #define ALL(x) begin(x), end(x)
 
 #define FOR0(i,n) for(int i=0,i##end=n;i<i##end;i++)
@@ -51,12 +64,6 @@ using namespace ojlibs;   // TO_BE_REMOVED
 #define FOD1(i,n) for(int i=n;i;i--)
 #define FOD(i,a,b) for(int i=a,i##end=b;i>=i##end;i--)
 #define FORE(i,x)for(__typeof(x.end())i=x.begin();i!=x.end();++i)
-
-typedef int64_t ll;
-typedef vector<int> vi;
-typedef pair<int, int> pii;
-typedef vector<pair<int, int>> vii;
-typedef vector<vector<int>> vvi;
 
 #include <ojlibs/fio.inc>
 

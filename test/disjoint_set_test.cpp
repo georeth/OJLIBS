@@ -3,5 +3,5 @@
 #include <ojlibs/shorthand.hpp>
 
 TEST(BASIC, compile) {
-	disjoint_set u(100);
+    disjoint_set u(100);
 }

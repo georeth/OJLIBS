@@ -18,7 +18,7 @@ static inline unsigned all_ones(unsigned x) {
 static inline int floor_log2(unsigned x) {
     int ans = 0;
     while (x >>= 1)
-	++ans;
+        ++ans;
     return ans;
 }
 static inline bool is_pow2(unsigned x) {
