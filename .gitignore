@@ -1,5 +1,4 @@
 ./.gitignore
 build
-Makefile
 .clang_complete
 node_modules
