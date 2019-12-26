@@ -45,7 +45,7 @@ void convertWords(nat q, char *s, size_t ns, WORD b, int ndigits, WORD bb, divis
             }
             if (table[index].nbits >= max_len && table[index].bbb >= q) {
                 --index;
-                if (index < 0) throw 0;
+                assert(index >= 0);
             }
 
             nat::div(q, table[index].bbb, &q, &r);
@@ -130,7 +130,7 @@ WORD parse_digit(char ch) {
     if ('0' <= ch && ch <= '9') return ch - '0';
     if ('a' <= ch && ch <= 'z') return ch - 'a' + 10;
     if ('A' <= ch && ch <= 'Z') return ch - 'A' + 10 + 26;
-    throw 0;
+    assert(false);
 }
 
 nat str_to_nat(const char *s, size_t base) {

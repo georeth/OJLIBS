@@ -1,5 +1,8 @@
+// this code is taken from Deep-Dark-Fantasy team
+
 #ifndef OJLIBS_INC_GEOMETRY_H_
 #define OJLIBS_INC_GEOMETRY_H_
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <vector>
@@ -17,6 +20,7 @@ namespace ojlibs { // TO_BE_REMOVED
 // I - interval
 // G - polygon / convex hull
 // H - half-plane
+// T - triagnle
 // is - intersect
 // tan - tangent
 
@@ -312,7 +316,7 @@ static inline double areaCT(double r, const P &p1, const P &p2) { // signed
 static inline std::vector<P> isH(std::vector<L> &hs) { // intersect half-planes
     // ZZY incremental rotating method
     // not implemented (no question to test now)
-    throw 0;
+    assert(false);
 }
 
 } // namespace ojlibs TO_BE_REMOVED

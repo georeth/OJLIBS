@@ -1,6 +1,7 @@
 #ifndef OJLIBS_INC_SIZED_SPLAY_H_
 #define OJLIBS_INC_SIZED_SPLAY_H_
 
+#include <cassert>
 #include <type_traits>
 #include <ojlibs/intrusive_util.hpp>
 #include <ojlibs/bst.hpp>
@@ -157,7 +158,7 @@ struct splay_array {
             splay_insert_before(root, x, y); // let's splay here
             return iterator_type(x);
         } else if (k == size()) return insert_back(node);
-        else throw 0;
+        else assert(false);
     }
     iterator_type erase(iterator_type it) {
         iterator_type next = it;

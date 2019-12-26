@@ -2,3 +2,5 @@
 build
 .clang_complete
 node_modules
+cmake-build-debug/
+.idea

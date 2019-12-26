@@ -1,6 +1,7 @@
 #ifndef OJLIBS_INC_IMPLICIT_SEGTREE_H_
 #define OJLIBS_INC_IMPLICIT_SEGTREE_H_
 
+#include <cassert>
 #include <deque>
 #include <ojlibs/bit_trick.hpp>
 #include <ojlibs/binary_operator.hpp>
@@ -34,7 +35,7 @@ private: \
     } \
 public: \
     implicit_segtree(int b, int e) { \
-        if (e - b < 1) throw 0; \
+        assert(e - b >= 1); \
         pool.push_back(node_t(b, e, op.identity())); \
     }
 
@@ -51,18 +52,18 @@ struct implicit_segtree<T, Op, true>
 
     void increase_element(int p, const T &n) {
         node_t *root = &pool.front();
-        if (p < root->b || p >= root->e) throw 0;
+        assert(root->b <= p && p < root->e);
         return increase_element_inner(root, p, n);
     }
     void update_element(int p, const T &n) {
         node_t *root = &pool.front();
-        if (p < root->b || p >= root->e) throw 0;
+        assert(root->b <= p && p < root->e);
         return update_element_inner(root, p, n);
     }
     T query_range(int s, int t) {
         if (s >= t) return op.identity();
         node_t *root = &pool.front();
-        if (s < root->b || t > root->e) throw 0;
+        assert(root->b <= s && t <= root->e);
         return query_range_inner(root, s, t);
     }
     T query_include(int s, int t) {
@@ -119,13 +120,13 @@ struct implicit_segtree<T, Op, false>
     COMMON_CODE
     T query_element(int p) {
         node_t *root = &pool.front();
-        if (p < root->b || p >= root->e) throw 0;
+        assert(root->b <= p && p < root->e);
         return query_element_inner(root, p);
     }
     void increase_range(int s, int t, const T &inc) {
         if (s >= t) return;
         node_t *root = &pool.front();
-        if (s < root->b || t > root->e) throw 0;
+        assert(root->b <= s && t <= root->e);
         return increase_range_inner(root, s, t, inc);
     }
     void increase_include(int s, int t, const T &inc) {

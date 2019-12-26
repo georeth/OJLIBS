@@ -6,6 +6,7 @@
 #ifndef OJLIBS_INC_BIGNUM_H_
 #define OJLIBS_INC_BIGNUM_H_
 
+#include <cassert>
 #include <cinttypes>
 #include <vector>
 #include <algorithm>
@@ -194,7 +195,7 @@ struct nat {
 
     static nat sub(CSPAN x, CSPAN y) {
         size_t m = x.n, n = y.n;
-        if (n > m) throw 0;
+        assert(m >= n);
         if (m == 0) return nat();
         if (n == 0) return nat(x);
 
@@ -203,7 +204,7 @@ struct nat {
         subVV(z.to_span(0, n), x.p, y.p, &c);
         if (m > n)
             subVW(z.to_span(n), x.p + n, c, &c);
-        if (c) throw 0;
+        assert(c == 0);
 
         z.norm();
         return z;
@@ -285,7 +286,7 @@ struct nat {
 
     static nat divW(CSPAN x, WORD y, WORD *r) {
         size_t m = x.n;
-        if (y == 0) throw 0;
+        assert(y);
         if (y == 1 || m == 0) return nat(x);
 
         nat z; z.limbs.resize(m);
@@ -356,7 +357,7 @@ struct nat {
     }
 
     static nat div(CSPAN u, CSPAN v, nat *r) {
-        if (v.n == 0) throw 0;
+        assert(v.n);
         if (bignum::cmp(u, v) < 0) {
             *r = nat(u);
             return nat();

@@ -1,6 +1,7 @@
 #ifndef INC_OJLIBS_BST_H_
 #define INC_OJLIBS_BST_H_
 
+#include <cassert>
 #include <iterator>
 
 namespace ojlibs { // TO_BE_REMOVED
@@ -107,7 +108,7 @@ struct bst_iterator {
         return cur;
     }
     bst_iterator &operator++() {
-        if (!cur) throw 0;
+        assert(cur);
         cur = bst_succ(cur);
         return *this;
     }
@@ -117,7 +118,7 @@ struct bst_iterator {
         return that;
     }
     bst_iterator &operator--() {
-        if (!cur) throw 0;
+        assert(cur);
         cur = bst_prev(cur);
         return *this;
     }

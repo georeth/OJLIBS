@@ -7,7 +7,6 @@
 
 namespace ojlibs { // TO_BE_REMOVED
 
-
 template <typename T>
 using indexed_vec2 = std::pair<vec2<T>, int>;
 

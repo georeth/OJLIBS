@@ -1,6 +1,7 @@
 #ifndef OJLIBS_INC_CRT_H_
 #define OJLIBS_INC_CRT_H_
 
+#include <cassert>
 #include <ojlibs/arith.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
@@ -20,8 +21,8 @@ TInt crt2(Int a1, Int m1, Int a2, Int m2) {
     Int r1, r2;
     a1 = div_pos_r(a1, g, r1);
     a2 = div_pos_r(a2, g, r2);
-    if (r1 != r2)
-        throw 0;
+    assert(r1 == r2);
+
     m1 /= g; m2 /= g; // no remainder
 
     TInt m12 = static_cast<TInt>(m1) * m2;

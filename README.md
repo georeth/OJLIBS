@@ -111,6 +111,8 @@ Eular Walk (TODO : support removing edge in graph)
 Generic memorization function without virtual function overhead
 (Useful for top-down dynamic programming.)
 
+High-dimension pre-order problem (CDQ algorithm)
+
 2SAT
 
 ## FAST IO
@@ -121,9 +123,6 @@ int main() {
     fout, a + b, endl;
 }
 ```
-
-## TODO
-snippets (dfs, tree, lca, segtree)
 
 # TOOLS
 - Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)

@@ -116,7 +116,7 @@ MAT_T operator*(const MAT_T &left, const MAT_T &right) {
 TEMPL_ARG \
 MAT_T &operator op_eq_str(MAT_T &left, const MAT_T &right) { \
     int rr = left.r(), cc = left.c(); \
-    assert(rr == right.r() && cc != right.c()); \
+    assert(rr == right.r() && cc == right.c()); \
  \
     EleTraits traits; \
     for (int i = 0; i < rr; ++i) \
