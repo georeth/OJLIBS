@@ -8,7 +8,6 @@
 
 namespace ojlibs { // TO_BE_REMOVED
 
-
 template<typename T, typename Op = binary_max<T>>
 struct sparse_table {
     // Op should be idempotent
@@ -16,7 +15,7 @@ struct sparse_table {
     int size;
     std::vector<std::vector<T>> arr;
 
-    sparse_table(int size) : size(size), arr(floor_log2(size) + 1, std::vector<T>(size, op.identity())) { }
+    explicit sparse_table(int size) : size(size), arr(floor_log2(size) + 1, std::vector<T>(size, op.identity())) { }
     std::vector<T> &data() {
         return arr[0];
     }

@@ -50,7 +50,9 @@ sub parse_file {
         # TO_BE_REMOVED
         next if $line =~ /TO_BE_REMOVED/;
         # remove c++ style comment
-        # $line =~ s{^\s*//.*$}{};
+        # (may remove `https://` in comment if we remove part of line)
+        $line =~ s{^\s*//.*$}{};
+        # $line =~ s{//.*$}{};
         # empty line
         next if $line =~ /^\s*$/;
 

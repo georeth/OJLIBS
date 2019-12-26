@@ -31,7 +31,6 @@ Just use the definition, recursively or by DP.
 1. Min-Max
 2. ans[x] = Max{y in F(x)} -ans[y]
 
-
 ### With loops
 Win, Lose, Unknown.
 Label a state when all outcomes are known.

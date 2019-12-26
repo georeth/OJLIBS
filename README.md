@@ -38,9 +38,7 @@ Segment Tree (flavour I/II, and lazy)
 ## Arithmatic
 Division with fixed rounding direction
 
-GCD
-
-LCM
+GCD / LCM
 
 Extended Euclid Algorithm
 
@@ -48,18 +46,22 @@ Modular Arithmatic
 
 Chinese Remainder Theorem
 
+Bignum
+
 PELL equation (python source)
 
-## Mathematics Structure (TODO)
-Permutaion, Combination, Subset.
+## Mathematics Objects
+Permutaion, Combination, Subset (and generators)
 
-Generator.
+Mobius Inversion
 
-Mobius Inversion.
+Subset Inversion
 
-Subset Inversion.
+Multiprecision (bignum)
 
-Karatsuba, FFT, FWT, Multiprecision.
+FFT, FWT, Multiprecision.
+
+NTT (TODO)
 
 ## Linear Algebra
 Matrix
@@ -105,10 +107,11 @@ Maximum Bipartitie Matching (Hungarian / Kuhn-Munkres)
 
 Eular Walk (TODO : support removing edge in graph)
 
-## Memoization
+## MISC
 Generic memorization function without virtual function overhead
-
 (Useful for top-down dynamic programming.)
+
+2SAT
 
 ## FAST IO
 ```c++
@@ -120,11 +123,7 @@ int main() {
 ```
 
 ## TODO
-2-SAT
-
 snippets (dfs, tree, lca, segtree)
-
-named tuple
 
 # TOOLS
 - Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)

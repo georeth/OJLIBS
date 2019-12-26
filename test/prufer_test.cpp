@@ -5,6 +5,7 @@
 #include <utility>
 #include <random>
 #include <list>
+#include <algorithm>
 using namespace std;
 std::mt19937 gen;
 using uni = uniform_int_distribution<>;

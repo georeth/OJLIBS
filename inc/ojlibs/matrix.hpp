@@ -70,7 +70,7 @@ TEMPL_ARG_DEFAULT
 struct matrix {
     int nrow, ncol;
     std::vector<T> arr;
-    matrix(int r = 0, int c = 0, const T &init = EleTraits::zero())
+    explicit matrix(int r = 0, int c = 0, const T &init = EleTraits::zero())
         : nrow(r), ncol(c), arr(nrow * ncol, init) { }
     bool operator==(const matrix &that) const {
         assert(nrow == that.nrow && ncol == that.ncol);
@@ -94,7 +94,7 @@ struct matrix {
 TEMPL_ARG
 MAT_T operator*(const MAT_T &left, const MAT_T &right) {
     int mm = left.r(), nn = left.c(), pp = right.c();
-    if (nn != right.r()) throw 0;
+    assert(nn == right.r());
 
     EleTraits traits;
 
@@ -116,7 +116,7 @@ MAT_T operator*(const MAT_T &left, const MAT_T &right) {
 TEMPL_ARG \
 MAT_T &operator op_eq_str(MAT_T &left, const MAT_T &right) { \
     int rr = left.r(), cc = left.c(); \
-    if (rr != right.r() || cc != right.c()) throw 0; \
+    assert(rr == right.r() && cc != right.c()); \
  \
     EleTraits traits; \
     for (int i = 0; i < rr; ++i) \
@@ -204,7 +204,7 @@ TEMPL_ARG
 int LU_decompose(const MAT_T &A, MAT_T &L, MAT_T &U) {
     int n = A.r();
     EleTraits traits;
-    if (n != A.c()) throw 0;
+    assert(n == A.c());
 
     L = MAT_T::eye(n);
     U = A;
@@ -233,7 +233,7 @@ int PLU_decompose(const MAT_T &A, std::vector<int> &p,
                   MAT_T &L, MAT_T &U, bool &positive) {
     int n = A.r();
     EleTraits traits;
-    if (n != A.c()) throw 0;
+    assert(n == A.c());
 
     positive = true;
     U = A;
@@ -299,7 +299,7 @@ T determinant(const MAT_T &A) {
     return ret;
 }
 
-// inverse my Guass elimination
+// inverse by Guass elimination
 TEMPL_ARG
 MAT_T inverse(const MAT_T &A) {
     assert(A.r() == A.c());
@@ -322,8 +322,7 @@ MAT_T inverse(const MAT_T &A) {
                 max_index = jj;
             }
         }
-        if (U(max_index, j) == traits.zero())
-            throw 0;
+        assert(U(max_index, j) != traits.zero());
 
         if (j != max_index) {
             for (int k = 0; k < n; ++k) {
