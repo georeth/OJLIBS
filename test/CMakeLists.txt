@@ -49,6 +49,7 @@ set(test_cases # list all tests here
     preorder_test
 
     bench_test
+    bignum_test
 )
 
 function(ojlibs_add_test filename)
