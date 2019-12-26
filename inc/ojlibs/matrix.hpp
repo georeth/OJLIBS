@@ -6,21 +6,7 @@
 #include <ojlibs/arith.hpp>
 
 // This library  supports common operations in linear algebra
-// for different rings (groups).
-// To make it easy to use, user is expected to use it through `linear'.
-//
-//   using L = linear<double>;
-//   vector<double> v = {1.0 , 2.0, 3.0}
-//   L::mat M = L::mat(3, 3);
-//   auto M2 = M * M;
-//
-// Previously, we introduce `vector_view' to reference row or column of matrix.
-//   M.row(2) = M.row(1) * 3; // not valid now
-// But this feature has large overhead (allocation for temporary results) and
-// N-element vector can be emulated by Nx1 matrix, so `vector_view' is deleted.
-// Expression template is useful for this feature, but it is too heavy for this
-// project.
-// Now we access (i, j) element of matrix M by M(i, j).
+// for different rings (fields).
 
 namespace ojlibs { // TO_BE_REMOVED
 
