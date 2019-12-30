@@ -1,9 +1,9 @@
 # OJLIBS
-C++ Utility library for online judging. Comforming to C++11 Standard.
+C++ Utility library for competitive programming. Fully C++11 compatible.
 
 Permit to use under MIT License.
 
-Additionally, anybody can submit code that contains any part of this library on online judging platforms, if the usage can be restricted in online judging only.
+Additionally, anybody can submit code that contains any part of this library to online judging platforms, if the usage can be restricted in online judging only.
 
 (e.g. If someone can get submitted code on an OJ, and then use it outside the OJ legally according to the OJ's term of service, the usage of this library is forbidden.)
 
