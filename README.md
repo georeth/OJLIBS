@@ -125,7 +125,7 @@ int main() {
 ```
 
 # TOOLS
-- Code forces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)
+- Codeforces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)
 
 - A tool that can combine source code with included header files of this library to produce a single source file to submit. (tools/ojlibs\_cpp)
 

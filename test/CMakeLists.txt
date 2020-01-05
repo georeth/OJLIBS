@@ -29,6 +29,7 @@ set(test_cases # list all tests here
     # other
     memoization_test
     arith_test
+    mod_int_test
     power_test
     # linear_test (deprecated)
     matrix_test

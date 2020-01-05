@@ -167,16 +167,18 @@ Int coprime_div(Int a, Int b) {
 // TODO: gauss_factorial, factorial_mod.
 //       log, factorial_exp
 
-#ifdef OJLIBS_INC_SHORTHAND_H_ // TO_BE_REMOVED
+// #ifdef OJLIBS_INC_SHORTHAND_H_ // TO_BE_REMOVED
 #define INV_MOD(x)      inv_mod((x), MOD)
 #define MUL_MOD(x, y)   mul_mod((x), (y), MOD)
+#define DIV_MOD(x, y)   div_mod((x), (y), MOD)
 #define MULM_MOD(x, y)  (x) = mul_mod((x), (y), MOD)
+#define DIVM_MOD(x, y)  (x) = div_mod((x), (y), MOD)
 #define POW_MOD(x, y)   pow_mod((x), (y), MOD)
 #define ADDX_MOD(x, y)  addx_mod((x), (y), MOD)
 #define ADDM_MOD(x, y)  (x) = addx_mod((x), (y), MOD)
 #define SUBX_MOD(x, y)  subx_mod((x), (y), MOD)
 #define SUBM_MOD(x, y)  (x) = subx_mod((x), (y), MOD)
-#endif /* OJLIBS_INC_SHORTHAND_H_ */ // TO_BE_REMOVED
+// #endif /* OJLIBS_INC_SHORTHAND_H_ */ // TO_BE_REMOVED
 
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_ARITH_H_ */
