@@ -17,6 +17,7 @@ set(test_cases # list all tests here
     disjoint_set_test
     sparse_table_test
     graph_test
+    hamilton_test
     # algorithm
     string_test
     suffix_array_test
