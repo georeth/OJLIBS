@@ -26,7 +26,9 @@ slist: singly-linked list
 
 rbtree: red-black tree
 
-treap, sbtree, splay, link-cut tree. (TODO)
+splay: a splay tree with subtree size to support fast n-th query
+
+treap, sbtree, , link-cut tree. (TODO)
 
 ## Special Data structures
 Disjoint Set
@@ -59,18 +61,14 @@ Subset Inversion
 
 Multiprecision (bignum)
 
-FFT, FWT, Multiprecision.
+FFT, FWT.
 
 NTT (TODO)
 
 ## Linear Algebra
-Matrix
-
-Arithmatic operation (naive implementation)
+Matrix over a ring / field, Arithmatics, Inversion, Determinant
 
 (P)LU decomposition
-
-Determinant
 
 ## Computational Geometry
 
@@ -106,6 +104,8 @@ Network Flow (Dinic)
 Maximum Bipartitie Matching (Hungarian / Kuhn-Munkres)
 
 Eular Walk (TODO : support removing edge in graph)
+
+reusable Centroid Decomposition (TODO)
 
 ## MISC
 Generic memorization function without virtual function overhead
