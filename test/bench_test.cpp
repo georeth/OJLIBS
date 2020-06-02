@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <random>
 using namespace std;
 using uni = std::uniform_int_distribution<>;

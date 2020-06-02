@@ -58,6 +58,14 @@ typedef pair<int, int> pii;
 typedef vector<pair<int, int>> vii;
 typedef vector<vector<int>> vvi;
 
+// sadly, there's no portable way to get M_PI defined.
+// it's not in standard (there's a C++ proposal).
+// even _USE_MATH_DEFINES may fail when compiled with strict ANSI.
+// I assume M_PI is a macro if it ever exists.
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #include <ojlibs/fio.inc>
 
 #endif /* end of include guard: OJLIBS_INC_SHORTHAND_H_ */

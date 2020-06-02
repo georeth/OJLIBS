@@ -37,6 +37,7 @@ struct P {
     double &operator[](int i) { return i == 0 ? x : y; }
 
     explicit P(double x = 0, double y = 0) : x(x), y(y) { }
+    P operator-() const { return P(-x, -y); }
     P operator+(P that) const { return P(x + that.x, y + that.y); }
     P operator-(P that) const { return P(x - that.x, y - that.y); }
     P operator*(double scale) const { return P(x * scale, y * scale); }
@@ -51,6 +52,7 @@ struct P {
     double abs() const { return hypot(x, y); }
     double alpha() const { return atan2(y, x); }
     P rot90() const { return P(-y, x); }
+    P rot(double a) { return P(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)); }
     P unit() const { return *this / abs(); }
 };
 

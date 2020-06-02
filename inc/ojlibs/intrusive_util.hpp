@@ -1,5 +1,6 @@
 #ifndef OJLIBS_INC_INTRUSIVE_UTIL_H_
 #define OJLIBS_INC_INTRUSIVE_UTIL_H_
+#include <cstdint>
 #include <functional>
 
 namespace ojlibs { // TO_BE_REMOVED

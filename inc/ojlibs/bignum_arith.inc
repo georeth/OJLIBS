@@ -153,5 +153,5 @@ size_t nlz(WORD x) {
     return WBITS - bitLen(x);
 }
 bool greaterThan(WORD x1, WORD x0, WORD y1, WORD y0) {
-    return x1 > y1 || x1 == y1 && x0 > y0;
+    return x1 > y1 || (x1 == y1 && x0 > y0);
 }
