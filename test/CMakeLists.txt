@@ -2,6 +2,7 @@ include(CTest)
 link_libraries(gtest_main gtest gmp pthread)
 
 set(test_cases # list all tests here
+    play_test
     # hello_test
     2sat_test
     # data_structure

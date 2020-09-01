@@ -177,9 +177,9 @@ static inline std::vector<P> convex_hull(std::vector<P> ps, int strict = 1) { //
 
     int k = 0;
     for (int i = 0; i < n; conv[k++] = ps[i++])
-        while (k >= 2 && sign(ccw(conv[k - 2], conv[k - 1], ps[i])) < strict) --k;
-    for (int i = n - 2; i >= 0; conv[k++] = ps[i--])
-        while (k >= 2 && sign(ccw(conv[k - 2], conv[k - 1], ps[i])) < strict) --k;
+        while (k > 1 && sign(ccw(conv[k - 2], conv[k - 1], ps[i])) < strict) --k;
+    for (int i = n - 2, t = k; i >= 0; conv[k++] = ps[i--])
+        while (k > t && sign(ccw(conv[k - 2], conv[k - 1], ps[i])) < strict) --k;
     conv.resize(k - 1);
     return conv;
 }
