@@ -8,7 +8,7 @@
 //      (f * g)[i] = sum{d|i} f[d] * g[i / d]
 // Constant function    1 = (1, 1, ..., 1, ...)
 // Unit funciton        e = (1, 0, ..., 0, ...)
-// Identity function    I = (1, 2, ..., k, ...)
+// Identity function    Id = (1, 2, ..., k, ...)
 // Mobius Inversion Formula
 //      g = f * 1
 //  <=> g[i] = sum{d|i} f[d]
@@ -18,8 +18,16 @@
 //  u is Mobius function
 //
 //  Other relations:
-//      EularPhi * 1 = I (EularPhi(n) is number of coprime numbers <= n)
-//      I * 1 = Divisor (number of divisors)
+//      EularPhi * 1 = Id (EularPhi(n) is number of coprime numbers <= n)
+//      1 * 1 = Divisor (number of divisors)
+//      Id * 1 = sigma (sum of divisors)
+//  so
+//      vector<int> constant(n + 1, 1);
+//      vector<int> mobius = mobius_function(n);
+//      vector<int> eular_phi = mobius_inverse(constant);
+//      vector<int> divisor = mobius_transform(constant);
+//      vector<int> id(n + 1); iota(ALL(id), 0);
+//      vector<int> sigma = mobius_transform(id);
 
 // All range is inclusive, because it is in number theory.
 // f[0] is ignored.
@@ -28,6 +36,7 @@ namespace ojlibs { // TO_BE_REMOVED
 
 // given f
 // return g = f * 1
+// O(n log n)
 template <typename Int, typename Op = binary_plus<Int>>
 std::vector<Int> mobius_transform(const std::vector<Int> &f, Op op = Op()) {
     std::vector<Int> g = f;
