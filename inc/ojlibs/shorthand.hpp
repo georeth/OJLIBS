@@ -28,6 +28,7 @@
                         // mix with cstdio + fastio: bug
 #include <sstream>
 #include <algorithm>
+#include <numeric>      // iota, accumulate, partial_sum...
 
 namespace ojlibs{}      // TO_BE_REMOVED
 using namespace std;    // use as solution header. name polution is fine.
