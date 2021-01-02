@@ -31,7 +31,7 @@ set(test_cases # list all tests here
     # other
     memoization_test
     arith_test
-    mod_int_test
+    # mod_int_test
     power_test
     # linear_test (deprecated)
     matrix_test
@@ -45,6 +45,8 @@ set(test_cases # list all tests here
     # test_type_test
     # counting_test
     hash_test
+    # binary_search_test
+    # string_rotate_test
     # zint_test
 
     ## Other tests
@@ -53,6 +55,11 @@ set(test_cases # list all tests here
 
     bench_test
     bignum_test
+
+    # fft_test
+    # ntt_test
+
+    # csr_test
 )
 
 function(ojlibs_add_test filename)
