@@ -128,14 +128,20 @@ int tree_distance(int u, int v) {
 endsnippet
 
 snippet mod7
-static const int MOD = 1000000007;
+constexpr int MOD = 1000000007;
 endsnippet
 snippet mod9
-static const int MOD = 1000000009;
+constexpr int MOD = 1000000009;
 endsnippet
 snippet maxn
-static const int maxn$1 = 100005;
+constexpr int maxn$1 = 100005;
 endsnippet
+
+snippet algebra
+using Alg = modular_algebra<MOD>;
+using mint = mod_int<MOD>;
+endsnippet
+
 
 snippet dir4
 const int dir[4][2] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
