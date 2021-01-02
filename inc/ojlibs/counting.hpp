@@ -1,7 +1,9 @@
 #ifndef OJLIBS_INC_COUNTING_H_
 #define OJLIBS_INC_COUNTING_H_
 
+#include <algorithm>
 #include <ojlibs/arith.hpp>
+#include <ojlibs/algebra/base.hpp>
 namespace ojlibs { // TO_BE_REMOVED
 
 // warning : mod is LARGE enough PRIME
@@ -53,6 +55,17 @@ struct factorial_list {
 
 // try Lucas if n is large, but r is small
 // e.g C(10^15, 10^4, 1e9 + 7)
+template <typename Alg = base_algebra<int>>
+typename Alg::type C_slow(int n, int m, Alg alg = Alg()) {
+    if (m > n || n < 0 || m < 0) return 0;
+    m = std::min(m, n - m);
+
+    auto ret = alg.one();
+    for (int i = 0; i < m; ++i) {
+        ret = alg.divides(alg.multiplies(ret, alg.from(n - i)), alg.from(i + 1));
+    }
+    return ret;
+}
 
 } // namespace ojlibs TO_BE_REMOVED
 #endif /* end of include guard: OJLIBS_INC_COUNTING_H_ */
