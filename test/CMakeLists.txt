@@ -46,7 +46,7 @@ set(test_cases # list all tests here
     # counting_test
     hash_test
     binary_search_test
-    # string_rotate_test
+    string_rotate_test
     # zint_test
 
     ## Other tests
