@@ -1,5 +1,5 @@
-#ifndef OJLIBS_INC_KMP_H_
-#define OJLIBS_INC_KMP_H_
+#ifndef OJLIBS_INC_STRING_KMP_H_
+#define OJLIBS_INC_STRING_KMP_H_
 
 #include <vector>
 #include <iterator>
@@ -71,4 +71,4 @@ std::vector<int> kmp_traverse(It b, It e, PIt pattern, const std::vector<int> &p
 
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_KMP_H_ */
+#endif /* end of include guard: OJLIBS_INC_STRING_KMP_H_ */

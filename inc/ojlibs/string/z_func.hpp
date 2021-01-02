@@ -1,5 +1,5 @@
-#ifndef OJLIBS_INC_Z_FUNC_H_
-#define OJLIBS_INC_Z_FUNC_H_
+#ifndef OJLIBS_INC_STRING_Z_FUNC_H_
+#define OJLIBS_INC_STRING_Z_FUNC_H_
 
 #include <vector>
 #include <iterator>
@@ -29,4 +29,4 @@ std::vector<int> z_func(It b, It e) {
 
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_Z_FUNC_H_ */
+#endif /* end of include guard: OJLIBS_INC_STRING_Z_FUNC_H_ */

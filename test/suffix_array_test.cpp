@@ -1,4 +1,4 @@
-#include <ojlibs/suffix_array.hpp>
+#include <ojlibs/string/suffix_array.hpp>
 #include <gtest/gtest.h>
 #include <cstdio>
 #include <random>

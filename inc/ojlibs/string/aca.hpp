@@ -1,5 +1,5 @@
-#ifndef OJLIBS_INC_ACA_H_
-#define OJLIBS_INC_ACA_H_
+#ifndef OJLIBS_INC_STRING_ACA_H_
+#define OJLIBS_INC_STRING_ACA_H_
 #include <vector>
 #include <deque>
 #include <ojlibs/empty_type.hpp>
@@ -54,4 +54,4 @@ vector<vector<int>> ac_automaton_build(trie<Alpha, Attr> &tr) { // return aut ma
     return aut;
 }
 } // namespace ojlibs TO_BE_REMOVED
-#endif /* end of include guard: OJLIBS_INC_ACA_H_ */
+#endif /* end of include guard: OJLIBS_INC_STRING_ACA_H_ */

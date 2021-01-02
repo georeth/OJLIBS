@@ -1,5 +1,5 @@
-#ifndef OJLIBS_INC_TRIE_H_
-#define OJLIBS_INC_TRIE_H_
+#ifndef OJLIBS_INC_STRING_TRIE_H_
+#define OJLIBS_INC_STRING_TRIE_H_
 
 #include <string>
 #include <deque>
@@ -63,4 +63,4 @@ struct trie {
     
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_TRIE_H_ */
+#endif /* end of include guard: OJLIBS_INC_STRING_TRIE_H_ */

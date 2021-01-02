@@ -1,5 +1,5 @@
-#ifndef OJLIBS_INC_SUFFIX_ARRAY_H_
-#define OJLIBS_INC_SUFFIX_ARRAY_H_
+#ifndef OJLIBS_INC_STRING_SUFFIX_ARRAY_H_
+#define OJLIBS_INC_STRING_SUFFIX_ARRAY_H_
 
 #include <vector>
 #include <utility>
@@ -79,4 +79,4 @@ std::vector<int> lcp_from_sa(It s, const std::vector<int> &sa) {
 //   DC3 or SA-IS
 
 } // namespace ojlibs TO_BE_REMOVED
-#endif /* end of include guard: OJLIBS_INC_SUFFIX_ARRAY_H_ */
+#endif /* end of include guard: OJLIBS_INC_STRING_SUFFIX_ARRAY_H_ */

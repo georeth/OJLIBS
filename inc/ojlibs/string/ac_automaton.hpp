@@ -1,7 +1,7 @@
-#ifndef OJLIBS_INC_AC_AUTOMATON_H_
-#define OJLIBS_INC_AC_AUTOMATON_H_
+#ifndef OJLIBS_INC_STRING_AC_AUTOMATON_H_
+#define OJLIBS_INC_STRING_AC_AUTOMATON_H_
 
-#include <ojlibs/trie.hpp>
+#include <ojlibs/string/trie.hpp>
 #include <utility>
 
 namespace ojlibs { // TO_BE_REMOVED
@@ -80,4 +80,4 @@ struct ac_automaton {
     
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_AC_AUTOMATON_H_ */
+#endif /* end of include guard: OJLIBS_INC_STRING_AC_AUTOMATON_H_ */
