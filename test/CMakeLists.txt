@@ -53,7 +53,7 @@ set(test_cases # list all tests here
     digit_dc_test
     preorder_test
 
-    bench_test
+    # bench_test
     bignum_test
 
     fft_test
