@@ -116,7 +116,7 @@ std::string utoa(const nat &x, WORD base) {
         WORD bb, ndigits;
         maxPow(base, bb, ndigits);
 
-        std::vector<divisor> table = divisors(x.nlimb(), base, ndigits, bb);
+        std::vector<divisor> table = divisors((int)x.nlimb(), base, ndigits, bb);
         nat q{x};
         convertWords(q, s.data(), i, base, ndigits, bb, table.data(), table.size());
         i = 0;
@@ -133,7 +133,7 @@ WORD parse_digit(char ch) {
     assert(false);
 }
 
-nat str_to_nat(const char *s, size_t base) {
+nat str_to_nat(const char *s, WORD base) {
     nat z;
     WORD bn, n;
     maxPow(base, bn, n);

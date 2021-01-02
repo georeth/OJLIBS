@@ -152,6 +152,11 @@ struct nat {
 
     size_t nlimb() const { return limbs.size(); }
 
+    bool operator ==(WORD word) const {
+        if (word == 0) return nlimb() == 0;
+        return nlimb() == 1 && limbs[0] == word;
+
+    }
     nat &operator =(WORD word) { 
         if (word != 0)
             limbs = {word};

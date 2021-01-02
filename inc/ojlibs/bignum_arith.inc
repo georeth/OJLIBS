@@ -47,8 +47,8 @@ void mulAddWWC(WORD x, WORD y, WORD c, WORD *z1, WORD *z0) {
 }
 void divWW(WORD u1, WORD u0, WORD v, WORD *q, WORD *r) {
     DWORD u = DWORD(u1) << WBITS | u0;
-    *q = u / v;
-    *r = u % v;
+    *q = WORD(u / v);
+    *r = WORD(u % v);
 }
 void addVV(SPAN zp, const WORD *x, const WORD *y, WORD *c) {
     *c = 0;
