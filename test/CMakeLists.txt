@@ -56,7 +56,7 @@ set(test_cases # list all tests here
     bench_test
     bignum_test
 
-    # fft_test
+    fft_test
     # ntt_test
 
     csr_test
