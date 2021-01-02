@@ -14,7 +14,7 @@ namespace ojlibs { // TO_BE_REMOVED
 
 // try binary gcd on large number
 template <typename Int>
-Int gcd(Int a, Int b) {
+constexpr Int gcd(Int a, Int b) {
     while (a != 0) {
         b %= a;
         if (b == 0)
@@ -25,12 +25,12 @@ Int gcd(Int a, Int b) {
 }
 
 template <typename Int, typename RInt = Int>
-Int lcm(Int a, Int b) {
+constexpr Int lcm(Int a, Int b) {
     return a / gcd(a, b) * static_cast<RInt>(b);
 }
 
 template <typename Int, typename XInt>
-Int extended_gcd(Int a, Int b, XInt &x, XInt &y) {
+constexpr Int extended_gcd(Int a, Int b, XInt &x, XInt &y) {
     static_assert(std::numeric_limits<XInt>::is_signed,
             "x, y must be signed");
     // pre condition : a != 0 || b != 0
@@ -55,7 +55,13 @@ Int extended_gcd(Int a, Int b, XInt &x, XInt &y) {
 }
 
 template <typename Int>
-Int mul_mod(Int a, Int b, Int m) {
+constexpr Int mod_mod(Int a, Int m) {
+    Int r = a % m;
+    return r < 0 ? r + m : r;
+}
+
+template <typename Int>
+constexpr Int mul_mod(Int a, Int b, Int m) {
     typedef int64_t TInt;
     static_assert(2 * std::numeric_limits<Int>::digits <= std::numeric_limits<TInt>::digits,
             "multiplication will overflow!");
@@ -66,13 +72,13 @@ Int mul_mod(Int a, Int b, Int m) {
 
 #if defined(__SIZEOF_INT128__) && OJLIBS_USE_INT128
 template <>
-int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
+constexpr int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
     __int128_t p = __int128_t(a) * b;
     return (int64_t)(p % m);
 }
 #else
 template <>
-int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
+constexpr int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
     int64_t r = 0;
     for (int i = 63; i >= 0; --i) {
         r = (r + r) % m;
@@ -84,10 +90,10 @@ int64_t mul_mod<int64_t>(int64_t a, int64_t b, int64_t m) {
 #endif
 
 template <typename Int, typename PInt>
-Int pow_mod(Int a, PInt p, Int m) {
-    Int r;
+constexpr Int pow_mod(Int a, PInt p, Int m) {
+    Int r = 1;
     a %= m;
-    for (r = 1; p; p >>= 1) {
+    for (; p; p >>= 1) {
         if (p & 1) r = mul_mod(r, a, m);
         a = mul_mod(a, a, m);
     }
@@ -96,7 +102,7 @@ Int pow_mod(Int a, PInt p, Int m) {
 
 template <typename Int,
           typename XInt = typename std::make_signed<Int>::type>
-Int inv_mod(Int a, Int m) {
+constexpr Int inv_mod(Int a, Int m) {
     // a * x = gcd(a, m) (mod m)
     XInt x, y;
     extended_gcd(a, m, x, y);
@@ -106,19 +112,20 @@ Int inv_mod(Int a, Int m) {
 }
 
 template <typename Int>
-Int addx_mod(Int u, Int v, Int m) {
+constexpr Int addx_mod(Int u, Int v, Int m) {
     Int r = u + v;
     if (r >= m) r -= m;
     return r;
 }
 template <typename Int>
-Int subx_mod(Int u, Int v, Int m) {
+constexpr Int subx_mod(Int u, Int v, Int m) {
     Int r = u - v;
     if (r < 0) r += m;
     return r;
 }
 template <typename Int>
-Int div_mod(Int u, Int v, Int m) {
+constexpr Int div_mod(Int u, Int v, Int m) {
+    // m can be a composite
     // find x, s.t.
     //     u = v * x (mod m)
     // solution exist
@@ -135,7 +142,7 @@ Int div_mod(Int u, Int v, Int m) {
 }
 
 template <typename Int>
-Int div_pos_r(Int a, Int b, Int &r) {
+constexpr Int div_pos_r(Int a, Int b, Int &r) {
     // 3 / 2  = 1 .. 1 (ok)
     // 3 / -2 = -1 .. 1 (ok)
     // -3 / 2 = -1 .. -1 (not ok)
@@ -156,7 +163,7 @@ Int div_pos_r(Int a, Int b, Int &r) {
 
 // return largest x | a, s.t. (x, b) = 1
 template <typename Int>
-Int coprime_div(Int a, Int b) {
+constexpr Int coprime_div(Int a, Int b) {
     while (b != 1) {
         while (a % b == 0) a /= b;
         b = gcd(a, b);
@@ -168,6 +175,7 @@ Int coprime_div(Int a, Int b) {
 //       log, factorial_exp
 
 // #ifdef OJLIBS_INC_SHORTHAND_H_ // TO_BE_REMOVED
+#define MOD_MOD(x)      MOD_mod((x), MOD)
 #define INV_MOD(x)      inv_mod((x), MOD)
 #define MUL_MOD(x, y)   mul_mod((x), (y), MOD)
 #define DIV_MOD(x, y)   div_mod((x), (y), MOD)
