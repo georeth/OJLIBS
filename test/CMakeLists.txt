@@ -59,7 +59,7 @@ set(test_cases # list all tests here
     # fft_test
     # ntt_test
 
-    # csr_test
+    csr_test
 )
 
 function(ojlibs_add_test filename)
