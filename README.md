@@ -1,5 +1,5 @@
 # OJLIBS
-C++ Utility library for competitive programming. Fully C++11 compatible.
+C++ Utility library for competitive programming. Fully C++17 compatible.
 
 Permit to use under MIT License.
 
@@ -16,6 +16,14 @@ Header Only.
 Modern C++. Use standard library whenever possible. Depend on template heavily.
 
 Trust compiler instead of hand-tuning.
+
+# About moving to C++17
+
+Since all major online judging platforms supports c++17 now, this libary will transite to c++17 gradually.
+
+When c++20 is widely available, we will switch to c++20.
+
+Old c++11 version of this library can be found at c++11 branch.
 
 # Components
 
