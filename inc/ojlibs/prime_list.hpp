@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstdint>
+#include <tuple>
 #include <utility>
 #include <ojlibs/arith.hpp>
 
@@ -53,7 +54,7 @@ prime_factor_t factorize(Int x) {
 }
 
 template <typename Int>
-bool is_prime_slow(Int x) {
+constexpr bool is_prime_slow(Int x) {
     if (x <= 1) return false;
     for (Int p = 2; p * p <= x; ++p) {
         while (x % p == 0) return false;
@@ -85,21 +86,16 @@ prime_factor_t factorize(Int x, const prime_list &plist) {
 // prime_factor_fast:   O(k log k),     O(sqrt(n) / ln x) ~ 1235
 // by least prime:      O(n log n),     O(log2(n))        ~ 26
 
-/*
-strong probable-prime base
-32bit: 2, 7, 61
-64bit: 2, 325, 9375, 28178, 450775, 9780504, 1795265022
-*/
-
-// constexpr support is not complete, use data member instead.
-template <typename Int> struct SPRP;
-template <> struct SPRP<int> { std::vector<int> bases = {2, 7, 61}; };
-template <> struct SPRP<int64_t> { std::vector<int64_t> bases = {
-    2, 325, 9375, 28178, 450775, 9780504, 1795265022}; };
+// strong probable-prime base
+// 32bit: 2, 7, 61
+// 64bit: 2, 325, 9375, 28178, 450775, 9780504, 1795265022
+template <typename Int> std::tuple<> SPRP; // should fail
+template <> std::vector<int> SPRP<int> = {2, 7, 61};
+template <> std::vector<int64_t> SPRP<int64_t> = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
 
 // deterministic Miller-rabin
 template <typename Int>
-bool is_prime(Int n) {
+constexpr bool is_prime(Int n) {
     if (n <= 3) {
         if (n <= 1) return false;
         return true;
@@ -112,7 +108,7 @@ bool is_prime(Int n) {
     while (d % 2 == 0)
         d /= 2, ++s;
 
-    for (Int b : SPRP<Int>().bases) {
+    for (Int b : SPRP<Int>) {
         Int x = pow_mod(b, d, n);
         // (x == 0) case is not considered in most materials,
         // because they assume n is large enough.
