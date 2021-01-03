@@ -36,6 +36,7 @@ set(test_cases # list all tests here
     # linear_test (deprecated)
     matrix_test
     shorthand_test
+    fio_test
     prime_list_test
     # geometry
     geometry_test
