@@ -1,16 +1,15 @@
-#ifndef OJLIBS_INC_CSR_BELLMAN_H_
-#define OJLIBS_INC_CSR_BELLMAN_H_
+#ifndef OJLIBS_INC_SPARSE_BELLMAN_H_
+#define OJLIBS_INC_SPARSE_BELLMAN_H_
 
 #include <queue>
 #include <algorithm>
 #include <ojlibs/util.hpp>
-#include <ojlibs/csr/csr.hpp>
-#include <ojlibs/csr/graph.hpp>
+#include <ojlibs/sparse/graph.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
 // this code implements Bellman-Ford-Moore with no other optimizations.
-// it can compute SSSP, or detect negative cycle if SSSP doesn't exist.
+// it can compute SSSP, or detect negative cycle when SSSP doesn't exist.
 // worst-case time complexity is the same as Bellman-Ford, O(VE).
 //
 // Bellman-Ford do |V| iterations, and relax all edges in each iteration.
@@ -60,8 +59,8 @@ std::vector<int> find_cycle_bellman(const std::vector<int> &pre) {
     return {};
 }
 
-template <typename W, typename WOut=W>
-bellman_info<W> bellman(const csr_graph<W> &g, int s) {
+template <typename W, typename WOut=W, typename Sp>
+bellman_info<W> bellman(const graph<Sp, W> &g, int s) {
     int n = g.nvert();
 
     std::queue<int> q; // use fixed-size circular queue?
@@ -105,4 +104,4 @@ bellman_info<W> bellman(const csr_graph<W> &g, int s) {
 
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_CSR_BELLMAN_H_ */
+#endif /* end of include guard: OJLIBS_INC_SPARSE_BELLMAN_H_ */

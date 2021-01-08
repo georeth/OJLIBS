@@ -1,7 +1,8 @@
-#ifndef OJLIBS_INC_CSR_DFS_H_
-#define OJLIBS_INC_CSR_DFS_H_
+#ifndef OJLIBS_INC_SPARSE_DFS_H_
+#define OJLIBS_INC_SPARSE_DFS_H_
 
-#include <ojlibs/csr/graph.hpp>
+#include <vector>
+// #include <ojlibs/sparse/graph.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
@@ -21,13 +22,15 @@ struct dfs_entry {
     int v, stg, p;
 };
 
-dfs_info depth_first_search(const csr_graph<> &g, bool directed) {
-    dfs_info info(g.nvert());
+template <typename Sp>
+dfs_info depth_first_search(const Sp &g, bool directed) {
+    assert(g.r() == g.c());
+    dfs_info info(g.r());
     std::vector<dfs_entry> stk;
-    std::vector<int> visit(g.nvert());
+    std::vector<int> visit(g.r());
     int now = 0;
 
-    for (int u = 0; u < g.nvert(); ++u) if (!visit[u]) {
+    for (int u = 0; u < g.r(); ++u) if (!visit[u]) {
         stk.push_back({u, 0, -1});
 
         while (!stk.empty()) {
@@ -50,7 +53,7 @@ dfs_info depth_first_search(const csr_graph<> &g, bool directed) {
             info.parent[u] = p;
             ++stk.back().stg;
 
-            for (auto [v] : g.out(u)) if (directed || v != p) {
+            for (auto v : g.outv(u)) if (directed || v != p) {
                 if (!visit[v])
                     stk.push_back({v, 0, u});
                 else if (visit[v] == 1)
@@ -58,10 +61,10 @@ dfs_info depth_first_search(const csr_graph<> &g, bool directed) {
             }
         }
     }
-    assert(info.post.size() == g.nvert());
-    assert(info.pre.size() == g.nvert());
+    assert(info.post.size() == g.r());
+    assert(info.pre.size() == g.r());
     return info;
 }
 
 } // namespace ojlibs TO_BE_REMOVED
-#endif//OJLIBS_INC_CSR_DFS_H_
+#endif//OJLIBS_INC_SPARSE_DFS_H_

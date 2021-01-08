@@ -17,7 +17,7 @@ set(test_cases # list all tests here
     bitree_test
     disjoint_set_test
     sparse_table_test
-    graph_test
+    # graph_test
     hamilton_test
     # algorithm
     string_test
@@ -60,7 +60,8 @@ set(test_cases # list all tests here
     fft_test
     # ntt_test
 
-    csr_test
+    # csr_test
+    sparse_test
 )
 
 function(ojlibs_add_test filename)

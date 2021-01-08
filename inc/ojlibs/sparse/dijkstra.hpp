@@ -1,8 +1,8 @@
-#ifndef OJLIBS_INC_CSR_DIJKSTRA_H_
-#define OJLIBS_INC_CSR_DIJKSTRA_H_
+#ifndef OJLIBS_INC_SPARSE_DIJKSTRA_H_
+#define OJLIBS_INC_SPARSE_DIJKSTRA_H_
 
-#include <ojlibs/csr/csr.hpp>
-#include <ojlibs/csr/graph.hpp>
+#include <queue>
+#include <ojlibs/sparse/graph.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
@@ -24,8 +24,8 @@ struct dijkstra_entry {
     }
 };
 
-template <typename W, typename WOut=W>
-dijkstra_info<W> dijkstra(const csr_graph<W> &g, int s) {
+template <typename W, typename WOut=W, typename Sp>
+dijkstra_info<W> dijkstra(const graph<Sp, W> &g, int s) {
     int n = g.nvert();
     std::priority_queue<dijkstra_entry<WOut>> pq;
 
@@ -53,4 +53,4 @@ dijkstra_info<W> dijkstra(const csr_graph<W> &g, int s) {
 
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_CSR_DIJKSTRA_H_ */
+#endif /* end of include guard: OJLIBS_INC_SPARSE_DIJKSTRA_H_ */

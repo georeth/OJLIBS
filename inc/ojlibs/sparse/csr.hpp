@@ -1,10 +1,12 @@
-#ifndef OJLIBS_INC_CSR_CSR_H_
-#define OJLIBS_INC_CSR_CSR_H_
+#ifndef OJLIBS_INC_SPARSE_CSR_H_
+#define OJLIBS_INC_SPARSE_CSR_H_
 
 #include <algorithm>
 #include <tuple>
 #include <vector>
 #include <string>
+#include <ojlibs/iter_range.hpp>
+#include <ojlibs/sparse/common.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
@@ -43,6 +45,38 @@ std::vector<int> counting_compress(const std::vector<int> &v, int n) {
 struct csr {
     int r, c;
     std::vector<int> ix, jx;
+
+    int esize() const { return (int)jx.size(); }
+
+    struct iter_base {
+        iter_base(const std::vector<int> &jx, int idx) : jx(jx), idx(idx) { }
+        iter_base &operator++() { ++idx; return *this; }
+        bool operator==(const iter_base &that) const { return  idx == that.idx; }
+        bool operator!=(const iter_base &that) const { return !(*this == that); }
+
+        const std::vector<int> &jx;
+        int idx;
+    };
+
+    struct vert_iter : iter_base, sp_iter_base<int> {
+        using iter_base::iter_base;
+        value_type operator*() const {
+            return jx[idx];
+        }
+    };
+    struct iter : iter_base, sp_iter_base<sp_out_entry> {
+        using iter_base::iter_base;
+        value_type operator*() const {
+            return {jx[idx], idx};
+        }
+    };
+
+    iter_range<vert_iter> outv(int i) const {
+        return {{jx, ix[i]}, {jx, ix[i + 1]}};
+    }
+    iter_range<iter> out(int i) const {
+        return {{jx, ix[i]}, {jx, ix[i + 1]}};
+    }
 };
 
 template <typename... E>
@@ -103,4 +137,4 @@ std::string to_string(const csr &g) {
 
 } // namespace ojlibs TO_BE_REMOVED
 
-#endif /* end of include guard: OJLIBS_INC_CSR_CSR_H_ */
+#endif /* end of include guard: OJLIBS_INC_SPARSE_CSR_H_ */
