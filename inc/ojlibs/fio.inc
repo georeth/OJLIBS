@@ -59,13 +59,12 @@ struct Cbg{
 };
 struct Cbp{
     I void OP()(int x){
-        if (e == buf_end) {
-            fwrite(buf, 1, e - buf, stdout);
-            e = buf;
-        }
+        if (e == buf_end)
+            flush();
         *e++ = (char)x;
     }
-    ~Cbp() { fwrite(buf, 1, e - buf, stdout); e = buf; }
+    void flush() { fwrite(buf, 1, e - buf, stdout); e = buf; }
+    ~Cbp() { flush(); }
 
     static const int BUFSIZE = 1024;
     char buf[BUFSIZE];
@@ -88,7 +87,7 @@ struct Cos{
     };
     string s;
 };
-struct Cp{I void OP()(int x){putchar(x);}};
+struct Cp{I void OP()(int x){putchar(x);} void flush(){}};
 struct Ce{I void OP()(int x){putc(x,stderr);}};
 I bool IS(char x){return x==' '||x=='\r'||x=='\n'||x=='\t';}
 template<class T>struct Fr{T P;ALL_INT(RD_INT)ALL_FLT(RD_FLT)I Fr&OP,(char&x){for(x=P();IS(x);)x=P();RT}
@@ -111,9 +110,11 @@ I Fw&OP,(const char*s){for(;*s;++s)P(*s);RT}
 I Fw&OP,(const string&s){(*this),s.c_str();RT}
 template<class C>I Fw&all(const C &v, char sep=' ', char nl='\n'){auto it=v.begin();for(int i=0;i<(int)v.size();++i,++it){if(i&&sep)P(sep);(*this),*it;}if(nl)P(nl);RT}
 template<class U>I Fw&print(U x){(*this),x;RT}
+I Fw&print(){RT}
 template<class U,class...Us>I Fw&print(U x,Us...args){(*this),x;P(' ');print(args...);RT}
 template<class...Us>I Fw&println(Us...args){print(args...);P('\n');RT}
 I Fw&set_prec(int p) { prec = p; RT }
+I Fw&flush() { P.flush(); }
 int prec = 6;
 };
 #undef LL
