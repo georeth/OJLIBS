@@ -33,7 +33,10 @@ constexpr int primitive_root_constexpr(int p) {
             }
         if (ok) return g;
     }
-    assert(false);
+    // there should be a assertion that control cannot not reach here.
+    // however, some compiler (e.g. GCC < 9) complains about assert(false) / throw 0,
+    // even if it's not evaluated.
+    return -1; // we have to return a value to suppress warning
 }
 
 template <int MOD = 1000000007>

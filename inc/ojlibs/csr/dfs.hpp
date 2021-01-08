@@ -2,7 +2,6 @@
 #define OJLIBS_INC_CSR_DFS_H_
 
 #include <ojlibs/csr/graph.hpp>
-#include <ojlibs/vector.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
