@@ -1,4 +1,4 @@
-#include <ojlibs/sized_splay.hpp>
+#include <ojlibs/ds/sized_splay.hpp>
 #include <gtest/gtest.h>
 #include <random>
 using namespace std;

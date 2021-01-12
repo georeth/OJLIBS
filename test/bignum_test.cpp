@@ -1,7 +1,7 @@
-#include <iostream>
-#include <ojlibs/bignum.hpp>
 #include <gtest/gtest.h>
+#include <iostream>
 #include <random>
+#include <ojlibs/bignum/bignum.hpp>
 #include <boost/multiprecision/gmp.hpp>
 
 using namespace boost::multiprecision;

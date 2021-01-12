@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <random>
 #include <algorithm>
-#include <ojlibs/segtree2d.hpp>
+#include <ojlibs/ds/segtree2d.hpp>
 using namespace std;
 using namespace ojlibs;
 
@@ -38,8 +38,8 @@ TEST(BASIC, random) {
 
         for (int i = 0; i < TEST_SIZE1; ++i) {
         for (int j = 0; j < TEST_SIZE2; ++j) {
-            seg[{i,j}] = dist(gen);
-            vec[i][j] = seg[{i,j}];
+            seg(i, j) = dist(gen);
+            vec[i][j] = seg(i, j);
         }
         }
         seg.rebuild();

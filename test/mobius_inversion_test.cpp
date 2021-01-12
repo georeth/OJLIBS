@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/mobius_inversion.hpp>
-#include <ojlibs/binary_operator.hpp>
+#include <ojlibs/inversion/mobius_inversion.hpp>
+#include <ojlibs/deprecated/binary_operator.hpp>
 #include <random>
 using namespace std;
 

@@ -3,8 +3,8 @@
 
 #include <cassert>
 #include <vector>
-#include <utility>
-#include <ojlibs/iter_range.hpp>
+#include <tuple>
+#include <ojlibs/util/iter_range.hpp>
 #include <ojlibs/sparse/common.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED

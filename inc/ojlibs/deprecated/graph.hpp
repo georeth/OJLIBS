@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <deque>
-#include <ojlibs/empty_type.hpp>
-#include <ojlibs/iter_range.hpp>
+#include <ojlibs/deprecated/empty_type.hpp>
+#include <ojlibs/util/iter_range.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 

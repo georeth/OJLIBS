@@ -2,8 +2,8 @@
 #define OJLIBS_INC_ALGEBRA_MODULAR_H_
 
 #include <cassert>
-#include <ojlibs/arith.hpp>
-#include <ojlibs/prime_list.hpp>
+#include <ojlibs/arith/arith.hpp>
+#include <ojlibs/arith/prime_list.hpp>
 #include <ojlibs/algebra/base.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED

@@ -2,7 +2,7 @@
 #include <random>
 #include <algorithm>
 #define LOCAL_JUDGE
-#include <ojlibs/implicit_segtree.hpp>
+#include <ojlibs/ds/implicit_segtree.hpp>
 using namespace std;
 using namespace ojlibs;
 

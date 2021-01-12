@@ -3,7 +3,7 @@
 
 #include <queue>
 #include <algorithm>
-#include <ojlibs/util.hpp>
+#include <ojlibs/util/util.hpp>
 #include <ojlibs/sparse/graph.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <ojlibs/shorthand.hpp>
+#include <ojlibs/util/shorthand.hpp>
 
 TEST(BASIC, ctor) {
     iss is("15 20 meow");

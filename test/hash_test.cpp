@@ -2,7 +2,7 @@
 #include <random>
 #include <functional>
 #include <unordered_map>
-#include <ojlibs/hash.hpp>
+#include <ojlibs/util/hash.hpp>
 using namespace std;
 using uni = std::uniform_int_distribution<>;
 std::mt19937 gen;

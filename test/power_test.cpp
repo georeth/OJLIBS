@@ -2,7 +2,7 @@
 #include <random>
 #include <gmp.h>
 #include <boost/multiprecision/gmp.hpp>
-#include <ojlibs/power.hpp>
+#include <ojlibs/algebra/power.hpp>
 using namespace std;
 using namespace ojlibs;
 namespace bm = boost::multiprecision;

@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/disjoint_set.hpp>
-#include <ojlibs/shorthand.hpp>
+#include <ojlibs/ds/disjoint_set.hpp>
 
 TEST(BASIC, compile) {
-    disjoint_set u(100);
+    ojlibs::disjoint_set u(100);
 }

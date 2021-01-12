@@ -3,8 +3,8 @@ link_libraries(gtest_main gtest gmp pthread)
 
 set(test_cases # list all tests here
     play_test
+    # stack_size_test
     # hello_test
-    2sat_test
     # data_structure
     # list_test
     # slist_test
@@ -17,17 +17,13 @@ set(test_cases # list all tests here
     bitree_test
     disjoint_set_test
     sparse_table_test
-    # graph_test
-    hamilton_test
-    # algorithm
+
     string_test
     suffix_array_test
-    dinic_hugarian_test
     # todo : push_relabel_test
     # todo : kmp_test
     trie_ac_test
     prufer_test
-    mst_test
     # other
     memoization_test
     arith_test
@@ -60,8 +56,16 @@ set(test_cases # list all tests here
     fft_test
     # ntt_test
 
-    # csr_test
+    ## sparse matrix / graph algorithms
     sparse_test
+    mst_test
+    generic_dfs_test
+    scc_test
+    2sat_test
+    # dinic_hugarian_test
+
+    ## dense
+    hamilton_test
 )
 
 function(ojlibs_add_test filename)

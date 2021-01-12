@@ -2,68 +2,65 @@
 #define OJLIBS_INC_SPARSE_DFS_H_
 
 #include <vector>
-// #include <ojlibs/sparse/graph.hpp>
+#include <cassert>
 
 namespace ojlibs { // TO_BE_REMOVED
 
-struct dfs_info {
-    std::vector<int> pre, post, parent;
-    bool back = false;
-    bool fwd_cross = false;
+struct generic_dfs_visitor {
+    void pre_vert(int u) { }
+    void post_vert(int u) { }
 
-    dfs_info() = default;
-    dfs_info(int n) : parent(n, -1) {
-        pre.reserve(n);
-        post.reserve(n);
-    }
+    void pre_tree(int u, int v, int e) { }
+    void post_tree(int u, int v, int e) { }
+    void post_back(int u, int v, int e) { }
+    void post_fwd_cross(int u, int v, int e) { }
+    void post_all(int u, int v, int e) { }
 };
 
-struct dfs_entry {
-    int v, stg, p;
+template <typename Sp, typename Vs>
+struct generic_dfs_ctx {
+    const Sp &sp;
+    Vs &visitor;
+    std::vector<int> &visit;
+    bool directed;
+
+    // for CTAD
+    generic_dfs_ctx(const Sp &sp, Vs &visitor, std::vector<int> &visit, bool directed)
+        : sp(sp), visitor(visitor), visit(visit), directed(directed) { }
 };
 
-template <typename Sp>
-dfs_info depth_first_search(const Sp &g, bool directed) {
-    assert(g.r() == g.c());
-    dfs_info info(g.r());
-    std::vector<dfs_entry> stk;
-    std::vector<int> visit(g.r());
-    int now = 0;
+template <typename Sp, typename Vs>
+void generic_dfs_inner(const generic_dfs_ctx<Sp, Vs> &ctx, int u, int p) {
+    auto &[sp, vs, visit, directed] = ctx;
+    assert(!visit[u]);
 
-    for (int u = 0; u < g.r(); ++u) if (!visit[u]) {
-        stk.push_back({u, 0, -1});
-
-        while (!stk.empty()) {
-            auto [u, stg, p] = stk.back();
-            if (visit[u]) {
-                if (stg == 1) {
-                    assert(visit[u] == 1);
-                    visit[u] = 2;
-                    info.post.push_back(u);
-                }
-
-                stk.pop_back();
-                continue;
-            } else {
-                info.fwd_cross = true;
-            }
-
-            visit[u] = 1;
-            info.pre.push_back(u);
-            info.parent[u] = p;
-            ++stk.back().stg;
-
-            for (auto v : g.outv(u)) if (directed || v != p) {
-                if (!visit[v])
-                    stk.push_back({v, 0, u});
-                else if (visit[v] == 1)
-                    info.back = true;
-            }
+    visit[u] = 1;
+    vs.pre_vert(u);
+    for (auto [v, e] : sp.out(u)) if (directed || v != p) {
+        if (!visit[v]) {
+            vs.pre_tree(u, v, e);
+            generic_dfs_inner(ctx, v, u);
+            vs.post_tree(u, v, e);
+        } else if (visit[v] == 1) {
+            vs.post_back(u, v, e);
+        } else {
+            vs.post_fwd_cross(u, v, e);
         }
+        vs.post_all(u, v, e);
     }
-    assert(info.post.size() == g.r());
-    assert(info.pre.size() == g.r());
-    return info;
+    vs.post_vert(u);
+    visit[u] = 2;
+}
+
+template <typename Sp, typename Vs>
+void generic_dfs(const Sp &sp, Vs &visitor, bool directed) {
+    int n = sp.r;
+    std::vector<int> visit(n);
+
+    generic_dfs_ctx<Sp, Vs> ctx{sp, visitor, visit, directed};
+    for (int u = 0; u < n; ++u) if (!visit[u]) {
+        generic_dfs_inner(ctx, u, -1);
+    }
 }
 
 } // namespace ojlibs TO_BE_REMOVED

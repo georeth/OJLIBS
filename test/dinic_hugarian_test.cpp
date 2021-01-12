@@ -2,11 +2,10 @@
 #include <vector>
 #include <iostream>
 
-#include <ojlibs/attr.hpp>
-#include <ojlibs/graph.hpp>
-#include <ojlibs/dinic.hpp>
-#include <ojlibs/hungarian.hpp>
-#include <ojlibs/hungarian_short.hpp>
+#include <ojlibs/sparse/graph.hpp>
+#include <ojlibs/sparse/dinic.hpp>
+#include <ojlibs/dense/hungarian.hpp>
+#include <ojlibs/dense/hungarian_short.hpp>
 #include <gtest/gtest.h>
 
 using namespace std;

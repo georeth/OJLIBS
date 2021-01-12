@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <random>
-#include <ojlibs/binary_search.hpp>
+#include <ojlibs/util/binary_search.hpp>
 using namespace std;
 
 TEST(BASIC, double) {

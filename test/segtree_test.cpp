@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <random>
 #include <algorithm>
-#include <ojlibs/segtree.hpp>
+#include <ojlibs/ds/segtree.hpp>
 using namespace std;
 using namespace ojlibs;
 

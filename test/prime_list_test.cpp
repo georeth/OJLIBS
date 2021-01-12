@@ -2,7 +2,7 @@
 #include <random>
 #include <iostream>
 #include <limits>
-#include <ojlibs/prime_list.hpp>
+#include <ojlibs/arith/prime_list.hpp>
 using namespace std;
 
 static const int MAX = 5000006;

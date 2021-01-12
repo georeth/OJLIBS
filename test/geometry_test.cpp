@@ -1,4 +1,4 @@
-#include <ojlibs/geometry.hpp>
+#include <ojlibs/geometry/geometry.hpp>
 #include <gtest/gtest.h>
 #include <random>
 

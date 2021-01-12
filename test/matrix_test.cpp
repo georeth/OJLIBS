@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <random>
-#include <ojlibs/matrix.hpp>
-#include <ojlibs/power.hpp>
+#include <ojlibs/algebra/matrix.hpp>
+#include <ojlibs/algebra/power.hpp>
 #include <ojlibs/algebra/modular.hpp>
 using namespace std;
 

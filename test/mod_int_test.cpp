@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <random>
-#include <ojlibs/mod_int.hpp>
+#include <ojlibs/algebra/modular.hpp>
 #include <ojlibs/power.hpp>
 using namespace std;
 using uni = std::uniform_int_distribution<>;

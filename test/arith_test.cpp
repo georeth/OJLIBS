@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/arith.hpp>
-#include <ojlibs/crt.hpp>
+#include <ojlibs/arith/arith.hpp>
+#include <ojlibs/arith/crt.hpp>
 #include <random>
 #include <boost/multiprecision/gmp.hpp>
 using namespace std;

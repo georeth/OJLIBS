@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <random>
-#include <ojlibs/preorder.hpp>
+#include <ojlibs/misc/preorder.hpp>
 using namespace std;
 using namespace ojlibs;
 using uni = std::uniform_int_distribution<>;

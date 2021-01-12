@@ -5,7 +5,7 @@
 #include <utility>
 #include <algorithm>
 #include <ojlibs/sparse/graph.hpp>
-#include <ojlibs/disjoint_set.hpp>
+#include <ojlibs/ds/disjoint_set.hpp>
 
 namespace ojlibs { // TO_BE_REMOVED
 
@@ -53,6 +53,7 @@ std::vector<sp_entry> mst_kruskal(graph<Sp, W> &g) {
     auto &[wx] = g.vx;
 
     typedef std::pair<W, sp_entry> node_t;
+
     std::vector<node_t> edges;
     for (int u = 0; u < g.nvert() ; ++u)
         for (auto [v, eid] : sp.out(u))

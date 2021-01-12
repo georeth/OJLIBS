@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <ojlibs/algebra/modular.hpp>
 #include <ojlibs/algebra/complex.hpp>
-#include <ojlibs/polynomial.hpp>
-#include <ojlibs/shorthand.hpp>
-#include <ojlibs/counting.hpp>
+#include <ojlibs/algebra/polynomial.hpp>
+#include <ojlibs/util/shorthand.hpp>
+#include <ojlibs/arith/counting.hpp>
 #include <random>
 /* =====  SOLUTION START  ===== */
 
