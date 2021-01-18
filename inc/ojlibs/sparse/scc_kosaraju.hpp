@@ -41,8 +41,7 @@ scc_info scc_kosaraju(const Sp &g) {
         }
     }
 
-    // compiler should move fill_v.vec
-    return {fill_v.vec, fill_v.value};
+    return {std::move(fill_v.vec), std::move(fill_v.value)};
 }
 
 

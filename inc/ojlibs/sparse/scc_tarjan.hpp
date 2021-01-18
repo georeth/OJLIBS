@@ -41,7 +41,7 @@ scc_info scc_tarjan(const Sp &g) {
     } visitor(g.r);
 
     generic_dfs(g, visitor, true);
-    return {visitor.scc_id, visitor.nr_scc};
+    return {std::move(visitor.scc_id), std::move(visitor.nr_scc)};
 }
 
 } // namespace ojlibs TO_BE_REMOVED

@@ -52,7 +52,7 @@ struct two_sat {
                 }
             }
         }
-        return {true, value};
+        return {true, std::move(value)};
     }
 };
 

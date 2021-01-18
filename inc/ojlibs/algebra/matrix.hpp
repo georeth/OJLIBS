@@ -241,7 +241,7 @@ PLU_info<Alg> PLU_decompose(const MAT_T &A) {
     for (int ii = 0; ii < r; ++ii)
         L(ii, ii) = 1;
 
-    return PLU_info<Alg>{p, L, U, pivot_index};
+    return PLU_info<Alg>{std::move(p), std::move(L), std::move(U), std::move(pivot_index)};
 }
 
 TEMPL_ARG
@@ -305,7 +305,7 @@ std::pair<MAT_T, bool> PLU_solve_special(const PLU_info<Alg> &plu, const MAT_T &
     }
     // assert(U * x == z);
 
-    return {x, true};
+    return {std::move(x), true};
 }
 
 

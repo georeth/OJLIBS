@@ -99,7 +99,7 @@ bellman_info<W> bellman(const graph<Sp, W> &g, int s) {
     std::vector<bool> visit(n);
     for (int i = 0; i < n; ++i)
         visit[i] = visit_cnt[i] > 0;
-    return {valid, dist, visit, pre};
+    return {valid, std::move(dist), std::move(visit), std::move(pre)};
 }
 
 } // namespace ojlibs TO_BE_REMOVED
