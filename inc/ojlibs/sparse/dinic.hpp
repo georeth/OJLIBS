@@ -31,7 +31,7 @@ struct dinic_ctx {
     std::vector<int> q; // reuse as queue in dfs
     int s, t;
 
-    dinic_ctx(graph<Sp, W> &g, int s, int t)
+    dinic_ctx(const graph<Sp, W> &g, int s, int t)
         : sp(g.sp), residual(std::get<0>(g.vx)), level(sp.r), q(sp.r), s(s), t(t) { }
 
     bool calc_level() {
@@ -83,7 +83,7 @@ struct dinic_ctx {
 
 // specify WOut to overcome possible overflow
 template <typename WOut, typename W, typename Sp>
-WOut dinic(graph<Sp, W> &g, int s, int t) {
+WOut dinic(const graph<Sp, W> &g, int s, int t) {
     return dinic_ctx<WOut, Sp, W>{g, s, t}.solve();
 }
 

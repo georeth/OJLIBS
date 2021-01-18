@@ -39,7 +39,7 @@ set(test_cases # list all tests here
     # inversion
     mobius_inversion_test
     subset_inversion_test
-    # test_type_test
+    test_type_test
     # counting_test
     hash_test
     binary_search_test
@@ -62,7 +62,7 @@ set(test_cases # list all tests here
     generic_dfs_test
     scc_test
     2sat_test
-    # dinic_hugarian_test
+    dinic_hugarian_test
 
     ## dense
     hamilton_test

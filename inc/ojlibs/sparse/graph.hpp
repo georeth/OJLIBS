@@ -9,8 +9,8 @@
 
 namespace ojlibs { // TO_BE_REMOVED
 
-template <typename...E>
-void param_pack_append(const std::tuple<std::vector<E> &...> &vx, E... es) {
+template <typename...VE, typename...E> // VE can be reference or not
+void param_pack_append(std::tuple<VE...> &vx, E... es) {
     std::apply([es...](auto &... vx) {
         (vx.push_back(es),...);
     }, vx);
@@ -27,7 +27,7 @@ struct graph {
         const_iterator(const graph &g, sp_iter it) : g(g), it(it) { }
         iter_value_type operator*() const {
             auto [j, eid] = *it;
-            return std::apply([j, eid](auto &...t) {
+            return std::apply([j = j, eid = eid](auto &...t) {
                 return iter_value_type{j, t[eid]...};
             }, g.vx);
         }
@@ -40,7 +40,13 @@ struct graph {
     std::tuple<std::vector<E> &...> vx;
 
     graph(SP &sp, std::vector<E> &...vx)
-        :sp(sp), vx(vx...) { (assert(vx.size() == sp.esize()),...); }
+        :sp(sp), vx(vx...) { check_esize(); }
+
+    void check_esize() {
+        std::apply([esize=sp.esize()](auto &...v) {
+            (assert(v.size() == esize),...);
+        }, vx);
+    }
 
     int nvert() const { return sp.r; }
     int nvert2() const { return sp.c; } // for biparti graph / sparse matrix
@@ -51,9 +57,10 @@ struct graph {
         return {{*this, b}, {*this, e}};
     }
 
-    void add(int i, int j, E... es) {
-        sp.add(i, j);
+    int add(int i, int j, E... es) {
+        int eid = sp.add(i, j);
         param_pack_append(vx, es...);
+        return eid;
     }
 };
 
