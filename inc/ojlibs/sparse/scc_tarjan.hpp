@@ -15,7 +15,7 @@ scc_info scc_tarjan(const Sp &g) {
 
         vs(int n) : scc_id(n, -1), id(n), low(n) { }
 
-        void pre_vert(int u) {
+        void pre_vert(int u, bool first) {
             id[u] = low[u] = now++;
             stack.push_back(u);
         }

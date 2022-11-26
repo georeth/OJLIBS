@@ -28,7 +28,7 @@ scc_info scc_kosaraju(const Sp &g) {
         int value = 0;
         std::vector<int> vec;
         fill_t(int n) : vec(n) { }
-        void pre_vert(int u) { vec[u] = value; }
+        void pre_vert(int u, bool first) { vec[u] = value; }
     } fill_v(g.r);
 
     std::vector<int> visit(g.r);
