@@ -30,7 +30,7 @@ struct generic_dfs_ctx {
 };
 
 template <typename Sp, typename Vs>
-void generic_dfs_inner(const generic_dfs_ctx<Sp, Vs> &ctx, int u, int p) {
+void generic_dfs_visit(const generic_dfs_ctx<Sp, Vs> &ctx, int u, int p) {
     auto &[sp, vs, visit, directed] = ctx;
     assert(!visit[u]);
 
@@ -39,7 +39,7 @@ void generic_dfs_inner(const generic_dfs_ctx<Sp, Vs> &ctx, int u, int p) {
     for (auto [v, e] : sp.out(u)) if (directed || v != p) {
         if (!visit[v]) {
             vs.pre_tree(u, v, e);
-            generic_dfs_inner(ctx, v, u);
+            generic_dfs_visit(ctx, v, u);
             vs.post_tree(u, v, e);
         } else if (visit[v] == 1) {
             vs.post_back(u, v, e);
@@ -59,7 +59,7 @@ void generic_dfs(const Sp &sp, Vs &visitor, bool directed) {
 
     generic_dfs_ctx<Sp, Vs> ctx{sp, visitor, visit, directed};
     for (int u = 0; u < n; ++u) if (!visit[u]) {
-        generic_dfs_inner(ctx, u, -1);
+        generic_dfs_visit(ctx, u, -1);
     }
 }
 

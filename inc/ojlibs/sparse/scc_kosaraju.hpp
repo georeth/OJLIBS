@@ -36,7 +36,7 @@ scc_info scc_kosaraju(const Sp &g) {
     for (int idx = g.r - 1; idx >= 0; --idx) {
         int u = post_v.post[idx];
         if (!visit[u]) {
-            generic_dfs_inner(ctx, u, -1);
+            generic_dfs_visit(ctx, u, -1);
             ++fill_v.value;
         }
     }
