@@ -15,7 +15,7 @@ scc_info scc_tarjan(const Sp &g) {
 
         vs(int n) : scc_id(n, -1), id(n), low(n) { }
 
-        void pre_vert(int u) {
+        void pre_vert(int u, bool first) {
             id[u] = low[u] = now++;
             stack.push_back(u);
         }
@@ -24,7 +24,7 @@ scc_info scc_tarjan(const Sp &g) {
             if (scc_id[v] == -1)
                 low[u] = std::min(low[u], low[v]);
         }
-        void post_vert(int u) {
+        void post_vert(int u, bool first) {
             if (id[u] == low[u]) {
                 int v;
                 do {

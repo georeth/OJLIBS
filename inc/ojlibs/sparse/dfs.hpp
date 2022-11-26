@@ -7,8 +7,8 @@
 namespace ojlibs { // TO_BE_REMOVED
 
 struct generic_dfs_visitor {
-    void pre_vert(int u) { }
-    void post_vert(int u) { }
+    void pre_vert(int u, bool first) { }
+    void post_vert(int u, bool first) { }
 
     void pre_tree(int u, int v, int e) { }
     void post_tree(int u, int v, int e) { }
@@ -35,7 +35,7 @@ void generic_dfs_visit(const generic_dfs_ctx<Sp, Vs> &ctx, int u, int p) {
     assert(!visit[u]);
 
     visit[u] = 1;
-    vs.pre_vert(u);
+    vs.pre_vert(u, p == -1);
     for (auto [v, e] : sp.out(u)) if (directed || v != p) {
         if (!visit[v]) {
             vs.pre_tree(u, v, e);
@@ -48,7 +48,7 @@ void generic_dfs_visit(const generic_dfs_ctx<Sp, Vs> &ctx, int u, int p) {
         }
         vs.post_all(u, v, e);
     }
-    vs.post_vert(u);
+    vs.post_vert(u, p == -1);
     visit[u] = 2;
 }
 

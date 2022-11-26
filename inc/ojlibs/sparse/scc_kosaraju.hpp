@@ -19,7 +19,7 @@ scc_info scc_kosaraju(const Sp &g) {
     // get post from G^T
     struct post_t : generic_dfs_visitor {
         std::vector<int> post;
-        void post_vert(int u) { post.push_back(u); }
+        void post_vert(int u, bool first) { post.push_back(u); }
     } post_v;
     generic_dfs(gt, post_v, true);
 
@@ -28,7 +28,7 @@ scc_info scc_kosaraju(const Sp &g) {
         int value = 0;
         std::vector<int> vec;
         fill_t(int n) : vec(n) { }
-        void pre_vert(int u) { vec[u] = value; }
+        void pre_vert(int u, bool first) { vec[u] = value; }
     } fill_v(g.r);
 
     std::vector<int> visit(g.r);
