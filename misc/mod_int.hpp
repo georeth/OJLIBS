@@ -16,6 +16,9 @@ struct mod_int {
         }
     }
     explicit operator int() const { return v; }
+    mod_int operator -() const {
+        return mod_int(MOD - v);
+    }
 #define MINT_OP_GEN(op_str, op_eq_str, op_arith, op_eq_arith) \
     mod_int &operator op_eq_str(const mod_int &that) { \
         op_eq_arith(v, that.v); \
