@@ -2,11 +2,11 @@
 #include <vector>
 #include <iostream>
 
-#include <ojlibs/attr.hpp>
-#include <ojlibs/graph.hpp>
-#include <ojlibs/dinic.hpp>
-#include <ojlibs/hungarian.hpp>
-#include <ojlibs/hungarian_short.hpp>
+#include <ojlibs/sparse/lil.hpp>
+#include <ojlibs/sparse/graph.hpp>
+#include <ojlibs/sparse/dinic.hpp>
+#include <ojlibs/dense/hungarian.hpp>
+#include <ojlibs/dense/hungarian_short.hpp>
 #include <gtest/gtest.h>
 
 using namespace std;
@@ -26,8 +26,13 @@ struct MAX_MATCH : testing::Test {
 };
 
 TEST(BASIC, dinic) {
-    ojlibs::dinic_max_flow<int> g(10);
-    g.add(0, 1, 10);
+    vector<int> wx;
+    ojlibs::lil sp(10, 10);
+    ojlibs::graph g(sp, wx);
+
+    int max = std::numeric_limits<int>::max();
+
+    g.add(0, 1, max);
     g.add(1, 0, 0);
 
     g.add(0, 2, 10);
@@ -38,8 +43,9 @@ TEST(BASIC, dinic) {
 
     g.add(3, 1, 2);
     g.add(1, 3, 0);
-    ASSERT_EQ(g.max_flow(0, 1), 12);
+    ASSERT_EQ(ojlibs::dinic<int64_t>(g, 0, 1), int64_t(max) + 2);
 }
+
 static const int TEST_GROUP = 20;
 TEST_F(MAX_MATCH, correctness) {
     static const int TEST_SIZE = 50;

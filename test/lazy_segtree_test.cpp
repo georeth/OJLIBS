@@ -2,8 +2,8 @@
 #include <random>
 #include <algorithm>
 #define LOCAL_JUDGE
-#include <ojlibs/shorthand.hpp> // XXX
-#include <ojlibs/lazy_segtree.hpp>
+#include <ojlibs/util/shorthand.hpp> // XXX
+#include <ojlibs/ds/lazy_segtree.hpp>
 using namespace std;
 using namespace ojlibs;
 

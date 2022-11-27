@@ -1,0 +1,18 @@
+1. global array, member array, std::vector has nearly the same performance
+    std::accumulate(begin(arr), end(arr), 0);
+
+    global_array: 10.78Gitem/s
+    member_array: 10.39Gitem/s
+    vector:       10.17Gitem/s
+
+    only ~5% performance difference, and it can be noise.
+
+2. code alignment can introduce 30% overhead!
+
+    exactly the same code above.
+    some code alignment for global_array only has 7.467Gitems/s.
+    and we cannot control or predict it from C/C++.
+
+    this may explain why some top performance submission has little difference from others.
+
+    code alignment is a noise, but it makes so big difference.

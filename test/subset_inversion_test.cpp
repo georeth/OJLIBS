@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/subset_inversion.hpp>
-#include <ojlibs/binary_operator.hpp>
+#include <ojlibs/inversion/subset_inversion.hpp>
+#include <ojlibs/deprecated/binary_operator.hpp>
 #include <vector>
 #include <random>
 using namespace std;

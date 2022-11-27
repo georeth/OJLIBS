@@ -1,6 +1,6 @@
 #include <random>
 #include <gtest/gtest.h>
-#include <ojlibs/bitree.hpp>
+#include <ojlibs/ds/bitree.hpp>
 
 std::mt19937 gen;
 

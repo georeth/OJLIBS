@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/prufer.hpp>
-#include <ojlibs/disjoint_set.hpp>
+#include <ojlibs/misc/prufer.hpp>
+#include <ojlibs/ds/disjoint_set.hpp>
 #include <vector>
 #include <utility>
 #include <random>

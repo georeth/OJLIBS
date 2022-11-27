@@ -1,5 +1,5 @@
 # OJLIBS
-C++ Utility library for competitive programming. Fully C++11 compatible.
+C++ Utility library for competitive programming. Fully C++17 compatible.
 
 Permit to use under MIT License.
 
@@ -7,7 +7,14 @@ Additionally, anybody can submit code that contains any part of this library to 
 
 (e.g. If someone can get submitted code on an OJ, and then use it outside the OJ legally according to the OJ's term of service, the usage of this library is forbidden.)
 
-# Design Considerations
+## Scope
+
+* Submit a single C++ file to online judging platform.
+Target environments are Codeforces, Atcoder and Google Code Jam (stack size >= 64M, source code size limit >= 64KB, support most c++17 features, at least O2 optimization level).
+`ojlibs_cpp` script can be used to combine headers, remove comments, put library code to global namespace, and produce a single file.
+* as a header-only library, all components are in `ojlibs` namespace, and only depends on standard library.
+
+## Design Considerations
 
 Readability first, Performance second, Source Code Size third.
 
@@ -17,9 +24,17 @@ Modern C++. Use standard library whenever possible. Depend on template heavily.
 
 Trust compiler instead of hand-tuning.
 
-# Components
+## About moving to C++17
 
-## Intrusive Data structures
+Since all major online judging platforms supports c++17 now, this libary will transite to c++17 gradually.
+
+When c++20 is widely available, we will switch to c++20.
+
+Old c++11 version of this library can be found at c++11 branch.
+
+## Components
+
+### Intrusive Data structures
 list : doubly-linked list
 
 slist: singly-linked list
@@ -28,16 +43,16 @@ rbtree: red-black tree
 
 splay: a splay tree with subtree size to support fast n-th query
 
-treap, sbtree, , link-cut tree. (TODO)
+treap, sbtree, link-cut tree. (TODO)
 
-## Special Data structures
+### Special Data structures
 Disjoint Set
 
 Bit Index Tree (a.k.a Fenwick Tree)
 
 Segment Tree (flavour I/II, and lazy)
 
-## Arithmatic
+### Arithmatic
 Division with fixed rounding direction
 
 GCD / LCM
@@ -52,7 +67,7 @@ Bignum
 
 PELL equation (python source)
 
-## Mathematics Objects
+### Mathematics Objects
 Permutaion, Combination, Subset (and generators)
 
 Mobius Inversion
@@ -65,18 +80,18 @@ FFT, FWT.
 
 NTT (TODO)
 
-## Linear Algebra
+### Linear Algebra
 Matrix over a ring / field, Arithmatics, Inversion, Determinant
 
 (P)LU decomposition
 
-## Computational Geometry
+### Computational Geometry
 
 2D geometry (point, line, circle, convex hull, half-planes intersection, closest point pair)
 
 Geometry Transform (TODO)
 
-## String Processing
+### String Processing
 
 KMP
 
@@ -86,7 +101,7 @@ Suffix Array (TODO: SA-IS algorithm, linear time construction)
 
 AC-Automaton
 
-## Graph Theory
+### Graph Theory
 A Generic Graph Implementation
 
 DFS / BFS
@@ -107,7 +122,7 @@ Eular Walk (TODO : support removing edge in graph)
 
 reusable Centroid Decomposition (TODO)
 
-## MISC
+### MISC
 Generic memorization function without virtual function overhead
 (Useful for top-down dynamic programming.)
 
@@ -115,7 +130,7 @@ High-dimension pre-order problem (CDQ algorithm)
 
 2SAT
 
-## FAST IO
+### FAST IO
 ```c++
 // A + B problem
 int main() {
@@ -124,7 +139,7 @@ int main() {
 }
 ```
 
-# TOOLS
+## TOOLS
 - Codeforces sample test cases crawler, and automatic validation script. (tools/cf\_test\_crawler)
 
 - A tool that can combine source code with included header files of this library to produce a single source file to submit. (tools/ojlibs\_cpp)

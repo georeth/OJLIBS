@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <gtest/gtest.h>
-#include <ojlibs/memoization.hpp>
+#include <ojlibs/misc/memoization.hpp>
 using namespace ojlibs::memoization;
 
 struct memo_fibnacci : public map_memo_crtp<memo_fibnacci, int, int> {

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <random>
-#include <ojlibs/hamilton.hpp>
+#include <ojlibs/dense/hamilton.hpp>
 
 using namespace std;
 using uni = std::uniform_int_distribution<>;

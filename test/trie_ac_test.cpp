@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <random>
 
-#include <ojlibs/trie.hpp>
-#include <ojlibs/ac_automaton.hpp>
+#include <ojlibs/string/trie.hpp>
+#include <ojlibs/string/ac_automaton.hpp>
 using namespace std;
 using uni = std::uniform_int_distribution<>;
 std::mt19937 gen;

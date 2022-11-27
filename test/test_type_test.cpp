@@ -1,36 +1,41 @@
-#include <ojlibs/test_type.hpp>
 #include <gtest/gtest.h>
 #include <random>
 #include <vector>
 using namespace std;
-using namespace ojlibs;
 using uni = std::uniform_int_distribution<>;
 std::mt19937 gen;
 
-test_type tmp(123);
+struct move_test_t {
+    bool by_copy = false; // propagate once copyed
+    move_test_t() = default;
+    move_test_t(const move_test_t &that) {
+        by_copy = true;
+    }
+    move_test_t(move_test_t &&that) {
+        by_copy = that.by_copy;
+    }
+};
 
-test_type f() {
-    test_type v = test_type(100);
-    printf("f: v = %d\n", v.v);
-    if (tmp.v == 123) // if there is no `if', v ctor will be in-place. (c++ magic)
-        return v;
-    else
-        return test_type(321);
+struct info {
+    move_test_t value;
+};
+
+move_test_t direct_return() {
+    move_test_t t;
+    return t;
+}
+info indirect_return() {
+    move_test_t t;
+    return { t };
 }
 
-test_type &g() {
-    return tmp;
+info indirect_move_return() {
+    move_test_t t;
+    return { std::move(t) };
 }
 
 TEST(BASIC, t1) {
-    vector<test_type> vec(5);
-    for (auto &&k : vec) {
-        printf("v = %d\n", k.v);
-    }
-    // auto && : the perfect forwarding
-    auto &&t1 = f();
-    printf("t1 : %d\n", t1.v);
-
-    auto &&t2 = g();
-    printf("t2 : %d\n", t2.v);
+    ASSERT_EQ(direct_return().by_copy, false);
+    ASSERT_EQ(indirect_return().value.by_copy, true);
+    ASSERT_EQ(indirect_move_return().value.by_copy, false);
 }

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <string>
-#include <ojlibs/kmp.hpp>
-#include <ojlibs/z_func.hpp>
+#include <ojlibs/string/kmp.hpp>
+#include <ojlibs/string/z_func.hpp>
 using namespace std;
 
 using namespace ojlibs;

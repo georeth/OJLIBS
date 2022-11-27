@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <ojlibs/arith.hpp>
-#include <ojlibs/crt.hpp>
+#include <ojlibs/arith/arith.hpp>
+#include <ojlibs/arith/crt.hpp>
 #include <random>
 #include <boost/multiprecision/gmp.hpp>
 using namespace std;
@@ -14,14 +14,14 @@ void test_gcd(int a, int b) {
 
     ASSERT_EQ(0, a % g);
     ASSERT_EQ(0, b % g);
-    ASSERT_EQ(1, gcd(a / g, b / g));
+    ASSERT_EQ(1, abs(gcd(a / g, b / g)));
 
     g = extended_gcd(a, b, x, y);
     ASSERT_LT(abs(x), abs(b));
     ASSERT_LT(abs(y), abs(a));
     ASSERT_EQ(0, a % g);
     ASSERT_EQ(0, b % g);
-    ASSERT_EQ(1, gcd(a / g, b / g));
+    ASSERT_EQ(1, abs(gcd(a / g, b / g)));
 
     int64_t sum = (int64_t)a * x + (int64_t)b * y;
     ASSERT_EQ(g, sum);
@@ -29,7 +29,7 @@ void test_gcd(int a, int b) {
     int64_t m = lcm<int64_t, int>(a, b);
     ASSERT_EQ(0, m % a);
     ASSERT_EQ(0, m % b);
-    ASSERT_EQ(1, gcd((int)(m / a), (int)(m / b)));
+    ASSERT_EQ(1, abs(gcd((int)(m / a), (int)(m / b))));
 }
 
 TEST(GCD, Random) {
