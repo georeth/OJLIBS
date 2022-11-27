@@ -26,7 +26,7 @@ Trust compiler instead of hand-tuning.
 
 ## About moving to C++17
 
-Since all major online judging platforms supports c++17 now, this libary will transite to c++17 gradually.
+This library adopts c++17 futures to reduce template boilerplate.
 
 When c++20 is widely available, we will switch to c++20.
 
@@ -101,8 +101,13 @@ Suffix Array (TODO: SA-IS algorithm, linear time construction)
 
 AC-Automaton
 
+Lexicographically least string of all rotations of a given string
+
 ### Graph Theory
-A Generic Graph Implementation
+
+Generic graph algorithms (inspired by boost graph library.
+all vertex or edge attributes are stored externally, and algorithms depends on
+graph concept, not graph implementation)
 
 DFS / BFS
 
@@ -113,6 +118,8 @@ Strongly Connected Component
 Topological Sort (on DAG)
 
 Offline Tarjan LCA (on rooted/rootless tree)
+
+Cut-vertex in undirected graph (Tarjan)
 
 Network Flow (Dinic)
 
